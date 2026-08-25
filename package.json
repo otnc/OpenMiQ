@@ -28,7 +28,9 @@
     "start": "node dist/index.js",
     "deploy-commands": "tsdown && node --env-file-if-exists=.env --env-file-if-exists=.env.local dist/deployCommands.js",
     "lint": "eslint .",
-    "format": "prettier --write ."
+    "typecheck": "tsc --noEmit",
+    "format": "prettier --write .",
+    "format:check": "prettier --check ."
   },
   "engines": {
     "node": ">=24"
