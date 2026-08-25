@@ -39,7 +39,7 @@
     "discord.js": "^14.27.0",
     "i18next": "^26.4.0",
     "i18next-fs-backend": "^2.6.7",
-    "makeitaquote": "^10.2.0",
+    "makeitaquote": "^10.3.0",
     "write-file-atomic": "^8.0.0"
   },
   "devDependencies": {

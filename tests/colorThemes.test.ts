@@ -1,7 +1,7 @@
 import { describe, expect, it } from "vitest";
 import {
   COLOR_THEMES,
-  colorThemeBackground,
+  colorThemeGradient,
   resolveColorTheme,
 } from "../src/colorThemes.js";
 
@@ -22,12 +22,20 @@ describe("resolveColorTheme", () => {
   });
 });
 
-describe("colorThemeBackground", () => {
-  it("returns the background color for a known key", () => {
-    expect(colorThemeBackground("sunset")).toBe("#FF6B4A");
+describe("colorThemeGradient", () => {
+  it("returns a linear gradient descriptor for a known key", () => {
+    const gradient = colorThemeGradient("sunset");
+    expect(gradient).toEqual({
+      type: "linear",
+      direction: "diagonal",
+      stops: [
+        ["#FF7E5F", 0],
+        ["#6A3093", 1],
+      ],
+    });
   });
 
   it("returns undefined for an unknown key", () => {
-    expect(colorThemeBackground("not-a-theme")).toBeUndefined();
+    expect(colorThemeGradient("not-a-theme")).toBeUndefined();
   });
 });

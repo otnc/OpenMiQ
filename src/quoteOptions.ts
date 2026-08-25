@@ -1,5 +1,5 @@
 import type { ThemeInput, ThemeName } from "makeitaquote";
-import { colorThemeBackground, resolveColorTheme } from "./colorThemes.js";
+import { colorThemeGradient, resolveColorTheme } from "./colorThemes.js";
 import { resolveFontAlias } from "./fonts.js";
 
 /**
@@ -156,9 +156,9 @@ export function buildTheme(settings: QuoteSettings): ThemeInput {
     theme.text = { font: settings.font };
   }
   if (settings.colorTheme) {
-    const background = colorThemeBackground(settings.colorTheme);
-    if (background) {
-      theme.background = background;
+    const gradient = colorThemeGradient(settings.colorTheme);
+    if (gradient) {
+      theme.backgroundGradient = gradient;
     }
   }
   return theme;

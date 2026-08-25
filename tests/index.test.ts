@@ -156,10 +156,11 @@ describe("buildTheme", () => {
     ).toEqual({ font: "DotGothic16" });
   });
 
-  it("overrides only the background when a color theme is chosen", () => {
-    expect(buildTheme(DEFAULT_SETTINGS).background).toBeUndefined();
+  it("sets a background gradient only when a color theme is chosen", () => {
+    expect(buildTheme(DEFAULT_SETTINGS).backgroundGradient).toBeUndefined();
     const theme = buildTheme({ ...DEFAULT_SETTINGS, colorTheme: "sunset" });
-    expect(theme.background).toBe("#FF6B4A");
+    expect(theme.backgroundGradient?.type).toBe("linear");
+    expect(theme.backgroundGradient?.stops).toHaveLength(2);
     expect(theme.extends).toBe("dark");
   });
 });
