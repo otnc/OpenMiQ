@@ -36,6 +36,7 @@
     "node": ">=24"
   },
   "dependencies": {
+    "@napi-rs/canvas": "^1.0.8",
     "discord.js": "^14.27.0",
     "i18next": "^26.4.0",
     "i18next-fs-backend": "^2.6.7",
