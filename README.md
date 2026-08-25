@@ -13,6 +13,7 @@ Reply to a message and mention the bot (or right-click it and choose "Quote"): i
 ```
 @MiQ                            … quote the replied-to message
 @MiQ color                      … keep the avatar in color
+@MiQ bold                       … bold quote text
 @MiQ light                      … light theme
 @MiQ flip                       … avatar on the right (side layout only)
 @MiQ new                        … portrait layout — avatar full-bleed, quote over the bottom
@@ -22,22 +23,25 @@ Reply to a message and mention the bot (or right-click it and choose "Quote"): i
 @MiQ theme=sunset new font=pop  … options combine freely — put font= last, it reads to the end
 @MiQ new flip                   … …except flip has no effect once new (portrait) is set —
                                     makeitaquote's portrait layout ignores avatar side
+@MiQ c b l f n                  … same as "color bold light flip new" — every option below
+                                    also has a one-letter shortcut
 ```
 
-Every toggle has an opposite, so a saved default (see Slash commands below) can be overridden back for a single message even when it's already on:
+Every toggle has an opposite (and a one-letter shortcut, except `font=`/`theme=`), so a saved default (see Slash commands below) can be overridden back for a single message even when it's already on:
 
-| Option                | Opposite              |
-| --------------------- | --------------------- |
-| `color`               | `mono`                |
-| `light`               | `dark`                |
-| `flip` (or `right`)   | `unflip` (or `left`)  |
-| `new` (or `portrait`) | `classic` (or `side`) |
+| Option                | Shortcut | Opposite              | Shortcut |
+| --------------------- | -------- | --------------------- | -------- |
+| `color`               | `c`      | `mono`                | `m`      |
+| `bold`                | `b`      | `regular`             | `r`      |
+| `light`               | `l`      | `dark`                | `d`      |
+| `flip`                | `f`      | `unflip`              | `u`      |
+| `new` (or `portrait`) | `n`      | `classic` (or `side`) | `s`      |
 
 **Or right-click (long-press on mobile) any message → Apps → Quote** — same result, no typing, but it always uses your saved defaults (see below) since there's nowhere to type options.
 
 Fonts are chosen by short alias — `makeitaquote`'s own `FONT_ALIASES`: `sans`, `mplus`, `dela`, `dot`, `pop`, `rampart`, `reggae`, `rocknroll`, `serif`, `yuji`, `yusei`, `inconsolata`, `exo2`, `bruno`, `poltawski`, `vina`, `script`, `castoro`. An exact makeitaquote family name (e.g. `font="Dela Gothic One"`) also works, and `mplus` (M PLUS Rounded 1c) is the bot's own default when nothing else picks one. `theme=` picks one of 21 named background colors (`sunset`, `forest`, `midnight_blurple`, …) layered on top of the base dark/light/portrait theme — `theme=default` clears a saved default back to none. Run `/help` for the full, localized lists of both.
 
-The posted image comes with buttons (🎨 color / 🔄 flip / ☀️ theme / layout) and font/color-theme select menus that re-render in place when used.
+The posted image comes with buttons (🎨 color / 🅱️ bold / 🔄 flip / ☀️ theme / layout) and font/color-theme select menus that re-render in place when used.
 
 > Regenerating from the buttons relies on in-memory state, so it stops working for a given image after the bot restarts.
 
