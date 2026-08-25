@@ -19,18 +19,21 @@ export interface QuoteSettings {
    * `portrait`/`portrait-light` theme).
    */
   layout: "side" | "portrait";
-  /** Font family for the quote text, or `null` for the default. */
+  /** Font family for the quote text, or `null` to let the base theme choose. */
   font: string | null;
   /** A named background color preset (see `colorThemes.ts`), or `null` for the base theme's own background. */
   colorTheme: string | null;
 }
+
+/** The bot's own default font — resolved from the `mplus` alias, not hardcoded. */
+export const DEFAULT_FONT = resolveFontAlias("mplus") ?? "M PLUS Rounded 1c";
 
 export const DEFAULT_SETTINGS: QuoteSettings = {
   color: false,
   light: false,
   flip: false,
   layout: "side",
-  font: null,
+  font: DEFAULT_FONT,
   colorTheme: null,
 };
 
@@ -53,7 +56,8 @@ const THEME_PREFIX_RE = /^theme[=:](.*)$/i;
  * saved default can be overridden back for one message even when it's
  * `true`/portrait/etc.: `color`/`mono`, `light`/`dark`, `flip` (or
  * `right`)/`unflip` (or `left`), `new` (or `portrait`)/`classic` (or
- * `side`). Plus `theme=alias` (a named background color preset) and
+ * `side`). Plus `theme=alias` (a named background color preset —
+ * `theme=default` clears a saved default back to none) and
  * `font=alias` (the alias may be quoted, and runs to the end of the string
  * — put it last).
  */
@@ -87,11 +91,15 @@ export function parseOptions(text: string): ParsedInvocation {
       const themeMatch = THEME_PREFIX_RE.exec(token);
       if (themeMatch) {
         const raw = themeMatch[1] ?? "";
-        const resolved = raw ? resolveColorTheme(raw) : null;
-        if (resolved) {
-          settings.colorTheme = resolved;
-        } else if (raw) {
-          unknownTheme = raw;
+        if (raw.trim().toLowerCase() === "default") {
+          settings.colorTheme = null;
+        } else {
+          const resolved = raw ? resolveColorTheme(raw) : null;
+          if (resolved) {
+            settings.colorTheme = resolved;
+          } else if (raw) {
+            unknownTheme = raw;
+          }
         }
         continue;
       }

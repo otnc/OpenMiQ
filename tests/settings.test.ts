@@ -32,7 +32,7 @@ describe("settings resolution", () => {
       light: false,
       flip: false,
       layout: "side",
-      font: null,
+      font: "M PLUS Rounded 1c",
       colorTheme: null,
     });
   });

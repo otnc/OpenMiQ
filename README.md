@@ -18,6 +18,7 @@ Reply to a message and mention the bot (or right-click it and choose "Quote"): i
 @MiQ new                        … portrait layout — avatar full-bleed, quote over the bottom
 @MiQ font=pop                   … pick a font by alias
 @MiQ theme=sunset               … pick a named background color
+@MiQ theme=default              … clear a saved color-theme default for this message
 @MiQ theme=sunset new font=pop  … options combine freely — put font= last, it reads to the end
 @MiQ new flip                   … …except flip has no effect once new (portrait) is set —
                                     makeitaquote's portrait layout ignores avatar side
@@ -34,7 +35,7 @@ Every toggle has an opposite, so a saved default (see Slash commands below) can 
 
 **Or right-click (long-press on mobile) any message → Apps → Quote** — same result, no typing, but it always uses your saved defaults (see below) since there's nowhere to type options.
 
-Fonts are chosen by short alias — `makeitaquote`'s own `FONT_ALIASES`: `sans`, `mplus`, `dela`, `dot`, `pop`, `rampart`, `reggae`, `rocknroll`, `serif`, `yuji`, `yusei`, `inconsolata`, `exo2`, `bruno`, `poltawski`, `vina`, `script`, `castoro`. An exact makeitaquote family name (e.g. `font="Dela Gothic One"`) also works. `theme=` picks one of 21 named background colors (`sunset`, `forest`, `midnight_blurple`, …) layered on top of the base dark/light/portrait theme. Run `/help` for the full, localized lists of both.
+Fonts are chosen by short alias — `makeitaquote`'s own `FONT_ALIASES`: `sans`, `mplus`, `dela`, `dot`, `pop`, `rampart`, `reggae`, `rocknroll`, `serif`, `yuji`, `yusei`, `inconsolata`, `exo2`, `bruno`, `poltawski`, `vina`, `script`, `castoro`. An exact makeitaquote family name (e.g. `font="Dela Gothic One"`) also works, and `mplus` (M PLUS Rounded 1c) is the bot's own default when nothing else picks one. `theme=` picks one of 21 named background colors (`sunset`, `forest`, `midnight_blurple`, …) layered on top of the base dark/light/portrait theme — `theme=default` clears a saved default back to none. Run `/help` for the full, localized lists of both.
 
 The posted image comes with buttons (🎨 color / 🔄 flip / ☀️ theme / layout) and font/color-theme select menus that re-render in place when used.
 
