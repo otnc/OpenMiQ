@@ -14,10 +14,11 @@ describe("parseOptions", () => {
     });
   });
 
-  it("parses color, light, flip and new (portrait)", () => {
-    const { settings } = parseOptions("color light flip new");
+  it("parses color, bold, light, flip and new (portrait)", () => {
+    const { settings } = parseOptions("color bold light flip new");
     expect(settings).toEqual({
       color: true,
+      bold: true,
       light: true,
       flip: true,
       layout: "portrait",
@@ -32,6 +33,11 @@ describe("parseOptions", () => {
   it("parses a quoted exact family name", () => {
     const { settings } = parseOptions(`font="M PLUS Rounded 1c"`);
     expect(settings.font).toBe("M PLUS Rounded 1c");
+  });
+
+  it("parses a quoted exact family name with an alias-looking word in it", () => {
+    const { settings } = parseOptions(`font="Hachi Maru Pop"`);
+    expect(settings.font).toBe("Hachi Maru Pop");
   });
 
   it("parses font: as an alias prefix", () => {
@@ -53,9 +59,10 @@ describe("parseOptions", () => {
   });
 
   it("parses the opposite of each toggle explicitly false", () => {
-    const { settings } = parseOptions("mono dark unflip side");
+    const { settings } = parseOptions("mono regular dark unflip side");
     expect(settings).toEqual({
       color: false,
+      bold: false,
       light: false,
       flip: false,
       layout: "side",
@@ -70,8 +77,39 @@ describe("parseOptions", () => {
     expect(parseOptions("portrait").settings.layout).toBe("portrait");
   });
 
-  it("left is a synonym for unflip", () => {
-    expect(parseOptions("left").settings.flip).toBe(false);
+  it("right and left are no longer recognized (flip/unflip are the only keywords)", () => {
+    expect(parseOptions("right").settings).toEqual({});
+    expect(parseOptions("left").settings).toEqual({});
+  });
+
+  it("accepts a one-letter shortcut for every toggle", () => {
+    const { settings } = parseOptions("c b l f n");
+    expect(settings).toEqual({
+      color: true,
+      bold: true,
+      light: true,
+      flip: true,
+      layout: "portrait",
+    });
+  });
+
+  it("accepts a one-letter shortcut for every opposite", () => {
+    const { settings } = parseOptions("m r d u s");
+    expect(settings).toEqual({
+      color: false,
+      bold: false,
+      light: false,
+      flip: false,
+      layout: "side",
+    });
+  });
+
+  it("one-letter shortcuts are case insensitive", () => {
+    expect(parseOptions("C").settings.color).toBe(true);
+  });
+
+  it("theme= and font= have no one-letter shortcut", () => {
+    expect(parseOptions("t").settings).toEqual({});
   });
 
   it("a later token overrides an earlier opposite one", () => {
@@ -126,6 +164,7 @@ describe("buildTheme", () => {
       color: true,
       light: true,
       flip: true,
+      bold: false,
       layout: "side",
       font: null,
       colorTheme: null,
@@ -139,6 +178,7 @@ describe("buildTheme", () => {
       color: false,
       light: false,
       flip: true,
+      bold: false,
       layout: "portrait",
       font: null,
       colorTheme: null,
@@ -152,6 +192,7 @@ describe("buildTheme", () => {
       color: false,
       light: true,
       flip: false,
+      bold: false,
       layout: "portrait",
       font: null,
       colorTheme: null,
@@ -173,6 +214,18 @@ describe("buildTheme", () => {
     expect(
       buildTheme({ ...DEFAULT_SETTINGS, font: null }).text,
     ).toBeUndefined();
+  });
+
+  it("sets a bold weight only when bold is chosen", () => {
+    expect(buildTheme(DEFAULT_SETTINGS).text?.weight).toBeUndefined();
+    expect(buildTheme({ ...DEFAULT_SETTINGS, bold: true }).text?.weight).toBe(
+      "bold",
+    );
+  });
+
+  it("sets text even without a font when only bold is chosen", () => {
+    const theme = buildTheme({ ...DEFAULT_SETTINGS, font: null, bold: true });
+    expect(theme.text).toEqual({ weight: "bold" });
   });
 
   it("sets a background gradient only when a color theme is chosen", () => {

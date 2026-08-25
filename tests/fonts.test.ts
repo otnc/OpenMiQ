@@ -17,6 +17,12 @@ describe("resolveFontAlias", () => {
     expect(resolveFontAlias("dotgothic16")).toBe("DotGothic16");
   });
 
+  it("accepts either the alias or the exact family name for the same font", () => {
+    expect(resolveFontAlias("pop")).toBe("Hachi Maru Pop");
+    expect(resolveFontAlias("Hachi Maru Pop")).toBe("Hachi Maru Pop");
+    expect(resolveFontAlias("hachi maru pop")).toBe("Hachi Maru Pop");
+  });
+
   it("resolves castoro now that makeitaquote carries Castoro Titling", () => {
     expect(resolveFontAlias("castoro")).toBe("Castoro Titling");
   });
