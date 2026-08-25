@@ -1,10 +1,10 @@
-# MiQ Bot
+# Open MiQ Bot
 
 _[English](./README.md)_
 
 メッセージを引用画像に変換する、セルフホスト用の Discord Bot。
 
-メッセージにリプライした状態でBotをメンションする(または右クリックして「引用画像を作成」を選ぶ)と、そのメッセージを [makeitaquote](https://www.npmjs.com/package/makeitaquote) で引用画像にして画像リプライします。
+メッセージにリプライした状態でBotをメンションする(または右クリックして「引用画像を作成」を選ぶ)と、そのメッセージを [makeitaquote](https://github.com/otnc/makeitaquote) で引用画像にして画像リプライします。
 
 ## 使い方
 

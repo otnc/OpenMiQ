@@ -1,10 +1,10 @@
-# MiQ Bot
+# Open MiQ Bot
 
 _[日本語](./README-ja.md)_
 
 A self-hosted Discord bot that turns a message into a quote image.
 
-Reply to a message and mention the bot (or right-click it and choose "Quote"): it renders that message as a quote image (via [makeitaquote](https://www.npmjs.com/package/makeitaquote)) and replies with it.
+Reply to a message and mention the bot (or right-click it and choose "Quote"): it renders that message as a quote image (via [makeitaquote](https://github.com/otnc/makeitaquote)) and replies with it.
 
 ## Usage
 
