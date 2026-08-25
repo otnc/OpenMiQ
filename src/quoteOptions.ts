@@ -52,9 +52,9 @@ const THEME_PREFIX_RE = /^theme[=:](.*)$/i;
  * `/fakequote`'s `options` string). Each of these has an opposite, so a
  * saved default can be overridden back for one message even when it's
  * `true`/portrait/etc.: `color`/`mono`, `light`/`dark`, `flip` (or
- * `right`)/`unflip`, `new`/`side` (or `classic`). Plus `theme=alias` (a
- * named background color preset) and `font=alias` (the alias may be quoted,
- * and runs to the end of the string — put it last).
+ * `right`)/`unflip` (or `left`), `new`/`side` (or `classic`). Plus
+ * `theme=alias` (a named background color preset) and `font=alias` (the
+ * alias may be quoted, and runs to the end of the string — put it last).
  */
 export function parseOptions(text: string): ParsedInvocation {
   const settings: Partial<QuoteSettings> = {};
@@ -76,7 +76,7 @@ export function parseOptions(text: string): ParsedInvocation {
       settings.light = false;
     } else if (lower === "flip" || lower === "right") {
       settings.flip = true;
-    } else if (lower === "unflip") {
+    } else if (lower === "unflip" || lower === "left") {
       settings.flip = false;
     } else if (lower === "new") {
       settings.layout = "portrait";

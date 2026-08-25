@@ -66,6 +66,10 @@ describe("parseOptions", () => {
     expect(parseOptions("classic").settings.layout).toBe("side");
   });
 
+  it("left is a synonym for unflip", () => {
+    expect(parseOptions("left").settings.flip).toBe(false);
+  });
+
   it("a later token overrides an earlier opposite one", () => {
     expect(parseOptions("color mono").settings.color).toBe(false);
     expect(parseOptions("mono color").settings.color).toBe(true);
