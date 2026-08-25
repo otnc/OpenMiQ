@@ -25,12 +25,12 @@ Reply to a message and mention the bot (or right-click it and choose "Quote"): i
 
 Every toggle has an opposite, so a saved default (see Slash commands below) can be overridden back for a single message even when it's already on:
 
-| Option              | Opposite |
-| ------------------- | -------- |
-| `color`             | `mono`   |
-| `light`             | `dark`   |
-| `flip` (or `right`) | `left`   |
-| `new`               | `side`   |
+| Option              | Opposite              |
+| ------------------- | --------------------- |
+| `color`             | `mono`                |
+| `light`             | `dark`                |
+| `flip` (or `right`) | `unflip`              |
+| `new`               | `side` (or `classic`) |
 
 **Or right-click (long-press on mobile) any message → Apps → Quote** — same result, no typing, but it always uses your saved defaults (see below) since there's nowhere to type options.
 
