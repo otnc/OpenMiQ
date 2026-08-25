@@ -53,13 +53,25 @@ describe("parseOptions", () => {
   });
 
   it("parses the opposite of each toggle explicitly false", () => {
-    const { settings } = parseOptions("mono dark left side");
+    const { settings } = parseOptions("mono dark unflip side");
     expect(settings).toEqual({
       color: false,
       light: false,
       flip: false,
       layout: "side",
     });
+  });
+
+  it("classic is a synonym for side", () => {
+    expect(parseOptions("classic").settings.layout).toBe("side");
+  });
+
+  it("portrait is a synonym for new", () => {
+    expect(parseOptions("portrait").settings.layout).toBe("portrait");
+  });
+
+  it("left is a synonym for unflip", () => {
+    expect(parseOptions("left").settings.flip).toBe(false);
   });
 
   it("a later token overrides an earlier opposite one", () => {
