@@ -98,6 +98,16 @@ describe("parseOptions", () => {
     expect(unknownTheme).toBe("not-a-theme");
   });
 
+  it("theme=default clears a saved color theme back to none", () => {
+    const { settings, unknownTheme } = parseOptions("theme=default");
+    expect(settings).toEqual({ colorTheme: null });
+    expect(unknownTheme).toBeNull();
+  });
+
+  it("theme=default is case insensitive", () => {
+    expect(parseOptions("theme=DEFAULT").settings.colorTheme).toBeNull();
+  });
+
   it("ignores unknown tokens", () => {
     const { settings } = parseOptions("hello world");
     expect(settings).toEqual({});
@@ -149,11 +159,20 @@ describe("buildTheme", () => {
     expect(theme.extends).toBe("portrait-light");
   });
 
-  it("sets the text font when one is chosen", () => {
-    expect(buildTheme(DEFAULT_SETTINGS).text).toBeUndefined();
+  it("defaults to mplus, and sets the text font when a different one is chosen", () => {
+    expect(DEFAULT_SETTINGS.font).toBe("M PLUS Rounded 1c");
+    expect(buildTheme(DEFAULT_SETTINGS).text).toEqual({
+      font: "M PLUS Rounded 1c",
+    });
     expect(
       buildTheme({ ...DEFAULT_SETTINGS, font: "DotGothic16" }).text,
     ).toEqual({ font: "DotGothic16" });
+  });
+
+  it("omits the text font when explicitly null", () => {
+    expect(
+      buildTheme({ ...DEFAULT_SETTINGS, font: null }).text,
+    ).toBeUndefined();
   });
 
   it("sets a background gradient only when a color theme is chosen", () => {
