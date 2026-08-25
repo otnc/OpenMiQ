@@ -1,7 +1,7 @@
 import { describe, expect, it } from "vitest";
 import {
   COLOR_THEMES,
-  colorThemeBackground,
+  colorThemeBackgroundImage,
   resolveColorTheme,
 } from "../src/colorThemes.js";
 
@@ -22,12 +22,21 @@ describe("resolveColorTheme", () => {
   });
 });
 
-describe("colorThemeBackground", () => {
-  it("returns the background color for a known key", () => {
-    expect(colorThemeBackground("sunset")).toBe("#FF6B4A");
+describe("colorThemeBackgroundImage", () => {
+  it("returns a PNG buffer for a known key", () => {
+    const image = colorThemeBackgroundImage("sunset");
+    expect(image).toBeInstanceOf(Buffer);
+    // PNG signature: 89 50 4E 47 0D 0A 1A 0A
+    expect(image?.subarray(0, 8).toString("hex")).toBe("89504e470d0a1a0a");
+  });
+
+  it("caches the rendered image across calls", () => {
+    expect(colorThemeBackgroundImage("forest")).toBe(
+      colorThemeBackgroundImage("forest"),
+    );
   });
 
   it("returns undefined for an unknown key", () => {
-    expect(colorThemeBackground("not-a-theme")).toBeUndefined();
+    expect(colorThemeBackgroundImage("not-a-theme")).toBeUndefined();
   });
 });

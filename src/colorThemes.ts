@@ -1,43 +1,86 @@
+import { createCanvas } from "@napi-rs/canvas";
+
 /**
- * Named background-color presets for `theme=<alias>`.
+ * Named background gradients for `theme=<alias>`.
  *
- * These hex values are rough placeholder estimates from the palette names —
+ * These colors are rough placeholder estimates from the palette names —
  * swap them out here once exact values are available. Everything else
  * (avatar, text, layout) still comes from the base `dark`/`light`/`portrait`
- * theme; only the background is overridden.
+ * theme; only the background is overridden, with a generated top-left to
+ * bottom-right gradient image between the two colors.
  */
 export interface ColorTheme {
   key: string;
   label: string;
-  background: string;
+  gradient: readonly [from: string, to: string];
 }
 
 export const COLOR_THEMES: readonly ColorTheme[] = [
-  { key: "sunset", label: "Sunset", background: "#FF6B4A" },
-  { key: "chroma_glow", label: "Chroma Glow", background: "#8A2BE2" },
-  { key: "forest", label: "Forest", background: "#1B4332" },
-  { key: "crimson_moon", label: "Crimson Moon", background: "#6E0D25" },
-  { key: "midnight_blurple", label: "Midnight Blurple", background: "#2C2F5A" },
-  { key: "mars", label: "Mars", background: "#B33A2E" },
-  { key: "dusk", label: "Dusk", background: "#363062" },
-  { key: "under_the_sea", label: "Under the Sea", background: "#0B4F6C" },
-  { key: "retro_storm", label: "Retro Storm", background: "#52616B" },
-  { key: "neon_nights", label: "Neon Nights", background: "#C724B1" },
+  { key: "sunset", label: "Sunset", gradient: ["#FF7E5F", "#6A3093"] },
+  {
+    key: "chroma_glow",
+    label: "Chroma Glow",
+    gradient: ["#8A2BE2", "#00C9A7"],
+  },
+  { key: "forest", label: "Forest", gradient: ["#0B3D24", "#3CAA6E"] },
+  {
+    key: "crimson_moon",
+    label: "Crimson Moon",
+    gradient: ["#3B0000", "#8B0020"],
+  },
+  {
+    key: "midnight_blurple",
+    label: "Midnight Blurple",
+    gradient: ["#1C1B33", "#5865F2"],
+  },
+  { key: "mars", label: "Mars", gradient: ["#7A1E12", "#D9622B"] },
+  { key: "dusk", label: "Dusk", gradient: ["#2C2A4A", "#916BBF"] },
+  {
+    key: "under_the_sea",
+    label: "Under the Sea",
+    gradient: ["#012A36", "#1CA9C9"],
+  },
+  {
+    key: "retro_storm",
+    label: "Retro Storm",
+    gradient: ["#3A3D5C", "#7D8CA3"],
+  },
+  {
+    key: "neon_nights",
+    label: "Neon Nights",
+    gradient: ["#FF00C8", "#00E5FF"],
+  },
   {
     key: "strawberry_lemonade",
     label: "Strawberry Lemonade",
-    background: "#F94F6A",
+    gradient: ["#FF5F7E", "#FFE66D"],
   },
-  { key: "aurora", label: "Aurora", background: "#1D9A6C" },
-  { key: "sepia", label: "Sepia", background: "#6F4518" },
-  { key: "mint_apple", label: "Mint Apple", background: "#7FCB9E" },
-  { key: "citrus_sherbert", label: "Citrus Sherbert", background: "#FFA552" },
-  { key: "retro_raincloud", label: "Retro Raincloud", background: "#7A8DA6" },
-  { key: "hanami", label: "Hanami", background: "#F2AFC4" },
-  { key: "sunrise", label: "Sunrise", background: "#F4A63D" },
-  { key: "cotton_candy", label: "Cotton Candy", background: "#F6A9D0" },
-  { key: "lofi_vibes", label: "LoFi Vibes", background: "#5B4B8A" },
-  { key: "desert_khaki", label: "Desert Khaki", background: "#C2A570" },
+  { key: "aurora", label: "Aurora", gradient: ["#00C9A7", "#845EC2"] },
+  { key: "sepia", label: "Sepia", gradient: ["#D8C3A5", "#6B4226"] },
+  { key: "mint_apple", label: "Mint Apple", gradient: ["#B6F2C5", "#4CAF7D"] },
+  {
+    key: "citrus_sherbert",
+    label: "Citrus Sherbert",
+    gradient: ["#FFB88C", "#FFEAA7"],
+  },
+  {
+    key: "retro_raincloud",
+    label: "Retro Raincloud",
+    gradient: ["#A0AEC0", "#CBD5E0"],
+  },
+  { key: "hanami", label: "Hanami", gradient: ["#FADCE8", "#F7A8C4"] },
+  { key: "sunrise", label: "Sunrise", gradient: ["#FFB347", "#FFD97D"] },
+  {
+    key: "cotton_candy",
+    label: "Cotton Candy",
+    gradient: ["#FBC2EB", "#A6C1EE"],
+  },
+  { key: "lofi_vibes", label: "LoFi Vibes", gradient: ["#2E2E52", "#7A6FA3"] },
+  {
+    key: "desert_khaki",
+    label: "Desert Khaki",
+    gradient: ["#C9A66B", "#8C6D3F"],
+  },
 ];
 
 const BY_KEY = new Map(COLOR_THEMES.map((theme) => [theme.key, theme]));
@@ -51,7 +94,36 @@ export function resolveColorTheme(token: string): string | null {
   return BY_KEY.has(key) ? key : null;
 }
 
-/** The background color a resolved theme key maps to. */
-export function colorThemeBackground(key: string): string | undefined {
-  return BY_KEY.get(key)?.background;
+// Large enough to `cover` both makeitaquote canvas shapes (1200×630
+// landscape, 630×790 portrait) without visible upscaling.
+const GRADIENT_WIDTH = 1200;
+const GRADIENT_HEIGHT = 790;
+
+const gradientCache = new Map<string, Buffer>();
+
+function renderGradientPng(gradient: readonly [string, string]): Buffer {
+  const canvas = createCanvas(GRADIENT_WIDTH, GRADIENT_HEIGHT);
+  const ctx = canvas.getContext("2d");
+  const fill = ctx.createLinearGradient(0, 0, GRADIENT_WIDTH, GRADIENT_HEIGHT);
+  fill.addColorStop(0, gradient[0]);
+  fill.addColorStop(1, gradient[1]);
+  ctx.fillStyle = fill;
+  ctx.fillRect(0, 0, GRADIENT_WIDTH, GRADIENT_HEIGHT);
+  return canvas.toBuffer("image/png");
+}
+
+/**
+ * The gradient background image for a resolved theme key, rendered once and
+ * cached — there are only 21 of these, and they never change at runtime.
+ */
+export function colorThemeBackgroundImage(key: string): Buffer | undefined {
+  const theme = BY_KEY.get(key);
+  if (!theme) return undefined;
+
+  const cached = gradientCache.get(key);
+  if (cached) return cached;
+
+  const image = renderGradientPng(theme.gradient);
+  gradientCache.set(key, image);
+  return image;
 }

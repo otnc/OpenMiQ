@@ -1,5 +1,5 @@
 import type { ThemeInput, ThemeName } from "makeitaquote";
-import { colorThemeBackground, resolveColorTheme } from "./colorThemes.js";
+import { colorThemeBackgroundImage, resolveColorTheme } from "./colorThemes.js";
 import { resolveFontAlias } from "./fonts.js";
 
 /**
@@ -155,9 +155,9 @@ export function buildTheme(settings: QuoteSettings): ThemeInput {
     theme.text = { font: settings.font };
   }
   if (settings.colorTheme) {
-    const background = colorThemeBackground(settings.colorTheme);
-    if (background) {
-      theme.background = background;
+    const image = colorThemeBackgroundImage(settings.colorTheme);
+    if (image) {
+      theme.backgroundImage = { source: image, fit: "cover", opacity: 1 };
     }
   }
   return theme;

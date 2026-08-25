@@ -144,10 +144,11 @@ describe("buildTheme", () => {
     ).toEqual({ font: "DotGothic16" });
   });
 
-  it("overrides only the background when a color theme is chosen", () => {
-    expect(buildTheme(DEFAULT_SETTINGS).background).toBeUndefined();
+  it("sets a background gradient image only when a color theme is chosen", () => {
+    expect(buildTheme(DEFAULT_SETTINGS).backgroundImage).toBeUndefined();
     const theme = buildTheme({ ...DEFAULT_SETTINGS, colorTheme: "sunset" });
-    expect(theme.background).toBe("#FF6B4A");
+    expect(theme.backgroundImage?.source).toBeInstanceOf(Buffer);
+    expect(theme.backgroundImage?.fit).toBe("cover");
     expect(theme.extends).toBe("dark");
   });
 });
