@@ -19,3 +19,8 @@ export const DATA_DIR = process.env.DATA_DIR
 
 /** Locale used when nothing else (user, guild, bot default) sets one. */
 export const DEFAULT_LOCALE = process.env.DEFAULT_LOCALE?.trim() || "en";
+
+/** Directory to also save a copy of every generated image to. Disabled (`null`) by default. */
+export const SAVE_IMAGES_DIR = process.env.SAVE_IMAGES_DIR?.trim()
+  ? path.resolve(process.env.SAVE_IMAGES_DIR.trim())
+  : null;

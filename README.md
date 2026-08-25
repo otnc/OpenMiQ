@@ -125,6 +125,7 @@ All of these go in `.env` (see `.env.example`):
 | `ADMIN_IDS` | Comma-separated Discord user IDs allowed to run `/admin` |
 | `DEFAULT_LOCALE` | Locale used when nothing else sets one (default `en`) |
 | `DATA_DIR` | Where per-user/guild/bot settings are stored as JSON (default `./data`) |
+| `SAVE_IMAGES_DIR` | If set, also save a copy of every generated image here (disabled by default) |
 
 Adding a language beyond English/Japanese is a matter of dropping a new
 `locales/<code>.json` file (same keys as `locales/en.json`) — no code change
