@@ -73,8 +73,7 @@ export function buildComponents(
     .addOptions(
       new StringSelectMenuOptionBuilder()
         .setLabel(t("components.font.default", locale))
-        .setValue(DEFAULT_FONT_VALUE)
-        .setDefault(settings.font === null),
+        .setValue(DEFAULT_FONT_VALUE),
       ...FONT_CATALOGUE.map((family) => fontOption(family, settings)),
     );
 

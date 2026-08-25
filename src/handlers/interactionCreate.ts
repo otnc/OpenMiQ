@@ -22,7 +22,7 @@ import {
   buildComponents,
 } from "../components.js";
 import { normalizeLocale, t } from "../i18n/index.js";
-import type { QuoteSettings } from "../quoteOptions.js";
+import { DEFAULT_FONT, type QuoteSettings } from "../quoteOptions.js";
 import { renderQuote } from "../render.js";
 import { getQuoteState } from "../state.js";
 
@@ -121,7 +121,7 @@ function applyFontSelect(
   interaction: StringSelectMenuInteraction,
 ): void {
   const value = interaction.values[0];
-  settings.font = !value || value === DEFAULT_FONT_VALUE ? null : value;
+  settings.font = !value || value === DEFAULT_FONT_VALUE ? DEFAULT_FONT : value;
 }
 
 function applyColorThemeSelect(
