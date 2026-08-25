@@ -93,6 +93,7 @@ pnpm start
 | `ADMIN_IDS` | `/admin` を実行できるDiscordユーザーIDのカンマ区切りリスト |
 | `DEFAULT_LOCALE` | 他に設定がない場合に使われる言語 (デフォルト `en`) |
 | `DATA_DIR` | ユーザー/サーバー/Botの設定をJSONで保存する場所 (デフォルト `./data`) |
+| `SAVE_IMAGES_DIR` | 設定すると、生成した画像のコピーもこのディレクトリに保存する (デフォルトでは無効) |
 
 英語・日本語以外の言語を追加するには、`locales/<code>.json` を追加するだけです (`locales/en.json` と同じキー構成)。コードの変更は不要で、起動時に自動的に読み込まれます。
 
