@@ -7,7 +7,7 @@ import {
   type MessageActionRowComponentBuilder,
 } from "discord.js";
 import { FONT_CATALOGUE } from "makeitaquote";
-import { COLOR_THEMES } from "./colorThemes.js";
+import { COLOR_THEMES, type ColorTheme } from "./colorThemes.js";
 import { t } from "./i18n/index.js";
 import type { QuoteSettings } from "./quoteOptions.js";
 
@@ -19,9 +19,9 @@ export const FONT_SELECT_ID = "miq:font";
 export const COLOR_THEME_SELECT_ID = "miq:colorTheme";
 
 /** Sentinel select value meaning "back to the default font". */
-export const DEFAULT_FONT_VALUE = "miq:default";
+export const DEFAULT_FONT_VALUE = "miq:default-font";
 /** Sentinel select value meaning "no color theme, use the base theme's background". */
-export const DEFAULT_COLOR_THEME_VALUE = "miq:default";
+export const DEFAULT_COLOR_THEME_VALUE = "miq:default-theme";
 
 /** The buttons and the font/color-theme select menus shown under a posted quote. */
 export function buildComponents(
@@ -112,7 +112,7 @@ function fontOption(
 }
 
 function colorThemeOption(
-  theme: { key: string; label: string },
+  theme: ColorTheme,
   settings: QuoteSettings,
 ): StringSelectMenuOptionBuilder {
   return new StringSelectMenuOptionBuilder()

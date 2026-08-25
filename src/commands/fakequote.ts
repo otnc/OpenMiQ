@@ -117,16 +117,14 @@ export async function runFakequoteCommand(
     ? await interaction.guild.members.fetch(author.id).catch(() => null)
     : null;
 
-  // Mirrors makeitaquote's own setFromMessage: prefer the guild nickname and
-  // guild avatar, falling back to the account-wide profile.
-  const displayName =
-    member?.nickname ||
-    member?.displayName ||
-    author.globalName ||
-    author.username;
-  const avatar =
-    member?.displayAvatarURL({ extension: "png", size: 512 }) ??
-    author.displayAvatarURL({ extension: "png", size: 512 });
+  // `GuildMember#displayName`/`#displayAvatarURL()` already fall back to
+  // the user's account-wide profile on their own, so this needs no extra
+  // fallback chain of its own — mirrors makeitaquote's own setFromMessage.
+  const displayName = (member ?? author).displayName;
+  const avatar = (member ?? author).displayAvatarURL({
+    extension: "png",
+    size: 512,
+  });
 
   const settings = resolveQuoteSettings({
     userId: interaction.user.id,
