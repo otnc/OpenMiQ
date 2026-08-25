@@ -1,0 +1,117 @@
+{
+  "quote": {
+    "usage": "引用するメッセージが見つかりませんでした。\nメッセージにリプライした上でこのBotをメンションしてください。",
+    "noText": "このメッセージには引用できるテキストがありません。",
+    "expired": "この引用の情報が見つかりませんでした。Botの再起動前に生成された画像のため、再生成できません。",
+    "unknownFont": "不明なフォントです: \"{{token}}\"。利用可能: {{aliases}}",
+    "unknownTheme": "不明なカラーテーマです: \"{{token}}\"。利用可能: {{themes}}"
+  },
+  "components": {
+    "color": { "enable": "カラー", "disable": "モノクロ" },
+    "flip": "反転",
+    "theme": { "toLight": "ライト", "toDark": "ダーク" },
+    "layout": { "toPortrait": "縦画像", "toSide": "横画像" },
+    "font": { "placeholder": "フォントを選択", "default": "デフォルト" },
+    "colorTheme": {
+      "placeholder": "カラーテーマを選択",
+      "default": "デフォルト"
+    }
+  },
+  "commands": {
+    "settings": {
+      "description": "あなた自身の引用オプションと言語のデフォルト",
+      "view": { "description": "保存済みのデフォルトを表示" },
+      "set": { "description": "デフォルトを保存" },
+      "reset": { "description": "保存済みのデフォルトを削除" }
+    },
+    "serverSettings": {
+      "description": "このサーバーの引用オプションと言語のデフォルト (サーバー管理権限が必要)",
+      "view": { "description": "このサーバーの保存済みデフォルトを表示" },
+      "set": { "description": "このサーバーのデフォルトを保存" },
+      "reset": { "description": "このサーバーの保存済みデフォルトを削除" }
+    },
+    "admin": {
+      "description": "Bot自体の引用オプションと言語のデフォルト (Bot管理者のみ)",
+      "view": { "description": "Botの保存済みデフォルトを表示" },
+      "set": { "description": "Botのデフォルトを保存" },
+      "reset": { "description": "Botの保存済みデフォルトを削除" }
+    },
+    "help": { "description": "Botの使い方を表示" },
+    "fakequote": {
+      "description": "指定したユーザーの名前とアイコンで引用画像を作成",
+      "options": {
+        "author": "名前とアイコンを使用するユーザー",
+        "message": "(偽の)引用文",
+        "options": "追加オプション。メンション時と同じ形式 — /help を参照"
+      }
+    },
+    "options": {
+      "language": "言語コード (/help を参照)",
+      "font": "フォントのエイリアス (/help を参照)",
+      "theme": "カラーテーマのエイリアス (/help を参照)",
+      "color": "アバターをカラーのままにする",
+      "light": "ライトテーマ",
+      "flip": "アバターを右側に配置 (横画像のみ)",
+      "layout": "side (横画像) または portrait (縦画像)",
+      "blockFakequote": {
+        "user": "/fakequote であなたの名前を使われるのをブロックする",
+        "guild": "このサーバーで /fakequote を無効化する",
+        "bot": "Bot全体で /fakequote を無効化する"
+      }
+    }
+  },
+  "settings": {
+    "scope": { "user": "あなたの", "guild": "このサーバーの", "bot": "Botの" },
+    "fields": {
+      "language": "言語",
+      "color": "カラー",
+      "light": "ライトテーマ",
+      "flip": "反転",
+      "layout": "レイアウト",
+      "font": "フォント",
+      "theme": "カラーテーマ",
+      "fakequoteBlocked": "Fakequoteのブロック"
+    },
+    "values": {
+      "on": "オン",
+      "off": "オフ",
+      "notSet": "未設定",
+      "side": "横画像",
+      "portrait": "縦画像"
+    },
+    "viewTitle": "{{scope}}デフォルト",
+    "viewEmpty": "{{scope}}デフォルトは設定されていません。すべてフォールバック値が使われます。",
+    "setSuccess": "{{scope}}デフォルトを保存しました。",
+    "resetSuccess": "{{scope}}デフォルトをリセットしました。",
+    "errors": {
+      "guildOnly": "この操作はサーバー内でのみ実行できます。",
+      "permissionDenied": "この操作には「サーバーの管理」権限が必要です。",
+      "adminOnly": "この操作はBot管理者のみ実行できます。",
+      "invalidLocale": "不明な言語です: \"{{locale}}\"。利用可能: {{locales}}",
+      "invalidFont": "不明なフォントです: \"{{token}}\"。利用可能: {{aliases}}",
+      "invalidTheme": "不明なカラーテーマです: \"{{token}}\"。利用可能: {{themes}}",
+      "noOptions": "少なくとも1つオプションを指定してください。"
+    }
+  },
+  "fakequote": {
+    "blockedByBot": "Bot管理者により /fakequote は無効化されています。",
+    "blockedByGuild": "このサーバーでは /fakequote は無効化されています。",
+    "blockedByUser": "そのユーザーは /fakequote で名前を使われることをブロックしています。"
+  },
+  "help": {
+    "title": "MiQ Bot ヘルプ",
+    "mention": "メッセージにリプライした状態でこのBotをメンションすると、そのメッセージが引用画像になります。メッセージの右クリック(または長押し、⋯メニュー)から「引用画像を作成」を選んでも同じことができます。",
+    "optionsTitle": "オプション (メンションの後ろに自由に組み合わせ可能。例: `@MiQ color new font=pop`) — それぞれ逆の指定もあり、保存済みデフォルトをその場だけ上書きできます",
+    "optionColor": "`color` / `mono` — カラーまたはモノクロのアバター",
+    "optionLight": "`light` / `dark` — ライトまたはダークテーマ",
+    "optionFlip": "`flip` (または `right`) / `left` — アバターを右または左に配置 (横画像レイアウトのみ)",
+    "optionNew": "`new` / `side` — 縦画像レイアウト (アバターを全面に、下部に引用文) または通常の横画像レイアウト",
+    "optionFont": "`font=<エイリアス>` — フォントを指定 (下記フォント一覧を参照)",
+    "optionTheme": "`theme=<エイリアス>` — 背景カラーを指定 (下記カラーテーマ一覧を参照)",
+    "fakequoteHint": "`/fakequote author: message: options:` は指定したユーザーの名前で引用文をでっち上げます。使われたくない場合は `/settings set` で自分をブロックできます。",
+    "contextMenuHint": "メッセージを右クリック(または長押し、⋯メニュー)して「引用画像を作成」を選ぶと、メンションを打たずに同じことができます。",
+    "fontsTitle": "フォント",
+    "colorThemesTitle": "カラーテーマ",
+    "settingsHint": "`/settings set` で自分用のデフォルトを、`/server-settings set` (サーバー管理権限が必要) でこのサーバーのデフォルトを保存できます。それぞれ対応する `reset` でリセットできます。"
+  }
+}
