@@ -1,15 +1,7 @@
 import { mkdirSync, readFileSync, existsSync } from "node:fs";
-import { createRequire } from "node:module";
 import path from "node:path";
+import writeFileAtomic from "write-file-atomic";
 import { DATA_DIR } from "./env.js";
-
-// write-file-atomic is CommonJS (`export =`); requiring it avoids fighting
-// the project's strict ESM/NodeNext interop settings for a single import.
-const require = createRequire(import.meta.url);
-const writeFileAtomic = require("write-file-atomic") as (
-  filename: string,
-  data: string,
-) => Promise<void>;
 
 /**
  * A small JSON-file-backed key/value store, keyed by Discord snowflake
