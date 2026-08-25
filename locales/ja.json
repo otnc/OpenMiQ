@@ -105,7 +105,7 @@
     "optionColor": "`color` / `mono` — カラーまたはモノクロのアバター",
     "optionLight": "`light` / `dark` — ライトまたはダークテーマ",
     "optionFlip": "`flip` (または `right`) / `unflip` (または `left`) — アバターを右に配置、または左に戻す (横画像レイアウトのみ)",
-    "optionNew": "`new` / `side` (または `classic`) — 縦画像レイアウト (アバターを全面に、下部に引用文) または通常の横画像レイアウト",
+    "optionNew": "`new` (または `portrait`) / `classic` (または `side`) — 縦画像レイアウト (アバターを全面に、下部に引用文) または通常の横画像レイアウト",
     "optionFont": "`font=<エイリアス>` — フォントを指定 (下記フォント一覧を参照)",
     "optionTheme": "`theme=<エイリアス>` — 背景カラーを指定 (下記カラーテーマ一覧を参照)",
     "fakequoteHint": "`/fakequote author: message: options:` は指定したユーザーの名前で引用文をでっち上げます。使われたくない場合は `/settings set` で自分をブロックできます。",

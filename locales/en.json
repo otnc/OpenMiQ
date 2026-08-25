@@ -105,7 +105,7 @@
     "optionColor": "`color` / `mono` — color or grayscale avatar",
     "optionLight": "`light` / `dark` — light or dark theme",
     "optionFlip": "`flip` (or `right`) / `unflip` (or `left`) — avatar on the right, or back on the left (side layout only)",
-    "optionNew": "`new` / `side` (or `classic`) — portrait layout (avatar full-bleed, quote over the bottom) or the regular side-by-side layout",
+    "optionNew": "`new` (or `portrait`) / `classic` (or `side`) — portrait layout (avatar full-bleed, quote over the bottom) or the regular side-by-side layout",
     "optionFont": "`font=<alias>` — pick a font (see Fonts below)",
     "optionTheme": "`theme=<alias>` — pick a background color (see Color themes below)",
     "fakequoteHint": "`/fakequote author: message: options:` makes up a quote in someone else's name — they can block this for themselves with `/settings set`.",
