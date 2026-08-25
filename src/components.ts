@@ -12,6 +12,7 @@ import { t } from "./i18n/index.js";
 import type { QuoteSettings } from "./quoteOptions.js";
 
 export const COLOR_BUTTON_ID = "miq:color";
+export const BOLD_BUTTON_ID = "miq:bold";
 export const FLIP_BUTTON_ID = "miq:flip";
 export const LIGHT_BUTTON_ID = "miq:light";
 export const LAYOUT_BUTTON_ID = "miq:layout";
@@ -40,6 +41,11 @@ export function buildComponents(
             : t("components.color.enable", locale),
         )
         .setEmoji("🎨")
+        .setStyle(ButtonStyle.Secondary),
+      new ButtonBuilder()
+        .setCustomId(BOLD_BUTTON_ID)
+        .setLabel(t("components.bold", locale))
+        .setEmoji("🅱️")
         .setStyle(ButtonStyle.Secondary),
       new ButtonBuilder()
         .setCustomId(FLIP_BUTTON_ID)

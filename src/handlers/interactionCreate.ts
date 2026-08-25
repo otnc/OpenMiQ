@@ -11,6 +11,7 @@ import { runQuoteContextMenuCommand } from "../commands/quote.js";
 import { runServerSettingsCommand } from "../commands/serverSettings.js";
 import { runSettingsCommand } from "../commands/settings.js";
 import {
+  BOLD_BUTTON_ID,
   COLOR_BUTTON_ID,
   COLOR_THEME_SELECT_ID,
   DEFAULT_COLOR_THEME_VALUE,
@@ -103,6 +104,9 @@ function applyButton(
   switch (interaction.customId) {
     case COLOR_BUTTON_ID:
       settings.color = !settings.color;
+      break;
+    case BOLD_BUTTON_ID:
+      settings.bold = !settings.bold;
       break;
     case FLIP_BUTTON_ID:
       settings.flip = !settings.flip;
