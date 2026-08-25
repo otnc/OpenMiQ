@@ -66,6 +66,10 @@ describe("parseOptions", () => {
     expect(parseOptions("classic").settings.layout).toBe("side");
   });
 
+  it("portrait is a synonym for new", () => {
+    expect(parseOptions("portrait").settings.layout).toBe("portrait");
+  });
+
   it("left is a synonym for unflip", () => {
     expect(parseOptions("left").settings.flip).toBe(false);
   });
