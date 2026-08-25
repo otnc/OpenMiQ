@@ -29,7 +29,7 @@ Every toggle has an opposite, so a saved default (see Slash commands below) can 
 | ------------------- | --------------------- |
 | `color`             | `mono`                |
 | `light`             | `dark`                |
-| `flip` (or `right`) | `unflip`              |
+| `flip` (or `right`) | `unflip` (or `left`)  |
 | `new`               | `side` (or `classic`) |
 
 **Or right-click (long-press on mobile) any message → Apps → Quote** — same result, no typing, but it always uses your saved defaults (see below) since there's nowhere to type options.
