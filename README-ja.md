@@ -6,7 +6,7 @@ _[English](./README.md)_
 
 メッセージにリプライした状態でBotをメンションする(または右クリックして「引用画像を作成」を選ぶ)と、そのメッセージを [makeitaquote](https://www.npmjs.com/package/makeitaquote) で引用画像にして画像リプライします。
 
-## Usage
+## 使い方
 
 **リプライ内でBotをメンションする** — メンションの後ろにオプションを付けられます:
 
@@ -52,37 +52,37 @@ _[English](./README.md)_
 
 デフォルトは「メンションの後ろのオプション > あなたの設定 > このサーバーの設定 > Botのデフォルト > 組み込みのフォールバック」の順で解決されます(右クリックの「引用画像を作成」はオプション入力の段階がないため、あなたの設定から直接解決されます)。返信で使われる言語も同じ順序で決まります。
 
-## Required
+## 必要なもの
 
-- Node.js v24 or later
-  - Recommend `fnm` or `nvm`
+- Node.js v24以上
+  - `fnm` や `nvm` を推奨
 - [pnpm](https://pnpm.io/) — Node同梱の [Corepack](https://nodejs.org/api/corepack.html) 経由で: `corepack enable` を実行すれば、`package.json` の `packageManager` に固定されたバージョンが自動的に使われます
-- Discord Bot Token (`.env` に `DISCORD_TOKEN=...` を設定)
+- Discord Bot トークン (`.env` に `DISCORD_TOKEN=...` を設定)
   - Developer Portal で **Message Content Intent** を有効にしてください
 
-## Setup
+## セットアップ
 
 ```bash
-# Install dependnecies
+# 依存関係をインストール
 pnpm install
 
 # "Ignored build scripts" と警告された場合は、内容を確認して必要なものだけ許可する:
 # pnpm approve-builds
 
-# Install all fonts/emoji
+# フォント/絵文字を全てインストール
 pnpm run setup
 
 # スラッシュコマンドとコンテキストメニューコマンドを登録 (内容が変わるたびに再実行)
 pnpm run deploy-commands
 
-# Build script
+# ビルド
 pnpm run build
 
-# Start bot
+# Bot起動
 pnpm start
 ```
 
-## Configuration
+## 設定
 
 以下はすべて `.env` に設定します (`.env.example` を参照):
 
@@ -97,7 +97,7 @@ pnpm start
 
 英語・日本語以外の言語を追加するには、`locales/<code>.json` を追加するだけです (`locales/en.json` と同じキー構成)。コードの変更は不要で、起動時に自動的に読み込まれます。
 
-## Development
+## 開発
 
 ```bash
 pnpm run dev   # .env / .env.local を読み込んで起動
@@ -105,15 +105,13 @@ pnpm test      # vitest
 pnpm run lint  # eslint
 ```
 
-## Author
+## 作者
 
 otoneko. https://github.com/otnc
 
-## License
+## ライセンス
 
-This project is licensed under the [GNU Affero General Public License v3.0 or later](./LICENSE) with [additional terms](./ADDITIONAL_TERMS.md).
+このプロジェクトは [GNU Affero General Public License v3.0 以降](./LICENSE) に、[追加条項](./ADDITIONAL_TERMS.md) を加えたライセンスの下で提供されています。
 
-- **SPDX:** `AGPL-3.0-or-later` (with additional terms under AGPL-3.0 Section 7)
-- If you distribute or run a modified version of this bot, you must:
-  - make the modified source code available under AGPL-3.0, and
-  - display attribution (original repository URL: https://github.com/otnc/miq-bot) as required by the [additional terms](./ADDITIONAL_TERMS.md).
+- **SPDX:** `AGPL-3.0-or-later` (AGPL-3.0 第7条に基づく追加条項付き)
+- 本Botの改変版を配布または運用する場合は、改変後のソースコードをAGPL-3.0の下で公開し、[追加条項](./ADDITIONAL_TERMS.md) に従って帰属表示 (元のリポジトリURL: https://github.com/otnc/OpenMiQ) を行う必要があります。

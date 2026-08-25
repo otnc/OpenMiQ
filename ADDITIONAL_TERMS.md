@@ -12,7 +12,7 @@ If you convey (distribute) the software or any modified version of it, or operat
 
 1. The name of the original software: **MiQ Bot**
 2. The name of the original author: **otoneko.**
-3. The URL of the original repository: **https://github.com/otnc/miq-bot**
+3. The URL of the original repository: **https://github.com/otnc/OpenMiQ**
 
 The attribution must be provided:
 
@@ -22,7 +22,7 @@ The attribution must be provided:
 
 ## 2. Marking of Modified Versions (Section 7(c))
 
-You must not represent a modified version of the software as the original. If you convey or operate a modified version, you must mark it in a reasonable way as modified, for example by stating that it is "based on MiQ Bot (https://github.com/otnc/miq-bot), with modifications", and by identifying yourself or the modified version under a name that is not identical to "MiQ Bot".
+You must not represent a modified version of the software as the original. If you convey or operate a modified version, you must mark it in a reasonable way as modified, for example by stating that it is "based on MiQ Bot (https://github.com/otnc/OpenMiQ), with modifications", and by identifying yourself or the modified version under a name that is not identical to "MiQ Bot".
 
 ## 3. No Trademark License
 
