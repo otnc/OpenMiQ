@@ -1,0 +1,57 @@
+{
+  "name": "miq-bot",
+  "version": "1.0.0",
+  "description": "Discord MiQ Bot (for self-host)",
+  "main": "dist/index.js",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/otnc/miq-bot.git"
+  },
+  "keywords": [
+    "discord",
+    "discord-bot",
+    "self-hosted"
+  ],
+  "author": "otoneko. (https://github.com/otnc)",
+  "license": "AGPL-3.0-or-later",
+  "type": "module",
+  "packageManager": "pnpm@10.34.5",
+  "bugs": {
+    "url": "https://github.com/otnc/miq-bot/issues"
+  },
+  "homepage": "https://github.com/otnc/miq-bot#readme",
+  "scripts": {
+    "test": "vitest run",
+    "setup": "miq install all",
+    "build": "tsdown",
+    "dev": "tsx watch --env-file-if-exists=.env --env-file-if-exists=.env.local src/index.ts",
+    "start": "node dist/index.js",
+    "deploy-commands": "tsdown && node --env-file-if-exists=.env --env-file-if-exists=.env.local dist/deployCommands.js",
+    "lint": "eslint .",
+    "format": "prettier --write ."
+  },
+  "engines": {
+    "node": ">=24"
+  },
+  "dependencies": {
+    "discord.js": "^14.27.0",
+    "i18next": "^26.4.0",
+    "i18next-fs-backend": "^2.6.7",
+    "makeitaquote": "^10.2.0",
+    "write-file-atomic": "^8.0.0"
+  },
+  "devDependencies": {
+    "@eslint/js": "^10.0.1",
+    "@types/node": "^24.13.3",
+    "@types/write-file-atomic": "^4.0.3",
+    "eslint": "^10.9.0",
+    "eslint-config-prettier": "^10.1.8",
+    "globals": "^17.11.0",
+    "prettier": "^3.9.6",
+    "tsdown": "^0.22.14",
+    "tsx": "^4.23.12",
+    "typescript": "^6.0.3",
+    "typescript-eslint": "^8.67.0",
+    "vitest": "^4.1.11"
+  }
+}
