@@ -26,6 +26,7 @@ export async function runHelpCommand(
     "",
     t("help.optionsTitle", locale),
     `- ${t("help.optionColor", locale)}`,
+    `- ${t("help.optionBold", locale)}`,
     `- ${t("help.optionLight", locale)}`,
     `- ${t("help.optionFlip", locale)}`,
     `- ${t("help.optionNew", locale)}`,

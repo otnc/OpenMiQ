@@ -13,6 +13,8 @@ export interface QuoteSettings {
   light: boolean;
   /** Avatar on the right instead of the left. Ignored when `layout` is `portrait`. */
   flip: boolean;
+  /** Bold quote text instead of the font's regular weight. */
+  bold: boolean;
   /**
    * `side` is the original left/right layout; `portrait` fills the canvas
    * with the avatar and puts the quote over the bottom (makeitaquote's
@@ -32,6 +34,7 @@ export const DEFAULT_SETTINGS: QuoteSettings = {
   color: false,
   light: false,
   flip: false,
+  bold: false,
   layout: "side",
   font: DEFAULT_FONT,
   colorTheme: null,
@@ -54,12 +57,13 @@ const THEME_PREFIX_RE = /^theme[=:](.*)$/i;
  * Parses the options written after the bot mention (or passed to
  * `/fakequote`'s `options` string). Each of these has an opposite, so a
  * saved default can be overridden back for one message even when it's
- * `true`/portrait/etc.: `color`/`mono`, `light`/`dark`, `flip` (or
- * `right`)/`unflip` (or `left`), `new` (or `portrait`)/`classic` (or
- * `side`). Plus `theme=alias` (a named background color preset —
- * `theme=default` clears a saved default back to none) and
- * `font=alias` (the alias may be quoted, and runs to the end of the string
- * — put it last).
+ * `true`/portrait/etc., and each also has a one-letter shortcut: `color`/`c`
+ * vs `mono`/`m`, `bold`/`b` vs `regular`/`r`, `light`/`l` vs `dark`/`d`,
+ * `flip`/`f` vs `unflip`/`u`, `new`/`n` (or `portrait`) vs `side`/`s` (or
+ * `classic`). Plus `theme=alias` (a named background color preset —
+ * `theme=default` clears a saved default back to none) and `font=alias`
+ * (the alias may be quoted, and runs to the end of the string — put it
+ * last); neither `theme=` nor `font=` has a one-letter shortcut.
  */
 export function parseOptions(text: string): ParsedInvocation {
   const settings: Partial<QuoteSettings> = {};
@@ -71,21 +75,25 @@ export function parseOptions(text: string): ParsedInvocation {
     const token = tokens[i] as string;
     const lower = token.toLowerCase();
 
-    if (lower === "color") {
+    if (lower === "color" || lower === "c") {
       settings.color = true;
-    } else if (lower === "mono") {
+    } else if (lower === "mono" || lower === "m") {
       settings.color = false;
-    } else if (lower === "light") {
+    } else if (lower === "bold" || lower === "b") {
+      settings.bold = true;
+    } else if (lower === "regular" || lower === "r") {
+      settings.bold = false;
+    } else if (lower === "light" || lower === "l") {
       settings.light = true;
-    } else if (lower === "dark") {
+    } else if (lower === "dark" || lower === "d") {
       settings.light = false;
-    } else if (lower === "flip" || lower === "right") {
+    } else if (lower === "flip" || lower === "f") {
       settings.flip = true;
-    } else if (lower === "unflip" || lower === "left") {
+    } else if (lower === "unflip" || lower === "u") {
       settings.flip = false;
-    } else if (lower === "new" || lower === "portrait") {
+    } else if (lower === "new" || lower === "portrait" || lower === "n") {
       settings.layout = "portrait";
-    } else if (lower === "classic" || lower === "side") {
+    } else if (lower === "classic" || lower === "side" || lower === "s") {
       settings.layout = "side";
     } else {
       const themeMatch = THEME_PREFIX_RE.exec(token);
@@ -160,8 +168,11 @@ export function buildTheme(settings: QuoteSettings): ThemeInput {
       ...(portrait ? {} : { position: settings.flip ? "right" : "left" }),
     },
   };
-  if (settings.font) {
-    theme.text = { font: settings.font };
+  if (settings.font || settings.bold) {
+    theme.text = {
+      ...(settings.font ? { font: settings.font } : {}),
+      ...(settings.bold ? { weight: "bold" } : {}),
+    };
   }
   if (settings.colorTheme) {
     const gradient = colorThemeGradient(settings.colorTheme);
