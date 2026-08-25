@@ -1,7 +1,7 @@
 import { describe, expect, it } from "vitest";
 import {
   COLOR_THEMES,
-  colorThemeBackgroundImage,
+  colorThemeGradient,
   resolveColorTheme,
 } from "../src/colorThemes.js";
 
@@ -22,21 +22,20 @@ describe("resolveColorTheme", () => {
   });
 });
 
-describe("colorThemeBackgroundImage", () => {
-  it("returns a PNG buffer for a known key", () => {
-    const image = colorThemeBackgroundImage("sunset");
-    expect(image).toBeInstanceOf(Buffer);
-    // PNG signature: 89 50 4E 47 0D 0A 1A 0A
-    expect(image?.subarray(0, 8).toString("hex")).toBe("89504e470d0a1a0a");
-  });
-
-  it("caches the rendered image across calls", () => {
-    expect(colorThemeBackgroundImage("forest")).toBe(
-      colorThemeBackgroundImage("forest"),
-    );
+describe("colorThemeGradient", () => {
+  it("returns a linear gradient descriptor for a known key", () => {
+    const gradient = colorThemeGradient("sunset");
+    expect(gradient).toEqual({
+      type: "linear",
+      direction: "diagonal",
+      stops: [
+        ["#FF7E5F", 0],
+        ["#6A3093", 1],
+      ],
+    });
   });
 
   it("returns undefined for an unknown key", () => {
-    expect(colorThemeBackgroundImage("not-a-theme")).toBeUndefined();
+    expect(colorThemeGradient("not-a-theme")).toBeUndefined();
   });
 });

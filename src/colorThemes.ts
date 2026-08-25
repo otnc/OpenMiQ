@@ -1,13 +1,14 @@
-import { createCanvas } from "@napi-rs/canvas";
+import type { ThemeInput } from "makeitaquote";
 
 /**
- * Named background gradients for `theme=<alias>`.
+ * Named background gradients for `theme=<alias>`, rendered by
+ * makeitaquote's own `backgroundGradient` theme field (10.3.0+) — no local
+ * image generation needed.
  *
  * These colors are rough placeholder estimates from the palette names —
  * swap them out here once exact values are available. Everything else
  * (avatar, text, layout) still comes from the base `dark`/`light`/`portrait`
- * theme; only the background is overridden, with a generated top-left to
- * bottom-right gradient image between the two colors.
+ * theme; only the background is overridden.
  */
 export interface ColorTheme {
   key: string;
@@ -94,36 +95,21 @@ export function resolveColorTheme(token: string): string | null {
   return BY_KEY.has(key) ? key : null;
 }
 
-// Large enough to `cover` both makeitaquote canvas shapes (1200×630
-// landscape, 630×790 portrait) without visible upscaling.
-const GRADIENT_WIDTH = 1200;
-const GRADIENT_HEIGHT = 790;
+type BackgroundGradient = NonNullable<ThemeInput["backgroundGradient"]>;
 
-const gradientCache = new Map<string, Buffer>();
-
-function renderGradientPng(gradient: readonly [string, string]): Buffer {
-  const canvas = createCanvas(GRADIENT_WIDTH, GRADIENT_HEIGHT);
-  const ctx = canvas.getContext("2d");
-  const fill = ctx.createLinearGradient(0, 0, GRADIENT_WIDTH, GRADIENT_HEIGHT);
-  fill.addColorStop(0, gradient[0]);
-  fill.addColorStop(1, gradient[1]);
-  ctx.fillStyle = fill;
-  ctx.fillRect(0, 0, GRADIENT_WIDTH, GRADIENT_HEIGHT);
-  return canvas.toBuffer("image/png");
-}
-
-/**
- * The gradient background image for a resolved theme key, rendered once and
- * cached — there are only 21 of these, and they never change at runtime.
- */
-export function colorThemeBackgroundImage(key: string): Buffer | undefined {
+/** The `backgroundGradient` theme value for a resolved theme key. */
+export function colorThemeGradient(
+  key: string,
+): BackgroundGradient | undefined {
   const theme = BY_KEY.get(key);
   if (!theme) return undefined;
 
-  const cached = gradientCache.get(key);
-  if (cached) return cached;
-
-  const image = renderGradientPng(theme.gradient);
-  gradientCache.set(key, image);
-  return image;
+  return {
+    type: "linear",
+    direction: "diagonal",
+    stops: [
+      [theme.gradient[0], 0],
+      [theme.gradient[1], 1],
+    ],
+  };
 }
