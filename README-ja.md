@@ -18,6 +18,7 @@ _[English](./README.md)_
 @MiQ new                        … 縦画像レイアウト — アバターを全面に、下部に引用文
 @MiQ font=pop                   … フォントをエイリアスで指定
 @MiQ theme=sunset               … 背景カラーを名前で指定
+@MiQ theme=default              … 保存済みのカラーテーマ指定をそのメッセージだけ解除
 @MiQ theme=sunset new font=pop  … 組み合わせも自由 — font= は末尾に置く(それ以降を読み切るため)
 @MiQ new flip                   … …ただし new (縦画像) 指定時、flip は効きません —
                                     makeitaquoteの縦画像レイアウトはアバターの左右指定を無視するため
@@ -34,7 +35,7 @@ _[English](./README.md)_
 
 **または、メッセージを右クリック(モバイルでは長押し) → アプリ → 引用画像を作成** — 結果は同じで、入力の手間はありませんが、オプションを入力する段階がないため常にあなたの保存済みデフォルトが使われます(下記参照)。
 
-フォントは makeitaquote 自身の `FONT_ALIASES` のエイリアスで指定します: `sans`, `mplus`, `dela`, `dot`, `pop`, `rampart`, `reggae`, `rocknroll`, `serif`, `yuji`, `yusei`, `inconsolata`, `exo2`, `bruno`, `poltawski`, `vina`, `script`, `castoro`。makeitaquoteの正式なフォント名(例: `font="Dela Gothic One"`)も引き続き使用できます。`theme=` はダーク/ライト/縦画像の各テーマに重ねる21種類の名前付き背景カラー(`sunset`, `forest`, `midnight_blurple` など)から選べます。両方の全一覧はローカライズされた `/help` を実行して確認してください。
+フォントは makeitaquote 自身の `FONT_ALIASES` のエイリアスで指定します: `sans`, `mplus`, `dela`, `dot`, `pop`, `rampart`, `reggae`, `rocknroll`, `serif`, `yuji`, `yusei`, `inconsolata`, `exo2`, `bruno`, `poltawski`, `vina`, `script`, `castoro`。makeitaquoteの正式なフォント名(例: `font="Dela Gothic One"`)も引き続き使用できます。何も指定しない場合のBot自体のデフォルトは `mplus` (M PLUS Rounded 1c) です。`theme=` はダーク/ライト/縦画像の各テーマに重ねる21種類の名前付き背景カラー(`sunset`, `forest`, `midnight_blurple` など)から選べます — `theme=default` で保存済みの指定を未設定に戻せます。両方の全一覧はローカライズされた `/help` を実行して確認してください。
 
 生成された画像の下には、それぞれを切り替えられるボタン(🎨 カラー / 🔄 反転 / ☀️ テーマ / レイアウト)と、フォント/カラーテーマを選択できるセレクトメニューが付きます。使うたびに画像が再生成されます。
 
