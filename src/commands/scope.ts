@@ -101,6 +101,12 @@ function addSetOptions(
     )
     .addBooleanOption((opt) =>
       opt
+        .setName("bold")
+        .setDescription(t("commands.options.bold", EN))
+        .setDescriptionLocalizations({ ja: t("commands.options.bold", "ja") }),
+    )
+    .addBooleanOption((opt) =>
+      opt
         .setName("light")
         .setDescription(t("commands.options.light", EN))
         .setDescriptionLocalizations({ ja: t("commands.options.light", "ja") }),
@@ -253,6 +259,7 @@ async function handleView(
     `**${capitalize(t("settings.viewTitle", locale, { scope: scopeLabel }))}**`,
     `${t("settings.fields.language", locale)}: ${data.language ?? t("settings.values.notSet", locale)}`,
     `${t("settings.fields.color", locale)}: ${formatBool(qd.color, locale)}`,
+    `${t("settings.fields.bold", locale)}: ${formatBool(qd.bold, locale)}`,
     `${t("settings.fields.light", locale)}: ${formatBool(qd.light, locale)}`,
     `${t("settings.fields.flip", locale)}: ${formatBool(qd.flip, locale)}`,
     `${t("settings.fields.layout", locale)}: ${formatLayout(qd.layout, locale)}`,
@@ -285,6 +292,7 @@ async function handleSet(
   const font = interaction.options.getString("font");
   const theme = interaction.options.getString("theme");
   const color = interaction.options.getBoolean("color");
+  const bold = interaction.options.getBoolean("bold");
   const light = interaction.options.getBoolean("light");
   const flip = interaction.options.getBoolean("flip");
   const layout = interaction.options.getString("layout") as
@@ -296,6 +304,7 @@ async function handleSet(
     font === null &&
     theme === null &&
     color === null &&
+    bold === null &&
     light === null &&
     flip === null &&
     layout === null &&
@@ -353,6 +362,7 @@ async function handleSet(
 
   const quoteDefaults: Partial<QuoteSettings> = {};
   if (color !== null) quoteDefaults.color = color;
+  if (bold !== null) quoteDefaults.bold = bold;
   if (light !== null) quoteDefaults.light = light;
   if (flip !== null) quoteDefaults.flip = flip;
   if (layout !== null) quoteDefaults.layout = layout;

@@ -31,6 +31,7 @@ describe("settings resolution", () => {
       color: false,
       light: false,
       flip: false,
+      bold: false,
       layout: "side",
       font: "M PLUS Rounded 1c",
       colorTheme: null,
