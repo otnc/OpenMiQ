@@ -86,7 +86,10 @@ export async function onInteractionCreate(
 
   // Help pagination buttons carry their own state in the custom ID — no
   // quote state to look up, so handle them before that lookup.
-  if (interaction.isButton() && interaction.customId.startsWith(HELP_BUTTON_PREFIX)) {
+  if (
+    interaction.isButton() &&
+    interaction.customId.startsWith(HELP_BUTTON_PREFIX)
+  ) {
     await handleHelpButton(interaction);
     return;
   }
