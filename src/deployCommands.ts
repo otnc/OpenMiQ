@@ -5,7 +5,6 @@ import { buildHelpCommand } from "./commands/help.js";
 import { buildQuoteContextMenuCommand } from "./commands/quote.js";
 import { buildServerSettingsCommand } from "./commands/serverSettings.js";
 import { buildSettingsCommand } from "./commands/settings.js";
-import { initI18n } from "./i18n/index.js";
 
 /** Registers the bot's commands. Run with `pnpm run deploy-commands`. */
 async function main(): Promise<void> {
@@ -13,8 +12,6 @@ async function main(): Promise<void> {
   const clientId = process.env.DISCORD_CLIENT_ID;
   if (!token) throw new Error("DISCORD_TOKEN is not set.");
   if (!clientId) throw new Error("DISCORD_CLIENT_ID is not set.");
-
-  await initI18n();
 
   const rest = new REST().setToken(token);
   const body = [
