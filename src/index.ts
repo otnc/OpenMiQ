@@ -6,7 +6,7 @@ import {
   Partials,
   type ClientEvents,
 } from "discord.js";
-import { loadColorThemeEmojis } from "./colorThemeEmojis.js";
+import { loadAppEmojis } from "./appEmojis.js";
 import { loadSettingsStores } from "./config/settings.js";
 import { onInteractionCreate } from "./handlers/interactionCreate.js";
 import { onMessageCreate } from "./handlers/messageCreate.js";
@@ -25,16 +25,18 @@ export async function main(): Promise<void> {
     intents: [
       GatewayIntentBits.Guilds,
       GatewayIntentBits.GuildMessages,
+      GatewayIntentBits.GuildMessageReactions,
       GatewayIntentBits.DirectMessages,
+      GatewayIntentBits.DirectMessageReactions,
       GatewayIntentBits.MessageContent,
     ],
-    partials: [Partials.Channel, Partials.Message],
+    partials: [Partials.Channel, Partials.Message, Partials.Reaction],
   });
 
   client.once(Events.ClientReady, (c) => {
     console.log(`Logged in as ${c.user.tag}`);
-    void loadColorThemeEmojis(c).catch((error) =>
-      console.error("Failed to load color-theme emojis:", error),
+    void loadAppEmojis(c).catch((error) =>
+      console.error("Failed to load application emojis:", error),
     );
   });
 

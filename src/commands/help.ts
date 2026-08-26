@@ -69,11 +69,9 @@ export function buildHelpCommand() {
     .setDescriptionLocalizations({ ja: STRINGS.description.ja });
 }
 
-export async function runHelpCommand(
-  interaction: ChatInputCommandInteraction,
-): Promise<void> {
-  const locale = callerLocale(interaction);
-  const lines = [
+/** The full `/help` text, also reused for the reaction-triggered help reply in messageCreate.ts. */
+export function buildHelpText(locale: string): string {
+  return [
     `**${t(STRINGS.title, locale)}**`,
     t(STRINGS.mention, locale),
     "",
@@ -95,6 +93,12 @@ export async function runHelpCommand(
     t(STRINGS.settingsHint, locale),
     t(STRINGS.fakequoteHint, locale),
     t(STRINGS.contextMenuHint, locale),
-  ];
-  await interaction.reply({ content: lines.join("\n"), ephemeral: true });
+  ].join("\n");
+}
+
+export async function runHelpCommand(
+  interaction: ChatInputCommandInteraction,
+): Promise<void> {
+  const locale = callerLocale(interaction);
+  await interaction.reply({ content: buildHelpText(locale), ephemeral: true });
 }

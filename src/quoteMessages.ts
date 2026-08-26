@@ -6,10 +6,6 @@ import type { Translations } from "./i18n/index.js";
  * command, and the buttons under an already-posted quote.
  */
 export const QUOTE_MESSAGES = {
-  usage: {
-    en: "Couldn't find a message to quote.\nReply to a message and mention the bot.",
-    ja: "引用するメッセージが見つかりませんでした。\nメッセージにリプライした上でこのBotをメンションしてください。",
-  },
   noText: {
     en: "This message has no text to quote.",
     ja: "このメッセージには引用できるテキストがありません。",
