@@ -84,7 +84,7 @@ pnpm run setup
 
 # Register the slash/context-menu commands and the color-theme swatch emoji
 # (re-run whenever either changes; deploy:commands / deploy:images run just
-# one half)
+# one half). Reads .env — pass --dev to read .env.local instead.
 pnpm run deploy
 
 # Build

@@ -85,6 +85,7 @@ pnpm run setup
 
 # スラッシュ/コンテキストメニューコマンドとカラーテーマのスウォッチ絵文字を登録
 # (どちらかが変わるたびに再実行。deploy:commands / deploy:images で片方だけも可)
+# .env を読み込みます — --dev を付けると .env.local を読み込みます
 pnpm run deploy
 
 # ビルド
