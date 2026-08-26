@@ -6,6 +6,7 @@ import { resolveLocale, resolveQuoteSettings } from "../config/settings.js";
 import { FONT_ALIAS_LIST } from "../fonts.js";
 import { t } from "../i18n/index.js";
 import { parseOptions } from "../quoteOptions.js";
+import { QUOTE_MESSAGES } from "../quoteMessages.js";
 import { renderQuote } from "../render.js";
 import { saveQuoteState } from "../state.js";
 
@@ -31,7 +32,7 @@ export async function onMessageCreate(message: Message): Promise<void> {
 
   if (unknownFont) {
     await message.reply({
-      content: t("quote.unknownFont", locale, {
+      content: t(QUOTE_MESSAGES.unknownFont, locale, {
         token: unknownFont,
         aliases: FONT_ALIAS_LIST,
       }),
@@ -42,7 +43,7 @@ export async function onMessageCreate(message: Message): Promise<void> {
 
   if (unknownTheme) {
     await message.reply({
-      content: t("quote.unknownTheme", locale, {
+      content: t(QUOTE_MESSAGES.unknownTheme, locale, {
         token: unknownTheme,
         themes: COLOR_THEME_LIST,
       }),
@@ -55,7 +56,7 @@ export async function onMessageCreate(message: Message): Promise<void> {
 
   if (!target || !target.content.trim()) {
     const reply = await message.reply({
-      content: t("quote.usage", locale),
+      content: t(QUOTE_MESSAGES.usage, locale),
       allowedMentions: { repliedUser: true },
     });
     setTimeout(() => void reply.delete().catch(() => {}), 15_000);

@@ -8,6 +8,7 @@ import { MiQ } from "makeitaquote";
 import { buildComponents } from "../components.js";
 import { resolveLocale, resolveQuoteSettings } from "../config/settings.js";
 import { t } from "../i18n/index.js";
+import { QUOTE_MESSAGES } from "../quoteMessages.js";
 import { renderQuote } from "../render.js";
 import { saveQuoteState } from "../state.js";
 
@@ -36,7 +37,7 @@ export async function runQuoteContextMenuCommand(
   const target = interaction.targetMessage;
   if (!target.content.trim()) {
     await interaction.reply({
-      content: t("quote.noText", locale),
+      content: t(QUOTE_MESSAGES.noText, locale),
       ephemeral: true,
     });
     return;

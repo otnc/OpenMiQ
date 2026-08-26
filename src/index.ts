@@ -9,7 +9,6 @@ import {
 import { loadSettingsStores } from "./config/settings.js";
 import { onInteractionCreate } from "./handlers/interactionCreate.js";
 import { onMessageCreate } from "./handlers/messageCreate.js";
-import { initI18n } from "./i18n/index.js";
 
 export async function main(): Promise<void> {
   const token = process.env.DISCORD_TOKEN;
@@ -19,7 +18,6 @@ export async function main(): Promise<void> {
     );
   }
 
-  await initI18n();
   loadSettingsStores();
 
   const client = new Client({

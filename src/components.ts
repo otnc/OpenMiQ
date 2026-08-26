@@ -8,8 +8,33 @@ import {
 } from "discord.js";
 import { FONT_CATALOGUE } from "makeitaquote";
 import { COLOR_THEMES, type ColorTheme } from "./colorThemes.js";
-import { t } from "./i18n/index.js";
+import { t, type Translations } from "./i18n/index.js";
 import type { QuoteSettings } from "./quoteOptions.js";
+
+const STRINGS = {
+  colorEnable: { en: "Color", ja: "カラー" },
+  colorDisable: { en: "Grayscale", ja: "モノクロ" },
+  bold: { en: "Bold", ja: "太字" },
+  flip: { en: "Flip", ja: "反転" },
+  toLight: { en: "Light", ja: "ライト" },
+  toDark: { en: "Dark", ja: "ダーク" },
+  fontPlaceholder: { en: "Choose a font", ja: "フォントを選択" },
+  fontDefault: { en: "Default", ja: "デフォルト" },
+  colorThemePlaceholder: {
+    en: "Choose a color theme",
+    ja: "カラーテーマを選択",
+  },
+  colorThemeDefault: { en: "Default", ja: "デフォルト" },
+} satisfies Record<string, Translations>;
+
+/**
+ * The side/portrait layout labels, also reused by `/settings|/server-settings|/admin
+ * set layout:`'s choice names in `scope.ts` — same wording either way.
+ */
+export const LAYOUT_LABELS = {
+  toSide: { en: "Side", ja: "横画像" },
+  toPortrait: { en: "Portrait", ja: "縦画像" },
+} satisfies Record<string, Translations>;
 
 export const COLOR_BUTTON_ID = "miq:color";
 export const BOLD_BUTTON_ID = "miq:bold";
@@ -37,19 +62,19 @@ export function buildComponents(
         .setCustomId(COLOR_BUTTON_ID)
         .setLabel(
           settings.color
-            ? t("components.color.disable", locale)
-            : t("components.color.enable", locale),
+            ? t(STRINGS.colorDisable, locale)
+            : t(STRINGS.colorEnable, locale),
         )
         .setEmoji("🎨")
         .setStyle(ButtonStyle.Secondary),
       new ButtonBuilder()
         .setCustomId(BOLD_BUTTON_ID)
-        .setLabel(t("components.bold", locale))
+        .setLabel(t(STRINGS.bold, locale))
         .setEmoji("🅱️")
         .setStyle(ButtonStyle.Secondary),
       new ButtonBuilder()
         .setCustomId(FLIP_BUTTON_ID)
-        .setLabel(t("components.flip", locale))
+        .setLabel(t(STRINGS.flip, locale))
         .setEmoji("🔄")
         .setStyle(ButtonStyle.Secondary)
         .setDisabled(portrait),
@@ -57,8 +82,8 @@ export function buildComponents(
         .setCustomId(LIGHT_BUTTON_ID)
         .setLabel(
           settings.light
-            ? t("components.theme.toDark", locale)
-            : t("components.theme.toLight", locale),
+            ? t(STRINGS.toDark, locale)
+            : t(STRINGS.toLight, locale),
         )
         .setEmoji(settings.light ? "🌙" : "☀️")
         .setStyle(ButtonStyle.Secondary),
@@ -66,8 +91,8 @@ export function buildComponents(
         .setCustomId(LAYOUT_BUTTON_ID)
         .setLabel(
           portrait
-            ? t("components.layout.toSide", locale)
-            : t("components.layout.toPortrait", locale),
+            ? t(LAYOUT_LABELS.toSide, locale)
+            : t(LAYOUT_LABELS.toPortrait, locale),
         )
         .setEmoji(portrait ? "🖥️" : "📱")
         .setStyle(ButtonStyle.Secondary),
@@ -75,20 +100,20 @@ export function buildComponents(
 
   const fontSelect = new StringSelectMenuBuilder()
     .setCustomId(FONT_SELECT_ID)
-    .setPlaceholder(t("components.font.placeholder", locale))
+    .setPlaceholder(t(STRINGS.fontPlaceholder, locale))
     .addOptions(
       new StringSelectMenuOptionBuilder()
-        .setLabel(t("components.font.default", locale))
+        .setLabel(t(STRINGS.fontDefault, locale))
         .setValue(DEFAULT_FONT_VALUE),
       ...FONT_CATALOGUE.map((family) => fontOption(family, settings)),
     );
 
   const colorThemeSelect = new StringSelectMenuBuilder()
     .setCustomId(COLOR_THEME_SELECT_ID)
-    .setPlaceholder(t("components.colorTheme.placeholder", locale))
+    .setPlaceholder(t(STRINGS.colorThemePlaceholder, locale))
     .addOptions(
       new StringSelectMenuOptionBuilder()
-        .setLabel(t("components.colorTheme.default", locale))
+        .setLabel(t(STRINGS.colorThemeDefault, locale))
         .setValue(DEFAULT_COLOR_THEME_VALUE)
         .setDefault(settings.colorTheme === null),
       ...COLOR_THEMES.map((theme) => colorThemeOption(theme, settings)),

@@ -1,39 +1,38 @@
-import { beforeAll, describe, expect, it } from "vitest";
+import { describe, expect, it } from "vitest";
 import {
   FALLBACK_LOCALE,
   getAvailableLocales,
-  initI18n,
   isSupportedLocale,
   normalizeLocale,
   t,
 } from "../src/i18n/index.js";
 
-describe("i18n", () => {
-  beforeAll(async () => {
-    await initI18n();
-  });
+const GREETING = { en: "Hello, {{name}}!", ja: "こんにちは、{{name}}さん!" };
 
-  it("discovers en and ja from locales/", () => {
+describe("i18n", () => {
+  it("supports en and ja", () => {
     const locales = getAvailableLocales();
     expect(locales).toContain("en");
     expect(locales).toContain("ja");
   });
 
-  it("translates a known key per locale", () => {
-    expect(t("components.flip", "en")).toBe("Flip");
-    expect(t("components.flip", "ja")).toBe("反転");
+  it("translates a known entry per locale", () => {
+    expect(t(GREETING, "en", { name: "A" })).toBe("Hello, A!");
+    expect(t(GREETING, "ja", { name: "A" })).toBe("こんにちは、Aさん!");
   });
 
   it("falls back to the fallback locale for an unsupported one", () => {
-    expect(t("components.flip", "fr")).toBe(
-      t("components.flip", FALLBACK_LOCALE),
+    expect(t(GREETING, "fr", { name: "A" })).toBe(
+      t(GREETING, FALLBACK_LOCALE, { name: "A" }),
     );
   });
 
   it("interpolates variables", () => {
-    expect(t("settings.setSuccess", "en", { scope: "your" })).toBe(
-      "Saved your defaults.",
-    );
+    expect(t(GREETING, "en", { name: "world" })).toBe("Hello, world!");
+  });
+
+  it("leaves a placeholder untouched when no matching var is given", () => {
+    expect(t(GREETING, "en", {})).toBe("Hello, {{name}}!");
   });
 
   it("normalizeLocale maps region-tagged codes to a supported base, else falls back", () => {
@@ -43,7 +42,7 @@ describe("i18n", () => {
     expect(normalizeLocale(undefined)).toBe(FALLBACK_LOCALE);
   });
 
-  it("isSupportedLocale reflects the discovered set", () => {
+  it("isSupportedLocale reflects the supported set", () => {
     expect(isSupportedLocale("en")).toBe(true);
     expect(isSupportedLocale("xx")).toBe(false);
   });

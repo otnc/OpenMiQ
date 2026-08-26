@@ -13,54 +13,73 @@ import {
   resolveQuoteSettings,
 } from "../config/settings.js";
 import { FONT_ALIAS_LIST } from "../fonts.js";
-import { t } from "../i18n/index.js";
+import { t, type Translations } from "../i18n/index.js";
 import { parseOptions } from "../quoteOptions.js";
+import { QUOTE_MESSAGES } from "../quoteMessages.js";
 import { renderQuote } from "../render.js";
 import { saveQuoteState } from "../state.js";
 
-const EN = "en";
+const STRINGS = {
+  description: {
+    en: "Make a quote image with someone else's name and avatar",
+    ja: "指定したユーザーの名前とアイコンで引用画像を作成",
+  },
+  author: {
+    en: "Whose name and avatar to use",
+    ja: "名前とアイコンを使用するユーザー",
+  },
+  message: { en: "The (fake) quote text", ja: "(偽の)引用文" },
+  options: {
+    en: "Extra options, same as after a mention — see /help",
+    ja: "追加オプション。メンション時と同じ形式 — /help を参照",
+  },
+  blockedByBot: {
+    en: "The bot admins have disabled /fakequote.",
+    ja: "Bot管理者により /fakequote は無効化されています。",
+  },
+  blockedByGuild: {
+    en: "/fakequote is disabled in this server.",
+    ja: "このサーバーでは /fakequote は無効化されています。",
+  },
+  blockedByUser: {
+    en: "That user has blocked being used in /fakequote.",
+    ja: "そのユーザーは /fakequote で名前を使われることをブロックしています。",
+  },
+} satisfies Record<string, Translations>;
 
 export function buildFakequoteCommand(): SlashCommandOptionsOnlyBuilder {
   return new SlashCommandBuilder()
     .setName("fakequote")
-    .setDescription(t("commands.fakequote.description", EN))
-    .setDescriptionLocalizations({
-      ja: t("commands.fakequote.description", "ja"),
-    })
+    .setDescription(STRINGS.description.en)
+    .setDescriptionLocalizations({ ja: STRINGS.description.ja })
     .addUserOption((opt) =>
       opt
         .setName("author")
-        .setDescription(t("commands.fakequote.options.author", EN))
-        .setDescriptionLocalizations({
-          ja: t("commands.fakequote.options.author", "ja"),
-        })
+        .setDescription(STRINGS.author.en)
+        .setDescriptionLocalizations({ ja: STRINGS.author.ja })
         .setRequired(true),
     )
     .addStringOption((opt) =>
       opt
         .setName("message")
-        .setDescription(t("commands.fakequote.options.message", EN))
-        .setDescriptionLocalizations({
-          ja: t("commands.fakequote.options.message", "ja"),
-        })
+        .setDescription(STRINGS.message.en)
+        .setDescriptionLocalizations({ ja: STRINGS.message.ja })
         .setRequired(true)
         .setMaxLength(1024),
     )
     .addStringOption((opt) =>
       opt
         .setName("options")
-        .setDescription(t("commands.fakequote.options.options", EN))
-        .setDescriptionLocalizations({
-          ja: t("commands.fakequote.options.options", "ja"),
-        }),
+        .setDescription(STRINGS.options.en)
+        .setDescriptionLocalizations({ ja: STRINGS.options.ja }),
     );
 }
 
-const BLOCK_MESSAGE_KEY = {
-  bot: "fakequote.blockedByBot",
-  guild: "fakequote.blockedByGuild",
-  user: "fakequote.blockedByUser",
-} as const;
+const BLOCK_MESSAGE: Record<"bot" | "guild" | "user", Translations> = {
+  bot: STRINGS.blockedByBot,
+  guild: STRINGS.blockedByGuild,
+  user: STRINGS.blockedByUser,
+};
 
 export async function runFakequoteCommand(
   interaction: ChatInputCommandInteraction,
@@ -80,7 +99,7 @@ export async function runFakequoteCommand(
   });
   if (blockReason) {
     await interaction.reply({
-      content: t(BLOCK_MESSAGE_KEY[blockReason], locale),
+      content: t(BLOCK_MESSAGE[blockReason], locale),
       ephemeral: true,
     });
     return;
@@ -93,7 +112,7 @@ export async function runFakequoteCommand(
   } = parseOptions(optionsText);
   if (unknownFont) {
     await interaction.reply({
-      content: t("quote.unknownFont", locale, {
+      content: t(QUOTE_MESSAGES.unknownFont, locale, {
         token: unknownFont,
         aliases: FONT_ALIAS_LIST,
       }),
@@ -104,7 +123,7 @@ export async function runFakequoteCommand(
 
   if (unknownTheme) {
     await interaction.reply({
-      content: t("quote.unknownTheme", locale, {
+      content: t(QUOTE_MESSAGES.unknownTheme, locale, {
         token: unknownTheme,
         themes: COLOR_THEME_LIST,
       }),
