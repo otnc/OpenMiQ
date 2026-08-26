@@ -38,10 +38,13 @@
   "dependencies": {
     "discord.js": "^14.27.0",
     "makeitaquote": "^10.3.0",
+    "mustache": "^4.2.0",
+    "quick-lru": "^7.3.0",
     "write-file-atomic": "^8.0.0"
   },
   "devDependencies": {
     "@eslint/js": "^10.0.1",
+    "@types/mustache": "^4.2.6",
     "@types/node": "^24.13.3",
     "@types/write-file-atomic": "^4.0.3",
     "eslint": "^10.9.0",
