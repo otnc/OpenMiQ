@@ -49,6 +49,11 @@ export const DEFAULT_FONT_VALUE = "miq:default-font";
 /** Sentinel select value meaning "no color theme, use the base theme's background". */
 export const DEFAULT_COLOR_THEME_VALUE = "miq:default-theme";
 
+/** Highlights a toggle button when the setting it controls is currently on. */
+function activeStyle(active: boolean): ButtonStyle {
+  return active ? ButtonStyle.Success : ButtonStyle.Secondary;
+}
+
 /** The buttons and the font/color-theme select menus shown under a posted quote. */
 export function buildComponents(
   settings: QuoteSettings,
@@ -66,17 +71,19 @@ export function buildComponents(
             : t(STRINGS.colorEnable, locale),
         )
         .setEmoji("🎨")
-        .setStyle(ButtonStyle.Secondary),
+        .setStyle(activeStyle(settings.color)),
       new ButtonBuilder()
         .setCustomId(BOLD_BUTTON_ID)
         .setLabel(t(STRINGS.bold, locale))
         .setEmoji("🅱️")
-        .setStyle(ButtonStyle.Secondary),
+        .setStyle(activeStyle(settings.bold)),
       new ButtonBuilder()
         .setCustomId(FLIP_BUTTON_ID)
         .setLabel(t(STRINGS.flip, locale))
         .setEmoji("🔄")
-        .setStyle(ButtonStyle.Secondary)
+        .setStyle(activeStyle(settings.flip))
+        // Ignored by makeitaquote once the layout is portrait (stacked) — see
+        // buildTheme() in quoteOptions.ts — so there's nothing to toggle.
         .setDisabled(portrait),
       new ButtonBuilder()
         .setCustomId(LIGHT_BUTTON_ID)
@@ -86,7 +93,7 @@ export function buildComponents(
             : t(STRINGS.toLight, locale),
         )
         .setEmoji(settings.light ? "🌙" : "☀️")
-        .setStyle(ButtonStyle.Secondary),
+        .setStyle(activeStyle(settings.light)),
       new ButtonBuilder()
         .setCustomId(LAYOUT_BUTTON_ID)
         .setLabel(
@@ -95,7 +102,7 @@ export function buildComponents(
             : t(LAYOUT_LABELS.toPortrait, locale),
         )
         .setEmoji(portrait ? "🖥️" : "📱")
-        .setStyle(ButtonStyle.Secondary),
+        .setStyle(activeStyle(portrait)),
     );
 
   const fontSelect = new StringSelectMenuBuilder()
