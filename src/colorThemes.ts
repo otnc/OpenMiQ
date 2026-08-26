@@ -2,19 +2,14 @@ import type { ThemeInput } from "makeitaquote";
 
 /**
  * Named background gradients for `theme=<alias>`, rendered by
- * makeitaquote's own `backgroundGradient` theme field (10.3.0+) — no local
- * image generation needed.
+ * makeitaquote's own `backgroundGradient` theme field (10.3.0+, with the
+ * avatar-fade blending into it properly since 10.3.1) — no local image
+ * generation needed.
  *
  * These colors are rough placeholder estimates from the palette names —
  * swap them out here once exact values are available. Everything else
  * (avatar, text, layout) still comes from the base `dark`/`light`/`portrait`
  * theme; only the background is overridden.
- *
- * Known limitation: setting `backgroundGradient` disables makeitaquote's
- * own avatar-to-background fade entirely, so every one of these themes has a
- * hard seam where the avatar's flat panel meets the gradient, instead of the
- * soft blend the base themes get for free — filed upstream as
- * https://github.com/otnc/makeitaquote/issues/54.
  */
 export interface ColorTheme {
   key: string;
