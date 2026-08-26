@@ -71,6 +71,10 @@ const STRINGS = {
     en: "Show a delete button under posted quotes (on by default)",
     ja: "投稿された引用画像に削除ボタンを表示する (デフォルトはオン)",
   },
+  optionFakeLabel: {
+    en: 'Mark your /fakequote renders as "(fake) @user" (on by default)',
+    ja: '自分の /fakequote に "(fake) @user" の表示を付ける (デフォルトはオン)',
+  },
 
   scopeUser: { en: "your", ja: "あなたの" },
   scopeGuild: { en: "this server's", ja: "このサーバーの" },
@@ -86,6 +90,7 @@ const STRINGS = {
   fieldTheme: { en: "Color theme", ja: "カラーテーマ" },
   fieldFakequoteBlocked: { en: "Fakequote blocked", ja: "Fakequoteのブロック" },
   fieldDeleteButton: { en: "Delete button", ja: "削除ボタン" },
+  fieldFakeLabel: { en: "Fake label", ja: "Fakeの表示" },
 
   valueOn: { en: "on", ja: "オン" },
   valueOff: { en: "off", ja: "オフ" },
@@ -276,6 +281,12 @@ function addSetOptions(
         .setDescriptionLocalizations({
           ja: BLOCK_FAKEQUOTE_OPTION[scopeKey].ja,
         }),
+    )
+    .addBooleanOption((opt) =>
+      opt
+        .setName("fake-label")
+        .setDescription(STRINGS.optionFakeLabel.en)
+        .setDescriptionLocalizations({ ja: STRINGS.optionFakeLabel.ja }),
     );
 
   // A moderation setting, not a personal preference — only for
@@ -386,6 +397,7 @@ async function handleView(
   const isEmpty =
     data.language === undefined &&
     data.fakeQuoteDisabled === undefined &&
+    data.fakeQuoteLabelDisabled === undefined &&
     data.deleteButtonDisabled === undefined &&
     (!data.quoteDefaults || Object.keys(data.quoteDefaults).length === 0);
 
@@ -409,6 +421,12 @@ async function handleView(
     `${t(STRINGS.fieldFont, locale)}: ${qd.font ?? t(STRINGS.valueNotSet, locale)}`,
     `${t(STRINGS.fieldTheme, locale)}: ${qd.colorTheme ?? t(STRINGS.valueNotSet, locale)}`,
     `${t(STRINGS.fieldFakequoteBlocked, locale)}: ${formatBool(data.fakeQuoteDisabled, locale)}`,
+    `${t(STRINGS.fieldFakeLabel, locale)}: ${formatBool(
+      data.fakeQuoteLabelDisabled === undefined
+        ? undefined
+        : !data.fakeQuoteLabelDisabled,
+      locale,
+    )}`,
     ...(scope.key === "user"
       ? []
       : [
@@ -451,6 +469,7 @@ async function handleSet(
   const layout = interaction.options.getString("layout") as
     QuoteSettings["layout"] | null;
   const blockFakequote = interaction.options.getBoolean("block-fakequote");
+  const fakeLabel = interaction.options.getBoolean("fake-label");
   const deleteButton = interaction.options.getBoolean("delete-button");
 
   if (
@@ -463,6 +482,7 @@ async function handleSet(
     flip === null &&
     layout === null &&
     blockFakequote === null &&
+    fakeLabel === null &&
     deleteButton === null
   ) {
     await interaction.reply({
@@ -528,6 +548,7 @@ async function handleSet(
     ...(language !== null ? { language } : {}),
     ...(Object.keys(quoteDefaults).length ? { quoteDefaults } : {}),
     ...(blockFakequote !== null ? { fakeQuoteDisabled: blockFakequote } : {}),
+    ...(fakeLabel !== null ? { fakeQuoteLabelDisabled: !fakeLabel } : {}),
     ...(deleteButton !== null ? { deleteButtonDisabled: !deleteButton } : {}),
   });
 

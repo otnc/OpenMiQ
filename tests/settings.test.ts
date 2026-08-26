@@ -130,4 +130,30 @@ describe("settings resolution", () => {
     expect(settingsMod.deleteButtonEnabled("g12")).toBe(false);
     expect(settingsMod.deleteButtonEnabled(null)).toBe(false);
   });
+
+  it("fakeQuoteLabelHidden is false by default", () => {
+    expect(
+      settingsMod.fakeQuoteLabelHidden({ invokerId: "u13", guildId: "g13" }),
+    ).toBe(false);
+  });
+
+  it("fakeQuoteLabelHidden checks bot, then guild, then the invoker themselves", async () => {
+    await settingsMod.setUserSettings("u14", { fakeQuoteLabelDisabled: true });
+    expect(
+      settingsMod.fakeQuoteLabelHidden({ invokerId: "u14", guildId: null }),
+    ).toBe(true);
+    expect(
+      settingsMod.fakeQuoteLabelHidden({ invokerId: "u15", guildId: null }),
+    ).toBe(false);
+
+    await settingsMod.setGuildSettings("g14", { fakeQuoteLabelDisabled: true });
+    expect(
+      settingsMod.fakeQuoteLabelHidden({ invokerId: "u15", guildId: "g14" }),
+    ).toBe(true);
+
+    await settingsMod.setBotDefaults({ fakeQuoteLabelDisabled: true });
+    expect(
+      settingsMod.fakeQuoteLabelHidden({ invokerId: "u16", guildId: "g16" }),
+    ).toBe(true);
+  });
 });

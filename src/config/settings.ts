@@ -11,6 +11,12 @@ export interface ScopeSettings {
    * it disables the command outright.
    */
   fakeQuoteDisabled?: boolean;
+  /**
+   * Hides the "(fake) @username" marker `/fakequote` normally adds. Scope
+   * is bot, guild, or the *invoker* (not the impersonated author, unlike
+   * `fakeQuoteDisabled` above) — see fakeQuoteLabelHidden().
+   */
+  fakeQuoteLabelDisabled?: boolean;
   /** Hides the delete button under posted quotes — guild/bot scope only. */
   deleteButtonDisabled?: boolean;
 }
@@ -39,6 +45,8 @@ function mergeScope(
       ? quoteDefaults
       : undefined,
     fakeQuoteDisabled: patch.fakeQuoteDisabled ?? current.fakeQuoteDisabled,
+    fakeQuoteLabelDisabled:
+      patch.fakeQuoteLabelDisabled ?? current.fakeQuoteLabelDisabled,
     deleteButtonDisabled:
       patch.deleteButtonDisabled ?? current.deleteButtonDisabled,
   };
@@ -139,4 +147,24 @@ export function deleteButtonEnabled(guildId: string | null): boolean {
   if (getBotDefaults().deleteButtonDisabled) return false;
   if (guildId && getGuildSettings(guildId).deleteButtonDisabled) return false;
   return true;
+}
+
+/**
+ * Whether `/fakequote`'s "(fake) @username" marker should be hidden for
+ * this invocation — bot, guild, or the *invoker themselves* can opt out
+ * (on by default). This is about the invoker's own fakequotes, not the
+ * impersonated author's — see fakeQuoteBlockReason() for that one.
+ */
+export function fakeQuoteLabelHidden(params: {
+  invokerId: string;
+  guildId: string | null;
+}): boolean {
+  if (getBotDefaults().fakeQuoteLabelDisabled) return true;
+  if (
+    params.guildId &&
+    getGuildSettings(params.guildId).fakeQuoteLabelDisabled
+  ) {
+    return true;
+  }
+  return Boolean(getUserSettings(params.invokerId).fakeQuoteLabelDisabled);
 }
