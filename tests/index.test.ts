@@ -267,4 +267,18 @@ describe("buildTheme", () => {
     });
     expect(theme.extends).toBe("portrait-light");
   });
+
+  it("leaves the username prefix alone by default", () => {
+    expect(buildTheme(DEFAULT_SETTINGS).username).toBeUndefined();
+  });
+
+  it("marks the username as fake when options.fake is set", () => {
+    const theme = buildTheme(DEFAULT_SETTINGS, { fake: true });
+    expect(theme.username).toEqual({ prefix: "(fake) @" });
+  });
+
+  it("does not mark the username as fake when options.fake is false", () => {
+    const theme = buildTheme(DEFAULT_SETTINGS, { fake: false });
+    expect(theme.username).toBeUndefined();
+  });
 });

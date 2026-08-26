@@ -162,8 +162,15 @@ function unquote(value: string): string {
  * palette the same way (see colorThemes.ts's `textBase`), overriding
  * `settings.light` — the light button reflects and disables this in
  * components.ts.
+ *
+ * `fake` marks a `/fakequote` render: "(fake) @username" instead of the
+ * usual "@username", so a fabricated quote can't be mistaken for a real
+ * one at a glance.
  */
-export function buildTheme(settings: QuoteSettings): ThemeInput {
+export function buildTheme(
+  settings: QuoteSettings,
+  options?: { fake?: boolean },
+): ThemeInput {
   const portrait = settings.layout === "portrait";
   const light = settings.colorTheme
     ? colorThemeTextBase(settings.colorTheme) === "light"
@@ -194,6 +201,9 @@ export function buildTheme(settings: QuoteSettings): ThemeInput {
     if (gradient) {
       theme.backgroundGradient = gradient;
     }
+  }
+  if (options?.fake) {
+    theme.username = { prefix: "(fake) @" };
   }
   return theme;
 }

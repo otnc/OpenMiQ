@@ -14,6 +14,8 @@ export interface QuoteState {
   generatorId: string;
   /** Whose name/avatar (or quoted message) this quote is about — may be the same person as `generatorId`. */
   targetId: string;
+  /** Whether this is a `/fakequote` — shows "(fake) @username" instead of "@username" on re-render too. */
+  fake: boolean;
 }
 
 /**

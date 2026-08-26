@@ -14,6 +14,7 @@ function stateFor(id: string): QuoteState {
     guildId: "g1",
     generatorId: "generator1",
     targetId: "target1",
+    fake: false,
   };
 }
 
