@@ -1,3 +1,10 @@
+import Mustache from "mustache";
+
+// Discord messages are plain text, not HTML — Mustache's default `{{var}}`
+// HTML-escapes interpolated values, which would corrupt values like font
+// names or theme lists if they ever contained `&`, `<`, `>`, or quotes.
+Mustache.escape = (text) => text;
+
 /**
  * Locales this bot ships translations for. Adding a new one means adding its
  * code here and filling in the matching entry in every `Translations` object
@@ -23,19 +30,26 @@ export function isSupportedLocale(locale: string): locale is Locale {
 /**
  * Maps an arbitrary locale string (e.g. Discord's `interaction.locale`,
  * which uses tags like `en-US`, or an unvalidated env var) to one of our
- * supported locale codes, falling back to {@link FALLBACK_LOCALE}.
+ * supported locale codes, falling back to {@link FALLBACK_LOCALE}. Uses the
+ * platform's own `Intl.Locale` to pull out the language subtag, rather than
+ * hand-parsing the BCP 47 tag.
  */
 export function normalizeLocale(locale: string | null | undefined): Locale {
   if (!locale) return FALLBACK_LOCALE;
   if (isSupportedLocale(locale)) return locale;
-  const primary = locale.split("-")[0]?.toLowerCase();
-  if (primary && isSupportedLocale(primary)) return primary;
+  try {
+    const language = new Intl.Locale(locale).language.toLowerCase();
+    if (isSupportedLocale(language)) return language;
+  } catch {
+    // Malformed tag — fall through to the fallback below.
+  }
   return FALLBACK_LOCALE;
 }
 
 /**
  * Picks `locale` out of `entry`, falling back to {@link FALLBACK_LOCALE} for
- * an unrecognized one, and interpolating `{{var}}` placeholders from `vars`.
+ * an unrecognized one, and interpolating `{{var}}` placeholders from `vars`
+ * via Mustache.
  */
 export function t(
   entry: Translations,
@@ -43,8 +57,5 @@ export function t(
   vars?: Record<string, string>,
 ): string {
   const template = entry[locale as Locale] ?? entry[FALLBACK_LOCALE];
-  if (!vars) return template;
-  return template.replace(/\{\{(\w+)\}\}/g, (match, key: string) =>
-    key in vars ? vars[key]! : match,
-  );
+  return vars ? Mustache.render(template, vars) : template;
 }

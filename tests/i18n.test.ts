@@ -31,8 +31,12 @@ describe("i18n", () => {
     expect(t(GREETING, "en", { name: "world" })).toBe("Hello, world!");
   });
 
-  it("leaves a placeholder untouched when no matching var is given", () => {
-    expect(t(GREETING, "en", {})).toBe("Hello, {{name}}!");
+  it("renders a placeholder as empty when no matching var is given (Mustache's default)", () => {
+    expect(t(GREETING, "en", {})).toBe("Hello, !");
+  });
+
+  it("doesn't HTML-escape interpolated values, since messages are plain text", () => {
+    expect(t(GREETING, "en", { name: "Q&A <3" })).toBe("Hello, Q&A <3!");
   });
 
   it("normalizeLocale maps region-tagged codes to a supported base, else falls back", () => {
@@ -40,6 +44,10 @@ describe("i18n", () => {
     expect(normalizeLocale("ja")).toBe("ja");
     expect(normalizeLocale("fr-FR")).toBe(FALLBACK_LOCALE);
     expect(normalizeLocale(undefined)).toBe(FALLBACK_LOCALE);
+  });
+
+  it("normalizeLocale falls back for a malformed tag instead of throwing", () => {
+    expect(normalizeLocale("not a valid bcp47 tag!!")).toBe(FALLBACK_LOCALE);
   });
 
   it("isSupportedLocale reflects the supported set", () => {
