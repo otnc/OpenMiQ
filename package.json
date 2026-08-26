@@ -1,7 +1,7 @@
 {
   "name": "openmiq",
   "version": "1.0.0",
-  "description": "Discord MiQ Bot (for self-host)",
+  "description": "Open Source Discord MiQ Bot (for self-host)",
   "main": "dist/index.js",
   "repository": {
     "type": "git",
