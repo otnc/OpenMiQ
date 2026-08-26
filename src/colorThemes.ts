@@ -6,10 +6,8 @@ import type { ThemeInput } from "makeitaquote";
  * avatar-fade blending into it properly since 10.3.1) — no local image
  * generation needed.
  *
- * These colors are sampled from reference preview renders of each theme
- * (2026-08-26), not hand-picked guesses — `mars` and `under_the_sea` are
- * genuinely near-flat in the reference, not a sampling error. Everything
- * else (avatar, text, layout) still comes from the base
+ * `mars` and `under_the_sea` are intentionally near-flat — not a mistake.
+ * Everything else (avatar, text, layout) still comes from the base
  * `dark`/`light`/`portrait` theme; only the background is overridden.
  */
 export interface ColorTheme {
