@@ -1,7 +1,9 @@
 import { PNG } from "pngjs";
 import type { ColorTheme } from "./colorThemes.js";
+import { applyRoundedCorners } from "./roundedCorners.js";
 
 const SIZE = 64;
+const CORNER_RADIUS = SIZE * 0.2;
 
 function hexToRgb(hex: string): [r: number, g: number, b: number] {
   const value = Number.parseInt(hex.replace("#", ""), 16);
@@ -13,13 +15,13 @@ function lerp(from: number, to: number, t: number): number {
 }
 
 /**
- * A small square PNG previewing a color theme's diagonal gradient — used as
- * the theme's application emoji in the color-theme select menu, since the
- * theme names alone (e.g. "Midnight Blurple") don't convey what they look
- * like. Drawn by hand with pngjs rather than a canvas library: a flat
- * two-stop diagonal gradient is one loop over the pixels, and this avoids
- * reintroducing the native `@napi-rs/canvas` dependency dropped in favor of
- * makeitaquote's own `backgroundGradient` (see colorThemes.ts).
+ * A small rounded-square PNG previewing a color theme's diagonal gradient —
+ * used as the theme's application emoji in the color-theme select menu,
+ * since the theme names alone (e.g. "Midnight Blurple") don't convey what
+ * they look like. Drawn by hand with pngjs rather than a canvas library: a
+ * flat two-stop diagonal gradient is one loop over the pixels, and this
+ * avoids reintroducing the native `@napi-rs/canvas` dependency dropped in
+ * favor of makeitaquote's own `backgroundGradient` (see colorThemes.ts).
  */
 export function renderSwatchPng(theme: ColorTheme): Buffer {
   const [r0, g0, b0] = hexToRgb(theme.gradient[0]);
@@ -36,6 +38,7 @@ export function renderSwatchPng(theme: ColorTheme): Buffer {
       png.data[i + 3] = 255;
     }
   }
+  applyRoundedCorners(png.data, SIZE, CORNER_RADIUS);
 
   return PNG.sync.write(png);
 }

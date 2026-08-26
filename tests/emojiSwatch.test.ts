@@ -28,10 +28,14 @@ describe("renderSwatchPng", () => {
     expect([...bottomRight]).toEqual([255, 255, 255]);
   });
 
-  it("is fully opaque", () => {
+  it("is opaque at the center but cut to transparent at the corners", () => {
     const png = PNG.sync.read(renderSwatchPng(THEME));
-    for (let i = 3; i < png.data.length; i += 4) {
-      expect(png.data[i]).toBe(255);
-    }
+    const alphaAt = (x: number, y: number) =>
+      png.data[(png.width * y + x) * 4 + 3];
+    expect(alphaAt(32, 32)).toBe(255);
+    expect(alphaAt(0, 0)).toBe(0);
+    expect(alphaAt(63, 0)).toBe(0);
+    expect(alphaAt(0, 63)).toBe(0);
+    expect(alphaAt(63, 63)).toBe(0);
   });
 });

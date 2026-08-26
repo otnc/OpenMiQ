@@ -42,6 +42,7 @@
     "makeitaquote": "^10.3.1",
     "mustache": "^4.2.0",
     "pngjs": "^7.0.0",
+    "pureimage": "^0.4.20",
     "quick-lru": "^7.3.0",
     "write-file-atomic": "^8.0.0"
   },
