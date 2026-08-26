@@ -46,6 +46,8 @@ Fonts are chosen by short alias — `makeitaquote`'s own `FONT_ALIASES`: `sans`,
 
 A mention reply shows a "Generating…" placeholder (with its own animated emoji, also from `deploy:images`) while the image renders, then gets edited in place with the result.
 
+Every quote image carries the bot's own Discord tag as a small watermark in the corner.
+
 The posted image comes with buttons (🎨 color / 🅱️ bold / 🔄 flip / ☀️ theme / layout) and font/color-theme select menus that re-render in place when used, plus — unless turned off, see Slash commands below — a 🗑️ delete button. Only the person who generated the quote or the person it's about (the quoted message's author, or `/fakequote`'s `author:`) can press it; it edits the message to drop the image and components rather than actually deleting it, so a `SAVE_IMAGES_DIR` copy (if any) is untouched.
 
 > Regenerating from the buttons relies on in-memory state, so it stops working for a given image after the bot restarts.
@@ -54,11 +56,11 @@ The posted image comes with buttons (🎨 color / 🅱️ bold / 🔄 flip / ☀
 
 Each is its own top-level command (not grouped under a shared prefix), so a server can enable or disable them individually from Discord's integration settings.
 
-- `/settings view|set|reset` — your own default quote options and language, applied whenever you don't specify them after a mention (or always, for the right-click "Quote" command).
-- `/server-settings view|set|reset` — this server's defaults (requires the Manage Server permission). Also has `delete-button:false` to hide the delete button server-wide (on by default).
-- `/admin view|set|reset` — the bot's own fallback defaults (only for the Discord user IDs listed in `ADMIN_IDS`). Same `delete-button:false` option, bot-wide.
+- `/settings view|set|reset` — your own default quote options and language, applied whenever you don't specify them after a mention (or always, for the right-click "Quote" command). Also has `fake-label:false` to drop the "(fake)" marker from your own `/fakequote` renders (on by default).
+- `/server-settings view|set|reset` — this server's defaults (requires the Manage Server permission). Also has `delete-button:false` to hide the delete button server-wide (on by default), and `fake-label:false` to drop the marker server-wide.
+- `/admin view|set|reset` — the bot's own fallback defaults (only for the Discord user IDs listed in `ADMIN_IDS`). Same `delete-button:false` and `fake-label:false` options, bot-wide.
 - `/help` — usage help in your resolved language.
-- `/fakequote author: message: options:` — makes a quote image in someone else's name and avatar, with fabricated text. `options` takes the same syntax as after a mention (`color`, `new`, `font=pop`, …). Anyone can be protected from this: the target author can block being used with `/settings set block-fakequote:true`, a server can turn it off entirely with `/server-settings set block-fakequote:true`, and bot admins can disable it everywhere with `/admin set block-fakequote:true`.
+- `/fakequote author: message: options:` — makes a quote image in someone else's name and avatar, with fabricated text. `options` takes the same syntax as after a mention (`color`, `new`, `font=pop`, …). To keep a fabricated quote from being mistaken for a real one, its username line reads "(fake) @user" instead of the usual "@user" — the person running the command can turn this off for their own fakequotes with `fake-label:false` (see the settings commands above), and a server or the bot admins can force it off too. Anyone can also be protected from being impersonated at all: the target author can block being used with `/settings set block-fakequote:true`, a server can turn it off entirely with `/server-settings set block-fakequote:true`, and bot admins can disable it everywhere with `/admin set block-fakequote:true`.
 
 Defaults are resolved as: options typed after a mention > your settings > this server's settings > the bot's own defaults > built-in fallback (the right-click "Quote" command skips straight to your settings, since it has no options step). The same order picks which language a reply is shown in.
 
