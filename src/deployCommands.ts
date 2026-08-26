@@ -6,7 +6,7 @@ import { buildQuoteContextMenuCommand } from "./commands/quote.js";
 import { buildServerSettingsCommand } from "./commands/serverSettings.js";
 import { buildSettingsCommand } from "./commands/settings.js";
 
-/** Registers the bot's commands. Run with `pnpm run deploy-commands`. */
+/** Registers the bot's commands. Run with `pnpm run deploy:commands` (or `pnpm run deploy` for this and `deploy:images`). */
 async function main(): Promise<void> {
   const token = process.env.DISCORD_TOKEN;
   const clientId = process.env.DISCORD_CLIENT_ID;
