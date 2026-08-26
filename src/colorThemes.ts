@@ -9,6 +9,12 @@ import type { ThemeInput } from "makeitaquote";
  * swap them out here once exact values are available. Everything else
  * (avatar, text, layout) still comes from the base `dark`/`light`/`portrait`
  * theme; only the background is overridden.
+ *
+ * Known limitation: setting `backgroundGradient` disables makeitaquote's
+ * own avatar-to-background fade entirely, so every one of these themes has a
+ * hard seam where the avatar's flat panel meets the gradient, instead of the
+ * soft blend the base themes get for free — filed upstream as
+ * https://github.com/otnc/makeitaquote/issues/54.
  */
 export interface ColorTheme {
   key: string;

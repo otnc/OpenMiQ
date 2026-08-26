@@ -18,6 +18,7 @@ export async function renderQuote(
   // keeping the default 1200x630 "dark" canvas shape instead of portrait's
   // own 630x790. Resolving through defineTheme() first fills in width/height
   // explicitly, so that fallback never triggers.
+  // https://github.com/otnc/makeitaquote/issues/53
   const png = await new MiQ()
     .setFromObject(data)
     .setTheme(defineTheme(buildTheme(settings)))
