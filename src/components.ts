@@ -7,7 +7,7 @@ import {
   type MessageActionRowComponentBuilder,
 } from "discord.js";
 import { FONT_CATALOGUE } from "makeitaquote";
-import { colorThemeEmoji } from "./colorThemeEmojis.js";
+import { colorThemeEmoji } from "./appEmojis.js";
 import { COLOR_THEMES, type ColorTheme } from "./colorThemes.js";
 import { t, type Translations } from "./i18n/index.js";
 import type { QuoteSettings } from "./quoteOptions.js";
@@ -26,15 +26,20 @@ const STRINGS = {
     ja: "カラーテーマを選択",
   },
   colorThemeDefault: { en: "Default", ja: "デフォルト" },
+  delete: { en: "Delete", ja: "削除" },
 } satisfies Record<string, Translations>;
 
 /**
  * The side/portrait layout labels, also reused by `/settings|/server-settings|/admin
- * set layout:`'s choice names in `scope.ts` — same wording either way.
+ * set layout:`'s choice names in `scope.ts` — same wording either way. The
+ * English side uses "New", matching `new` being the primary mention keyword
+ * (`portrait` is only the secondary synonym); the Japanese side stays a
+ * plain description of the layout, since there's no equivalent connotation
+ * to preserve there.
  */
 export const LAYOUT_LABELS = {
   toSide: { en: "Side", ja: "横画像" },
-  toPortrait: { en: "Portrait", ja: "縦画像" },
+  toPortrait: { en: "New", ja: "縦画像" },
 } satisfies Record<string, Translations>;
 
 export const COLOR_BUTTON_ID = "miq:color";
@@ -42,6 +47,7 @@ export const BOLD_BUTTON_ID = "miq:bold";
 export const FLIP_BUTTON_ID = "miq:flip";
 export const LIGHT_BUTTON_ID = "miq:light";
 export const LAYOUT_BUTTON_ID = "miq:layout";
+export const DELETE_BUTTON_ID = "miq:delete";
 export const FONT_SELECT_ID = "miq:font";
 export const COLOR_THEME_SELECT_ID = "miq:colorTheme";
 
@@ -55,10 +61,15 @@ function activeStyle(active: boolean): ButtonStyle {
   return active ? ButtonStyle.Success : ButtonStyle.Secondary;
 }
 
-/** The buttons and the font/color-theme select menus shown under a posted quote. */
+/**
+ * The buttons and the font/color-theme select menus shown under a posted
+ * quote. `deleteButtonEnabled` gates the delete row — off entirely by
+ * `/server-settings|/admin set delete-button:false` (see config/settings.ts).
+ */
 export function buildComponents(
   settings: QuoteSettings,
   locale: string,
+  deleteButtonEnabled: boolean,
 ): ActionRowBuilder<MessageActionRowComponentBuilder>[] {
   const portrait = settings.layout === "portrait";
 
@@ -136,7 +147,19 @@ export function buildComponents(
       colorThemeSelect,
     );
 
-  return [buttons, selectRow, colorThemeRow];
+  const rows = [buttons, selectRow, colorThemeRow];
+  if (deleteButtonEnabled) {
+    rows.push(
+      new ActionRowBuilder<MessageActionRowComponentBuilder>().addComponents(
+        new ButtonBuilder()
+          .setCustomId(DELETE_BUTTON_ID)
+          .setLabel(t(STRINGS.delete, locale))
+          .setEmoji("🗑️")
+          .setStyle(ButtonStyle.Danger),
+      ),
+    );
+  }
+  return rows;
 }
 
 function fontOption(
