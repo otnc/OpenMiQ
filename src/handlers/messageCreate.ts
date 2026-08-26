@@ -3,7 +3,7 @@ import { MiQ } from "makeitaquote";
 import { loadingEmojiMarkup } from "../appEmojis.js";
 import { buildComponents } from "../components.js";
 import { COLOR_THEME_LIST } from "../colorThemes.js";
-import { buildHelpText } from "../commands/help.js";
+import { buildHelpMessagePayload } from "../commands/help.js";
 import {
   deleteButtonEnabled,
   resolveLocale,
@@ -132,7 +132,7 @@ async function offerHelpOnReaction(
   collector.on("collect", () => {
     void message
       .reply({
-        content: buildHelpText(locale),
+        ...buildHelpMessagePayload(locale, 0, message.author.id),
         allowedMentions: { repliedUser: true },
       })
       .catch(() => {});

@@ -6,7 +6,11 @@ import {
 } from "discord.js";
 import { runAdminCommand } from "../commands/admin.js";
 import { runFakequoteCommand } from "../commands/fakequote.js";
-import { runHelpCommand } from "../commands/help.js";
+import {
+  handleHelpButton,
+  HELP_BUTTON_PREFIX,
+  runHelpCommand,
+} from "../commands/help.js";
 import { runQuoteContextMenuCommand } from "../commands/quote.js";
 import { runServerSettingsCommand } from "../commands/serverSettings.js";
 import { runSettingsCommand } from "../commands/settings.js";
@@ -77,6 +81,13 @@ export async function onInteractionCreate(
     !(interaction.isButton() || interaction.isStringSelectMenu()) ||
     !interaction.customId.startsWith("miq:")
   ) {
+    return;
+  }
+
+  // Help pagination buttons carry their own state in the custom ID — no
+  // quote state to look up, so handle them before that lookup.
+  if (interaction.isButton() && interaction.customId.startsWith(HELP_BUTTON_PREFIX)) {
+    await handleHelpButton(interaction);
     return;
   }
 
