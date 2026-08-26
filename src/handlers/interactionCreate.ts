@@ -36,8 +36,8 @@ const STRINGS = {
     ja: "この引用を削除できるのは、作成した本人か、引用対象になった本人だけです。",
   },
   deletedBy: {
-    en: "[Deleted by {{user}}]",
-    ja: "[{{user}} によって削除済み]",
+    en: "[Removed by **{{user}}**]",
+    ja: "[**{{user}}** によって削除済み]",
   },
 } satisfies Record<string, Translations>;
 
@@ -142,7 +142,7 @@ async function handleDeleteButton(
 
   await interaction.update({
     content: t(STRINGS.deletedBy, state.locale, {
-      user: `<@${interaction.user.id}>`,
+      user: interaction.user.tag,
     }),
     embeds: [],
     attachments: [],

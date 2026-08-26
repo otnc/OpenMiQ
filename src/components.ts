@@ -21,7 +21,7 @@ const STRINGS = {
     ja: "カラーテーマを選択",
   },
   colorThemeDefault: { en: "Default", ja: "デフォルト" },
-  delete: { en: "Delete", ja: "削除" },
+  delete: { en: "Remove", ja: "削除" },
 } satisfies Record<string, Translations>;
 
 /**
