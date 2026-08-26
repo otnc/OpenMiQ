@@ -14,6 +14,12 @@ importers:
       makeitaquote:
         specifier: ^10.3.0
         version: 10.3.0
+      mustache:
+        specifier: ^4.2.0
+        version: 4.2.0
+      quick-lru:
+        specifier: ^7.3.0
+        version: 7.3.0
       write-file-atomic:
         specifier: ^8.0.0
         version: 8.0.0
@@ -21,6 +27,9 @@ importers:
       '@eslint/js':
         specifier: ^10.0.1
         version: 10.0.1(eslint@10.9.1)
+      '@types/mustache':
+        specifier: ^4.2.6
+        version: 4.2.6
       '@types/node':
         specifier: ^24.13.3
         version: 24.13.3
@@ -518,6 +527,9 @@ packages:
 
   '@types/json-schema@7.0.15':
     resolution: {integrity: sha512-5+fP8P8MFNC+AyZCDxrB2pkZFPGzqQWUzpSeuuVLvm8VMcorNYavBqoFcxK8bQz4Qsbn4oUEEem4wDLfcysGHA==}
+
+  '@types/mustache@4.2.6':
+    resolution: {integrity: sha512-t+8/QWTAhOFlrF1IVZqKnMRJi84EgkIK5Kh0p2JV4OLywUvCwJPFxbJAl7XAow7DVIHsF+xW9f1MVzg0L6Szjw==}
 
   '@types/node@24.13.3':
     resolution: {integrity: sha512-Dh8vAsV36ig5wa9OX4pXvMc9D3Veibfw2wix0CUwYODLD8nkj9UsLjASr49nPg+2eKzxhBV+v7L8pXvT4e639Q==}
@@ -1320,6 +1332,10 @@ packages:
   ms@2.1.3:
     resolution: {integrity: sha512-6FlzubTLZG3J2a/NVCAleEhjzq5oxgHyaCU9yYXvcLsvoVaHJq/s5xXI6/XXP6tz7R9xAOtHnSO/tXtF3WRTlA==}
 
+  mustache@4.2.0:
+    resolution: {integrity: sha512-71ippSywq5Yb7/tVYyGbkBggbU8H3u5Rz56fH60jGFgr8uHwxs+aSKeqmluIVzM0m0kB7xQjKS6qPfd0b2ZoqQ==}
+    hasBin: true
+
   nanoid@3.3.18:
     resolution: {integrity: sha512-DTg4MJbGMWkfi6VZFdNt2/caMbQy4Ou+Op/hJQvGEWcnVfoA1QA+xzRKAzw9jD6+GVOOeYr/mIcuDSdug6F6+w==}
     engines: {node: ^10 || ^12 || ^13.7 || ^14 || >=15.0.1}
@@ -1411,6 +1427,10 @@ packages:
 
   queue-lit@3.3.0:
     resolution: {integrity: sha512-5XJca7gnyqHweMn0YAt2pFVN0zNeGHVwWZqQL+Mhln6P0HeBsELPDz781iGf4JQA0iSRk3TLbM3n1moABFEb0g==}
+    engines: {node: '>=18'}
+
+  quick-lru@7.3.0:
+    resolution: {integrity: sha512-k9lSsjl36EJdK7I06v7APZCbyGT2vMTsYSRX1Q2nbYmnkBqgUhRkAuzH08Ciotteu/PLJmIF2+tti7o3C/ts2g==}
     engines: {node: '>=18'}
 
   require-directory@2.1.1:
@@ -2072,6 +2092,8 @@ snapshots:
   '@types/estree@1.0.9': {}
 
   '@types/json-schema@7.0.15': {}
+
+  '@types/mustache@4.2.6': {}
 
   '@types/node@24.13.3':
     dependencies:
@@ -2876,6 +2898,8 @@ snapshots:
 
   ms@2.1.3: {}
 
+  mustache@4.2.0: {}
+
   nanoid@3.3.18: {}
 
   natural-compare@1.4.0: {}
@@ -2946,6 +2970,8 @@ snapshots:
   quansync@1.0.0: {}
 
   queue-lit@3.3.0: {}
+
+  quick-lru@7.3.0: {}
 
   require-directory@2.1.1: {}
 
