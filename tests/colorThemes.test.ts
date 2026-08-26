@@ -29,8 +29,8 @@ describe("colorThemeGradient", () => {
       type: "linear",
       direction: "diagonal",
       stops: [
-        ["#FF7E5F", 0],
-        ["#6A3093", 1],
+        ["#483B72", 0],
+        ["#C67B43", 1],
       ],
     });
   });
