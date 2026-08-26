@@ -7,6 +7,7 @@ import {
   type MessageActionRowComponentBuilder,
 } from "discord.js";
 import { FONT_CATALOGUE } from "makeitaquote";
+import { colorThemeEmoji } from "./colorThemeEmojis.js";
 import { COLOR_THEMES, type ColorTheme } from "./colorThemes.js";
 import { t, type Translations } from "./i18n/index.js";
 import type { QuoteSettings } from "./quoteOptions.js";
@@ -152,8 +153,13 @@ function colorThemeOption(
   theme: ColorTheme,
   settings: QuoteSettings,
 ): StringSelectMenuOptionBuilder {
-  return new StringSelectMenuOptionBuilder()
+  const option = new StringSelectMenuOptionBuilder()
     .setLabel(theme.label)
     .setValue(theme.key)
     .setDefault(settings.colorTheme === theme.key);
+  // Only set once `pnpm run deploy:images` has created the application
+  // emoji for this theme — a plain text-only option otherwise.
+  const emoji = colorThemeEmoji(theme.key);
+  if (emoji) option.setEmoji(emoji);
+  return option;
 }

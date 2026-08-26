@@ -17,6 +17,9 @@ importers:
       mustache:
         specifier: ^4.2.0
         version: 4.2.0
+      pngjs:
+        specifier: ^7.0.0
+        version: 7.0.0
       quick-lru:
         specifier: ^7.3.0
         version: 7.3.0
@@ -33,6 +36,9 @@ importers:
       '@types/node':
         specifier: ^24.13.3
         version: 24.13.3
+      '@types/pngjs':
+        specifier: ^6.0.5
+        version: 6.0.5
       '@types/write-file-atomic':
         specifier: ^4.0.3
         version: 4.0.3
@@ -533,6 +539,9 @@ packages:
 
   '@types/node@24.13.3':
     resolution: {integrity: sha512-Dh8vAsV36ig5wa9OX4pXvMc9D3Veibfw2wix0CUwYODLD8nkj9UsLjASr49nPg+2eKzxhBV+v7L8pXvT4e639Q==}
+
+  '@types/pngjs@6.0.5':
+    resolution: {integrity: sha512-0k5eKfrA83JOZPppLtS2C7OUtyNAl2wKNxfyYl9Q5g9lPkgBl/9hNyAu6HuEH2J4XmIv2znEpkDd0SaZVxW6iQ==}
 
   '@types/write-file-atomic@4.0.3':
     resolution: {integrity: sha512-qdo+vZRchyJIHNeuI1nrpsLw+hnkgqP/8mlaN6Wle/NKhydHmUN9l4p3ZE8yP90AJNJW4uB8HQhedb4f1vNayQ==}
@@ -1401,6 +1410,10 @@ packages:
     resolution: {integrity: sha512-8oxaNIlML+IA2H6jmG02bwNHJdMQrBYiqXdcPnQNweac+G5ov5OC5rtArHocweC3h5m5vdoU8Ki0eHAN0CLIeQ==}
     engines: {node: '>=18'}
 
+  pngjs@7.0.0:
+    resolution: {integrity: sha512-LKWqWJRhstyYo9pGvgor/ivk2w94eSjE3RGVuzLGlr3NmD8bf7RcYGze1mNdEHRP6TRP6rMuDHk5t44hnTRyow==}
+    engines: {node: '>=14.19.0'}
+
   postcss@8.5.26:
     resolution: {integrity: sha512-u82N74LFzG8ca+dD8puPnplTXoGH4fTPpVGuIbt36G3qvNlkvfD0lEAZSxaly3KX8TS/L1A1gsCEmvKmBcVbkQ==}
     engines: {node: ^10 || ^12 || >=14}
@@ -2098,6 +2111,10 @@ snapshots:
   '@types/node@24.13.3':
     dependencies:
       undici-types: 7.18.2
+
+  '@types/pngjs@6.0.5':
+    dependencies:
+      '@types/node': 24.13.3
 
   '@types/write-file-atomic@4.0.3':
     dependencies:
@@ -2952,6 +2969,8 @@ snapshots:
   plimit-lit@3.4.0:
     dependencies:
       queue-lit: 3.3.0
+
+  pngjs@7.0.0: {}
 
   postcss@8.5.26:
     dependencies:
