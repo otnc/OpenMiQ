@@ -16,13 +16,14 @@ Reply to a message and mention the bot (or right-click it and choose "Quote"): i
 @MiQ bold                       … bold quote text
 @MiQ light                      … light theme
 @MiQ flip                       … avatar on the right (side layout only)
-@MiQ new                        … portrait layout — avatar full-bleed, quote over the bottom
+@MiQ new                        … portrait layout — avatar full-bleed, quote over the bottom —
+                                    also resets a saved flip default back off
 @MiQ font=pop                   … pick a font by alias
 @MiQ theme=sunset               … pick a named background color
 @MiQ theme=default              … clear a saved color-theme default for this message
 @MiQ theme=sunset new font=pop  … options combine freely — put font= last, it reads to the end
-@MiQ new flip                   … …except flip has no effect once new (portrait) is set —
-                                    makeitaquote's portrait layout ignores avatar side
+@MiQ new flip                   … …flip after new overrides that reset, but still has no visual
+                                    effect — makeitaquote's portrait layout ignores avatar side
 @MiQ c b l f n                  … same as "color bold light flip new" — every option below
                                     also has a one-letter shortcut
 ```
@@ -39,9 +40,13 @@ Every toggle has an opposite (and a one-letter shortcut, except `font=`/`theme=`
 
 **Or right-click (long-press on mobile) any message → Apps → Quote** — same result, no typing, but it always uses your saved defaults (see below) since there's nowhere to type options.
 
+Mentioning the bot without replying to anything reacts with ❓ instead of sending (and then deleting) a usage message — press that reaction within a minute and it replies with `/help`'s text.
+
 Fonts are chosen by short alias — `makeitaquote`'s own `FONT_ALIASES`: `sans`, `mplus`, `dela`, `dot`, `pop`, `rampart`, `reggae`, `rocknroll`, `serif`, `yuji`, `yusei`, `inconsolata`, `exo2`, `bruno`, `poltawski`, `vina`, `script`, `castoro`. An exact makeitaquote family name (e.g. `font="Dela Gothic One"`) also works, and `mplus` (M PLUS Rounded 1c) is the bot's own default when nothing else picks one. `theme=` picks one of 21 named background colors (`sunset`, `forest`, `midnight_blurple`, …) layered on top of the base dark/light/portrait theme — `theme=default` clears a saved default back to none. Run `/help` for the full, localized lists of both. The color-theme select menu previews each one as a small gradient emoji, once `pnpm run deploy:images` (or `deploy`) has created them as application emoji — it falls back to plain text options until then.
 
-The posted image comes with buttons (🎨 color / 🅱️ bold / 🔄 flip / ☀️ theme / layout) and font/color-theme select menus that re-render in place when used.
+A mention reply shows a "Generating…" placeholder (with its own animated emoji, also from `deploy:images`) while the image renders, then gets edited in place with the result.
+
+The posted image comes with buttons (🎨 color / 🅱️ bold / 🔄 flip / ☀️ theme / layout) and font/color-theme select menus that re-render in place when used, plus — unless turned off, see Slash commands below — a 🗑️ delete button. Only the person who generated the quote or the person it's about (the quoted message's author, or `/fakequote`'s `author:`) can press it; it edits the message to drop the image and components rather than actually deleting it, so a `SAVE_IMAGES_DIR` copy (if any) is untouched.
 
 > Regenerating from the buttons relies on in-memory state, so it stops working for a given image after the bot restarts.
 
@@ -50,8 +55,8 @@ The posted image comes with buttons (🎨 color / 🅱️ bold / 🔄 flip / ☀
 Each is its own top-level command (not grouped under a shared prefix), so a server can enable or disable them individually from Discord's integration settings.
 
 - `/settings view|set|reset` — your own default quote options and language, applied whenever you don't specify them after a mention (or always, for the right-click "Quote" command).
-- `/server-settings view|set|reset` — this server's defaults (requires the Manage Server permission).
-- `/admin view|set|reset` — the bot's own fallback defaults (only for the Discord user IDs listed in `ADMIN_IDS`).
+- `/server-settings view|set|reset` — this server's defaults (requires the Manage Server permission). Also has `delete-button:false` to hide the delete button server-wide (on by default).
+- `/admin view|set|reset` — the bot's own fallback defaults (only for the Discord user IDs listed in `ADMIN_IDS`). Same `delete-button:false` option, bot-wide.
 - `/help` — usage help in your resolved language.
 - `/fakequote author: message: options:` — makes a quote image in someone else's name and avatar, with fabricated text. `options` takes the same syntax as after a mention (`color`, `new`, `font=pop`, …). Anyone can be protected from this: the target author can block being used with `/settings set block-fakequote:true`, a server can turn it off entirely with `/server-settings set block-fakequote:true`, and bot admins can disable it everywhere with `/admin set block-fakequote:true`.
 
