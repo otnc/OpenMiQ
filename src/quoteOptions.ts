@@ -60,7 +60,8 @@ const THEME_PREFIX_RE = /^theme[=:](.*)$/i;
  * `true`/portrait/etc., and each also has a one-letter shortcut: `color`/`c`
  * vs `mono`/`m`, `bold`/`b` vs `regular`/`r`, `light`/`l` vs `dark`/`d`,
  * `flip`/`f` vs `unflip`/`u`, `new`/`n` (or `portrait`) vs `side`/`s` (or
- * `classic`). Plus `theme=alias` (a named background color preset —
+ * `classic`) — `new` also clears `flip`, since it has no effect once the
+ * layout is portrait. Plus `theme=alias` (a named background color preset —
  * `theme=default` clears a saved default back to none) and `font=alias`
  * (the alias may be quoted, and runs to the end of the string — put it
  * last); neither `theme=` nor `font=` has a one-letter shortcut.
@@ -93,6 +94,10 @@ export function parseOptions(text: string): ParsedInvocation {
       settings.flip = false;
     } else if (lower === "new" || lower === "portrait" || lower === "n") {
       settings.layout = "portrait";
+      // flip has no effect once the layout is portrait (see buildTheme()
+      // below) — clear it too, so a saved flip default doesn't silently
+      // reappear the next time the layout switches back to side.
+      settings.flip = false;
     } else if (lower === "classic" || lower === "side" || lower === "s") {
       settings.layout = "side";
     } else {

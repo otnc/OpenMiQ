@@ -15,15 +15,19 @@ describe("parseOptions", () => {
     });
   });
 
-  it("parses color, bold, light, flip and new (portrait)", () => {
+  it("parses color, bold, light and new (portrait), which clears flip", () => {
     const { settings } = parseOptions("color bold light flip new");
     expect(settings).toEqual({
       color: true,
       bold: true,
       light: true,
-      flip: true,
+      flip: false,
       layout: "portrait",
     });
+  });
+
+  it("a flip after new overrides new's automatic reset back to true", () => {
+    expect(parseOptions("new flip").settings.flip).toBe(true);
   });
 
   it("parses font=<alias>", () => {
@@ -84,7 +88,7 @@ describe("parseOptions", () => {
   });
 
   it("accepts a one-letter shortcut for every toggle", () => {
-    const { settings } = parseOptions("c b l f n");
+    const { settings } = parseOptions("c b l n f");
     expect(settings).toEqual({
       color: true,
       bold: true,
