@@ -39,7 +39,7 @@ Every toggle has an opposite (and a one-letter shortcut, except `font=`/`theme=`
 
 **Or right-click (long-press on mobile) any message → Apps → Quote** — same result, no typing, but it always uses your saved defaults (see below) since there's nowhere to type options.
 
-Fonts are chosen by short alias — `makeitaquote`'s own `FONT_ALIASES`: `sans`, `mplus`, `dela`, `dot`, `pop`, `rampart`, `reggae`, `rocknroll`, `serif`, `yuji`, `yusei`, `inconsolata`, `exo2`, `bruno`, `poltawski`, `vina`, `script`, `castoro`. An exact makeitaquote family name (e.g. `font="Dela Gothic One"`) also works, and `mplus` (M PLUS Rounded 1c) is the bot's own default when nothing else picks one. `theme=` picks one of 21 named background colors (`sunset`, `forest`, `midnight_blurple`, …) layered on top of the base dark/light/portrait theme — `theme=default` clears a saved default back to none. Run `/help` for the full, localized lists of both.
+Fonts are chosen by short alias — `makeitaquote`'s own `FONT_ALIASES`: `sans`, `mplus`, `dela`, `dot`, `pop`, `rampart`, `reggae`, `rocknroll`, `serif`, `yuji`, `yusei`, `inconsolata`, `exo2`, `bruno`, `poltawski`, `vina`, `script`, `castoro`. An exact makeitaquote family name (e.g. `font="Dela Gothic One"`) also works, and `mplus` (M PLUS Rounded 1c) is the bot's own default when nothing else picks one. `theme=` picks one of 21 named background colors (`sunset`, `forest`, `midnight_blurple`, …) layered on top of the base dark/light/portrait theme — `theme=default` clears a saved default back to none. Run `/help` for the full, localized lists of both. The color-theme select menu previews each one as a small gradient emoji, once `pnpm run deploy:images` (or `deploy`) has created them as application emoji — it falls back to plain text options until then.
 
 The posted image comes with buttons (🎨 color / 🅱️ bold / 🔄 flip / ☀️ theme / layout) and font/color-theme select menus that re-render in place when used.
 
@@ -77,8 +77,10 @@ pnpm install
 # Install all fonts/emoji
 pnpm run setup
 
-# Register the slash and context-menu commands (re-run whenever they change)
-pnpm run deploy-commands
+# Register the slash/context-menu commands and the color-theme swatch emoji
+# (re-run whenever either changes; deploy:commands / deploy:images run just
+# one half)
+pnpm run deploy
 
 # Build
 pnpm run build
