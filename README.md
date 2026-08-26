@@ -121,6 +121,13 @@ pnpm run lint  # eslint
 
 otoneko. https://github.com/otnc
 
+## Credits
+
+### Inspiration
+
+- Make it a Quote (Twitter) https://twitter.com/MakeItAQuote
+- Make it a Quote (Discord / Misskey / Bluesky) https://miq.moe/
+
 ## License
 
 This project is licensed under the [GNU Affero General Public License v3.0 or later](./LICENSE) with [additional terms](./ADDITIONAL_TERMS.md).
