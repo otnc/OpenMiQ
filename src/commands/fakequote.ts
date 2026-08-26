@@ -8,6 +8,7 @@ import { MiQ } from "makeitaquote";
 import { buildComponents } from "../components.js";
 import { COLOR_THEME_LIST } from "../colorThemes.js";
 import {
+  deleteButtonEnabled,
   fakeQuoteBlockReason,
   resolveLocale,
   resolveQuoteSettings,
@@ -162,9 +163,20 @@ export async function runFakequoteCommand(
 
   await interaction.reply({
     files: [new AttachmentBuilder(png, { name: "quote.png" })],
-    components: buildComponents(settings, locale),
+    components: buildComponents(
+      settings,
+      locale,
+      deleteButtonEnabled(interaction.guildId),
+    ),
   });
   const sent = await interaction.fetchReply();
 
-  saveQuoteState(sent.id, { data, settings, locale });
+  saveQuoteState(sent.id, {
+    data,
+    settings,
+    locale,
+    guildId: interaction.guildId,
+    generatorId: interaction.user.id,
+    targetId: author.id,
+  });
 }

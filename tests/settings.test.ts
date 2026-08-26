@@ -113,4 +113,21 @@ describe("settings resolution", () => {
       settingsMod.fakeQuoteBlockReason({ authorId: "u8", guildId: "g8" }),
     ).toBe("bot");
   });
+
+  it("deleteButtonEnabled is true by default", () => {
+    expect(settingsMod.deleteButtonEnabled("g9")).toBe(true);
+    expect(settingsMod.deleteButtonEnabled(null)).toBe(true);
+  });
+
+  it("deleteButtonEnabled respects a guild override", async () => {
+    await settingsMod.setGuildSettings("g10", { deleteButtonDisabled: true });
+    expect(settingsMod.deleteButtonEnabled("g10")).toBe(false);
+    expect(settingsMod.deleteButtonEnabled("g11")).toBe(true);
+  });
+
+  it("deleteButtonEnabled respects a bot-wide override", async () => {
+    await settingsMod.setBotDefaults({ deleteButtonDisabled: true });
+    expect(settingsMod.deleteButtonEnabled("g12")).toBe(false);
+    expect(settingsMod.deleteButtonEnabled(null)).toBe(false);
+  });
 });

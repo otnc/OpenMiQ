@@ -67,6 +67,10 @@ const STRINGS = {
     en: "Disable /fakequote bot-wide",
     ja: "Bot全体で /fakequote を無効化する",
   },
+  optionDeleteButton: {
+    en: "Show a delete button under posted quotes (on by default)",
+    ja: "投稿された引用画像に削除ボタンを表示する (デフォルトはオン)",
+  },
 
   scopeUser: { en: "your", ja: "あなたの" },
   scopeGuild: { en: "this server's", ja: "このサーバーの" },
@@ -81,6 +85,7 @@ const STRINGS = {
   fieldFont: { en: "Font", ja: "フォント" },
   fieldTheme: { en: "Color theme", ja: "カラーテーマ" },
   fieldFakequoteBlocked: { en: "Fakequote blocked", ja: "Fakequoteのブロック" },
+  fieldDeleteButton: { en: "Delete button", ja: "削除ボタン" },
 
   valueOn: { en: "on", ja: "オン" },
   valueOff: { en: "off", ja: "オフ" },
@@ -203,7 +208,7 @@ function addSetOptions(
   sub: SlashCommandSubcommandBuilder,
   scopeKey: "user" | "guild" | "bot",
 ): SlashCommandSubcommandBuilder {
-  return sub
+  const withCommonOptions = sub
     .addStringOption((opt) =>
       opt
         .setName("language")
@@ -272,6 +277,16 @@ function addSetOptions(
           ja: BLOCK_FAKEQUOTE_OPTION[scopeKey].ja,
         }),
     );
+
+  // A moderation setting, not a personal preference — only for
+  // /server-settings and /admin, not /settings.
+  if (scopeKey === "user") return withCommonOptions;
+  return withCommonOptions.addBooleanOption((opt) =>
+    opt
+      .setName("delete-button")
+      .setDescription(STRINGS.optionDeleteButton.en)
+      .setDescriptionLocalizations({ ja: STRINGS.optionDeleteButton.ja }),
+  );
 }
 
 /** Builds a top-level `view`/`set`/`reset` command for one settings scope. */
@@ -371,6 +386,7 @@ async function handleView(
   const isEmpty =
     data.language === undefined &&
     data.fakeQuoteDisabled === undefined &&
+    data.deleteButtonDisabled === undefined &&
     (!data.quoteDefaults || Object.keys(data.quoteDefaults).length === 0);
 
   if (isEmpty) {
@@ -393,6 +409,16 @@ async function handleView(
     `${t(STRINGS.fieldFont, locale)}: ${qd.font ?? t(STRINGS.valueNotSet, locale)}`,
     `${t(STRINGS.fieldTheme, locale)}: ${qd.colorTheme ?? t(STRINGS.valueNotSet, locale)}`,
     `${t(STRINGS.fieldFakequoteBlocked, locale)}: ${formatBool(data.fakeQuoteDisabled, locale)}`,
+    ...(scope.key === "user"
+      ? []
+      : [
+          `${t(STRINGS.fieldDeleteButton, locale)}: ${formatBool(
+            data.deleteButtonDisabled === undefined
+              ? undefined
+              : !data.deleteButtonDisabled,
+            locale,
+          )}`,
+        ]),
   ];
   await interaction.reply({ content: lines.join("\n"), ephemeral: true });
 }
@@ -425,6 +451,7 @@ async function handleSet(
   const layout = interaction.options.getString("layout") as
     QuoteSettings["layout"] | null;
   const blockFakequote = interaction.options.getBoolean("block-fakequote");
+  const deleteButton = interaction.options.getBoolean("delete-button");
 
   if (
     language === null &&
@@ -435,7 +462,8 @@ async function handleSet(
     light === null &&
     flip === null &&
     layout === null &&
-    blockFakequote === null
+    blockFakequote === null &&
+    deleteButton === null
   ) {
     await interaction.reply({
       content: t(STRINGS.errorNoOptions, locale),
@@ -500,6 +528,7 @@ async function handleSet(
     ...(language !== null ? { language } : {}),
     ...(Object.keys(quoteDefaults).length ? { quoteDefaults } : {}),
     ...(blockFakequote !== null ? { fakeQuoteDisabled: blockFakequote } : {}),
+    ...(deleteButton !== null ? { deleteButtonDisabled: !deleteButton } : {}),
   });
 
   const newLocale = callerLocale(interaction);

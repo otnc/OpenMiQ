@@ -8,6 +8,12 @@ export interface QuoteState {
   settings: QuoteSettings;
   /** The locale resolved when the quote was first posted; reused on every re-render. */
   locale: string;
+  /** The guild it was posted in, or `null` for a DM — resolves the delete button's visibility. */
+  guildId: string | null;
+  /** Who ran the command/sent the mention that generated this quote. */
+  generatorId: string;
+  /** Whose name/avatar (or quoted message) this quote is about — may be the same person as `generatorId`. */
+  targetId: string;
 }
 
 /**
@@ -25,4 +31,9 @@ export function saveQuoteState(messageId: string, state: QuoteState): void {
 
 export function getQuoteState(messageId: string): QuoteState | undefined {
   return store.get(messageId);
+}
+
+/** Drops a quote's state once it's been soft-deleted — nothing left to re-render. */
+export function deleteQuoteState(messageId: string): void {
+  store.delete(messageId);
 }

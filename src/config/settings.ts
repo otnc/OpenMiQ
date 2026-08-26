@@ -11,6 +11,8 @@ export interface ScopeSettings {
    * it disables the command outright.
    */
   fakeQuoteDisabled?: boolean;
+  /** Hides the delete button under posted quotes — guild/bot scope only. */
+  deleteButtonDisabled?: boolean;
 }
 
 const BOT_KEY = "bot";
@@ -37,6 +39,8 @@ function mergeScope(
       ? quoteDefaults
       : undefined,
     fakeQuoteDisabled: patch.fakeQuoteDisabled ?? current.fakeQuoteDisabled,
+    deleteButtonDisabled:
+      patch.deleteButtonDisabled ?? current.deleteButtonDisabled,
   };
 }
 
@@ -124,4 +128,15 @@ export function fakeQuoteBlockReason(params: {
   }
   if (getUserSettings(params.authorId).fakeQuoteDisabled) return "user";
   return null;
+}
+
+/**
+ * Whether the delete button should appear under a posted quote — bot-wide,
+ * then guild, can turn it off; on by default. No user-level override, since
+ * this is a moderation setting rather than a personal preference.
+ */
+export function deleteButtonEnabled(guildId: string | null): boolean {
+  if (getBotDefaults().deleteButtonDisabled) return false;
+  if (guildId && getGuildSettings(guildId).deleteButtonDisabled) return false;
+  return true;
 }

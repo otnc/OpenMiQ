@@ -1,5 +1,9 @@
 import { describe, expect, it } from "vitest";
-import { getQuoteState, saveQuoteState } from "../src/state.js";
+import {
+  deleteQuoteState,
+  getQuoteState,
+  saveQuoteState,
+} from "../src/state.js";
 import type { QuoteState } from "../src/state.js";
 
 function stateFor(id: string): QuoteState {
@@ -7,6 +11,9 @@ function stateFor(id: string): QuoteState {
     data: { text: id } as QuoteState["data"],
     settings: {} as QuoteState["settings"],
     locale: "en",
+    guildId: "g1",
+    generatorId: "generator1",
+    targetId: "target1",
   };
 }
 
@@ -18,5 +25,11 @@ describe("quote state store", () => {
 
   it("returns undefined for a message that was never saved", () => {
     expect(getQuoteState("never-saved")).toBeUndefined();
+  });
+
+  it("forgets a state once deleted", () => {
+    saveQuoteState("m2", stateFor("m2"));
+    deleteQuoteState("m2");
+    expect(getQuoteState("m2")).toBeUndefined();
   });
 });

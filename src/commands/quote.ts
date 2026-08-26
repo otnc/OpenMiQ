@@ -6,7 +6,11 @@ import {
 } from "discord.js";
 import { MiQ } from "makeitaquote";
 import { buildComponents } from "../components.js";
-import { resolveLocale, resolveQuoteSettings } from "../config/settings.js";
+import {
+  deleteButtonEnabled,
+  resolveLocale,
+  resolveQuoteSettings,
+} from "../config/settings.js";
 import { t } from "../i18n/index.js";
 import { QUOTE_MESSAGES } from "../quoteMessages.js";
 import { renderQuote } from "../render.js";
@@ -56,8 +60,19 @@ export async function runQuoteContextMenuCommand(
 
   const sent = await interaction.editReply({
     files: [new AttachmentBuilder(png, { name: "quote.png" })],
-    components: buildComponents(settings, locale),
+    components: buildComponents(
+      settings,
+      locale,
+      deleteButtonEnabled(interaction.guildId),
+    ),
   });
 
-  saveQuoteState(sent.id, { data, settings, locale });
+  saveQuoteState(sent.id, {
+    data,
+    settings,
+    locale,
+    guildId: interaction.guildId,
+    generatorId: interaction.user.id,
+    targetId: target.author.id,
+  });
 }
