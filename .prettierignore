@@ -1,3 +1,4 @@
+.private/
 dist/
 coverage/
 node_modules/
