@@ -247,4 +247,24 @@ describe("buildTheme", () => {
     expect(theme.backgroundGradient?.stops).toHaveLength(2);
     expect(theme.extends).toBe("dark");
   });
+
+  it("a color theme's own text palette overrides settings.light", () => {
+    // "hanami" needs light/black text even though settings.light is false.
+    const theme = buildTheme({
+      ...DEFAULT_SETTINGS,
+      light: false,
+      colorTheme: "hanami",
+    });
+    expect(theme.extends).toBe("light");
+  });
+
+  it("a color theme's text palette still applies under the portrait layout", () => {
+    const theme = buildTheme({
+      ...DEFAULT_SETTINGS,
+      light: false,
+      layout: "portrait",
+      colorTheme: "hanami",
+    });
+    expect(theme.extends).toBe("portrait-light");
+  });
 });

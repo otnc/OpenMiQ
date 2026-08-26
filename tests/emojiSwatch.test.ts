@@ -6,6 +6,7 @@ const THEME = {
   key: "test",
   label: "Test",
   gradient: ["#000000", "#FFFFFF"] as const,
+  textBase: "dark" as const,
 };
 
 describe("renderSwatchPng", () => {

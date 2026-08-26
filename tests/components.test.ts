@@ -4,8 +4,22 @@ import {
   COLOR_BUTTON_ID,
   FLIP_BUTTON_ID,
   FONT_SELECT_ID,
+  LIGHT_BUTTON_ID,
 } from "../src/components.js";
 import { DEFAULT_SETTINGS } from "../src/quoteOptions.js";
+
+function findButton(
+  buttons: ReturnType<typeof buildComponents>[0],
+  customId: string,
+) {
+  const button = buttons.components.find(
+    (b) => (b.toJSON() as { custom_id?: string }).custom_id === customId,
+  );
+  return button!.toJSON() as {
+    disabled?: boolean;
+    emoji?: { name?: string };
+  };
+}
 
 describe("buildComponents", () => {
   it('labels the font select\'s options as "family (alias)"', () => {
@@ -48,5 +62,26 @@ describe("buildComponents", () => {
     expect((color!.toJSON() as { emoji?: { name?: string } }).emoji?.name).toBe(
       "🎨",
     );
+  });
+
+  it("disables the light button and reflects the color theme's own text palette", () => {
+    const [buttons] = buildComponents(
+      { ...DEFAULT_SETTINGS, light: false, colorTheme: "hanami" },
+      "en",
+      false,
+    );
+    const light = findButton(buttons!, LIGHT_BUTTON_ID);
+    expect(light.disabled).toBe(true);
+    // hanami needs the light/black-text palette, so the button shows what
+    // pressing it to go dark would look like — the moon icon — even though
+    // settings.light itself is false and the button can't be pressed.
+    expect(light.emoji?.name).toBe("🌙");
+  });
+
+  it("leaves the light button enabled and settings-driven with no color theme", () => {
+    const [buttons] = buildComponents(DEFAULT_SETTINGS, "en", false);
+    const light = findButton(buttons!, LIGHT_BUTTON_ID);
+    expect(light.disabled).toBeFalsy();
+    expect(light.emoji?.name).toBe("☀️");
   });
 });

@@ -2,6 +2,7 @@ import { describe, expect, it } from "vitest";
 import {
   COLOR_THEMES,
   colorThemeGradient,
+  colorThemeTextBase,
   resolveColorTheme,
 } from "../src/colorThemes.js";
 
@@ -37,5 +38,17 @@ describe("colorThemeGradient", () => {
 
   it("returns undefined for an unknown key", () => {
     expect(colorThemeGradient("not-a-theme")).toBeUndefined();
+  });
+});
+
+describe("colorThemeTextBase", () => {
+  it("returns dark or light for every documented theme", () => {
+    for (const theme of COLOR_THEMES) {
+      expect(colorThemeTextBase(theme.key)).toBe(theme.textBase);
+    }
+  });
+
+  it("returns undefined for an unknown key", () => {
+    expect(colorThemeTextBase("not-a-theme")).toBeUndefined();
   });
 });

@@ -1,5 +1,9 @@
 import type { ThemeInput, ThemeName } from "makeitaquote";
-import { colorThemeGradient, resolveColorTheme } from "./colorThemes.js";
+import {
+  colorThemeGradient,
+  colorThemeTextBase,
+  resolveColorTheme,
+} from "./colorThemes.js";
 import { resolveFontAlias } from "./fonts.js";
 
 /**
@@ -154,15 +158,21 @@ function unquote(value: string): string {
  * `color` and `light` combine freely with either layout. `flip` only
  * applies to the `side` layout — makeitaquote ignores `avatar.position`
  * once the layout is `stacked` (portrait), so `new` and `flip` can't
- * meaningfully combine.
+ * meaningfully combine. A color theme fixes its own `light`/`dark` text
+ * palette the same way (see colorThemes.ts's `textBase`), overriding
+ * `settings.light` — the light button reflects and disables this in
+ * components.ts.
  */
 export function buildTheme(settings: QuoteSettings): ThemeInput {
   const portrait = settings.layout === "portrait";
+  const light = settings.colorTheme
+    ? colorThemeTextBase(settings.colorTheme) === "light"
+    : settings.light;
   const extendsPreset: ThemeName = portrait
-    ? settings.light
+    ? light
       ? "portrait-light"
       : "portrait"
-    : settings.light
+    : light
       ? "light"
       : "dark";
 

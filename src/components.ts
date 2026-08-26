@@ -8,7 +8,11 @@ import {
 } from "discord.js";
 import { FONT_CATALOGUE } from "makeitaquote";
 import { colorThemeEmoji, fontEmoji } from "./appEmojis.js";
-import { COLOR_THEMES, type ColorTheme } from "./colorThemes.js";
+import {
+  COLOR_THEMES,
+  colorThemeTextBase,
+  type ColorTheme,
+} from "./colorThemes.js";
 import { aliasForFamily } from "./fonts.js";
 import { t, type Translations } from "./i18n/index.js";
 import type { QuoteSettings } from "./quoteOptions.js";
@@ -67,6 +71,13 @@ export function buildComponents(
   deleteButtonEnabled: boolean,
 ): ActionRowBuilder<MessageActionRowComponentBuilder>[] {
   const portrait = settings.layout === "portrait";
+  // A color theme fixes its own light/dark text palette (see buildTheme()
+  // in quoteOptions.ts) — same idea as flip having nothing to toggle once
+  // the layout is portrait.
+  const themeTextBase = settings.colorTheme
+    ? colorThemeTextBase(settings.colorTheme)
+    : undefined;
+  const light = themeTextBase ? themeTextBase === "light" : settings.light;
 
   const buttons =
     new ActionRowBuilder<MessageActionRowComponentBuilder>().addComponents(
@@ -87,8 +98,9 @@ export function buildComponents(
         .setDisabled(portrait),
       new ButtonBuilder()
         .setCustomId(LIGHT_BUTTON_ID)
-        .setEmoji(settings.light ? "🌙" : "☀️")
-        .setStyle(activeStyle(settings.light)),
+        .setEmoji(light ? "🌙" : "☀️")
+        .setStyle(activeStyle(light))
+        .setDisabled(themeTextBase !== undefined),
       new ButtonBuilder()
         .setCustomId(LAYOUT_BUTTON_ID)
         .setEmoji(portrait ? "🖥️" : "📱")
