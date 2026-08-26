@@ -1,5 +1,7 @@
 # Open MiQ Bot
 
+[![技術者倫理|遵守済み](https://gijutsusharin.li/badge.svg)](https://gijutsusharin.li)
+
 _[English](./README.md)_
 
 メッセージを引用画像に変換する、セルフホスト用の Discord Bot。

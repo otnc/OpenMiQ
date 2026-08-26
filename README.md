@@ -1,5 +1,7 @@
 # Open MiQ Bot
 
+[![技術者倫理|遵守済み](https://gijutsusharin.li/badge.svg)](https://gijutsusharin.li)
+
 _[日本語](./README-ja.md)_
 
 A self-hosted Discord bot that turns a message into a quote image.
