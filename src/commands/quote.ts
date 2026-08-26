@@ -56,7 +56,7 @@ export async function runQuoteContextMenuCommand(
   });
 
   const data = new MiQ()
-    .setFromMessage(target)
+    .setFromMessage(target, { stripDiscordMarkdown: true })
     .setWatermark(interaction.client.user.tag)
     .getData();
   const png = await renderQuote(data, settings);

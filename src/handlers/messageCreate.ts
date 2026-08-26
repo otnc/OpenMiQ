@@ -84,7 +84,7 @@ export async function onMessageCreate(message: Message): Promise<void> {
   });
 
   const data = new MiQ()
-    .setFromMessage(target)
+    .setFromMessage(target, { stripDiscordMarkdown: true })
     .setWatermark(message.client.user?.tag ?? "")
     .getData();
   const png = await renderQuote(data, settings);

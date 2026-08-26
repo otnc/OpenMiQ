@@ -4,7 +4,7 @@ import {
   SlashCommandBuilder,
   type SlashCommandOptionsOnlyBuilder,
 } from "discord.js";
-import { MiQ } from "makeitaquote";
+import { MiQ, stripDiscordMarkdown } from "makeitaquote";
 import { buildComponents } from "../components.js";
 import { COLOR_THEME_LIST } from "../colorThemes.js";
 import {
@@ -154,7 +154,9 @@ export async function runFakequoteCommand(
   });
 
   const data = new MiQ()
-    .setText(messageText)
+    // Same treatment as setFromMessage(..., { stripDiscordMarkdown: true }):
+    // the quote image shows plain text, not raw markdown markers.
+    .setText(stripDiscordMarkdown(messageText))
     .setAvatar(avatar)
     .setUsername(author.username)
     .setDisplayName(displayName)
