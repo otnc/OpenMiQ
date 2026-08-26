@@ -35,8 +35,8 @@ const STRINGS = {
     ja: "`flip` (`f`) / `unflip` (`u`) — アバターを右に配置、または左に戻す (横画像レイアウトのみ)",
   },
   optionNew: {
-    en: "`new` (`n`, or `portrait`) / `classic` (or `side`, `s`) — portrait layout (avatar full-bleed, quote over the bottom) or the regular side-by-side layout",
-    ja: "`new` (`n`、または `portrait`) / `classic` (または `side`、`s`) — 縦画像レイアウト (アバターを全面に、下部に引用文) または通常の横画像レイアウト",
+    en: "`new` (`n`, or `portrait`) / `side` (`s`, or `classic`) — portrait layout (avatar full-bleed, quote over the bottom) or the regular side-by-side layout",
+    ja: "`new` (`n`、または `portrait`) / `side` (`s`、または `classic`) — 縦画像レイアウト (アバターを全面に、下部に引用文) または通常の横画像レイアウト",
   },
   optionFont: {
     en: "`font=<alias>` — pick a font, defaults to `mplus` (see Fonts below)",

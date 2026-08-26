@@ -1,3 +1,4 @@
+import { defineTheme } from "makeitaquote";
 import { describe, expect, it } from "vitest";
 import {
   DEFAULT_SETTINGS,
@@ -185,6 +186,13 @@ describe("buildTheme", () => {
     });
     expect(theme.extends).toBe("portrait");
     expect(theme.avatar).toEqual({ grayscale: true });
+  });
+
+  it("resolves to portrait's own 630x790 canvas, not the 1200x630 default", () => {
+    const theme = buildTheme({ ...DEFAULT_SETTINGS, layout: "portrait" });
+    const resolved = defineTheme(theme);
+    expect(resolved.width).toBe(630);
+    expect(resolved.height).toBe(790);
   });
 
   it("uses portrait-light when portrait and light combine", () => {
