@@ -35,7 +35,7 @@ Every toggle has an opposite (and a one-letter shortcut, except `font=`/`theme=`
 | `bold`                | `b`      | `regular`             | `r`      |
 | `light`               | `l`      | `dark`                | `d`      |
 | `flip`                | `f`      | `unflip`              | `u`      |
-| `new` (or `portrait`) | `n`      | `classic` (or `side`) | `s`      |
+| `new` (or `portrait`) | `n`      | `side` (or `classic`) | `s`      |
 
 **Or right-click (long-press on mobile) any message → Apps → Quote** — same result, no typing, but it always uses your saved defaults (see below) since there's nowhere to type options.
 

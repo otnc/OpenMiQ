@@ -35,7 +35,7 @@ _[English](./README.md)_
 | `bold`                    | `b`    | `regular`                 | `r`    |
 | `light`                   | `l`    | `dark`                    | `d`    |
 | `flip`                    | `f`    | `unflip`                  | `u`    |
-| `new` (または `portrait`) | `n`    | `classic` (または `side`) | `s`    |
+| `new` (または `portrait`) | `n`    | `side` (または `classic`) | `s`    |
 
 **または、メッセージを右クリック(モバイルでは長押し) → アプリ → 引用画像を作成** — 結果は同じで、入力の手間はありませんが、オプションを入力する段階がないため常にあなたの保存済みデフォルトが使われます(下記参照)。
 
