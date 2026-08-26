@@ -100,7 +100,7 @@ All of these go in `.env` (see `.env.example`):
 | `DATA_DIR` | Where per-user/guild/bot settings are stored as JSON (default `./data`) |
 | `SAVE_IMAGES_DIR` | If set, also save a copy of every generated image here (disabled by default) |
 
-Adding a language beyond English/Japanese is a matter of dropping a new `locales/<code>.json` file (same keys as `locales/en.json`) — no code change needed; it's picked up at startup.
+Every user-facing string lives in `src/i18n/index.ts`'s `Translations` objects, colocated with the code that uses it (`src/components.ts`, `src/commands/*.ts`, `src/quoteMessages.ts`, …) rather than in separate per-locale files. Adding a language beyond English/Japanese means adding its code to `SUPPORTED_LOCALES` in `src/i18n/index.ts` and filling in that new entry everywhere a `Translations` object is defined.
 
 ## Development
 

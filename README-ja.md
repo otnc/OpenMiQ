@@ -100,7 +100,7 @@ pnpm start
 | `DATA_DIR` | ユーザー/サーバー/Botの設定をJSONで保存する場所 (デフォルト `./data`) |
 | `SAVE_IMAGES_DIR` | 設定すると、生成した画像のコピーもこのディレクトリに保存する (デフォルトでは無効) |
 
-英語・日本語以外の言語を追加するには、`locales/<code>.json` を追加するだけです (`locales/en.json` と同じキー構成)。コードの変更は不要で、起動時に自動的に読み込まれます。
+画面に表示される文字列はすべて `src/i18n/index.ts` の `Translations` オブジェクトとして、それを使うコードのすぐそば (`src/components.ts`、`src/commands/*.ts`、`src/quoteMessages.ts` など) に書かれています。個別のロケールファイルには分かれていません。英語・日本語以外の言語を追加するには、`src/i18n/index.ts` の `SUPPORTED_LOCALES` にその言語コードを追加したうえで、`Translations` オブジェクトが定義されている箇所すべてに新しい言語の項目を埋めていきます。
 
 ## 開発
 
