@@ -55,7 +55,10 @@ export async function runQuoteContextMenuCommand(
     inline: {},
   });
 
-  const data = new MiQ().setFromMessage(target).getData();
+  const data = new MiQ()
+    .setFromMessage(target)
+    .setWatermark(interaction.client.user.tag)
+    .getData();
   const png = await renderQuote(data, settings);
 
   const sent = await interaction.editReply({
@@ -74,5 +77,6 @@ export async function runQuoteContextMenuCommand(
     guildId: interaction.guildId,
     generatorId: interaction.user.id,
     targetId: target.author.id,
+    fake: false,
   });
 }

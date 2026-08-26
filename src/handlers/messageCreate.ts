@@ -83,7 +83,10 @@ export async function onMessageCreate(message: Message): Promise<void> {
     allowedMentions: { repliedUser: false },
   });
 
-  const data = new MiQ().setFromMessage(target).getData();
+  const data = new MiQ()
+    .setFromMessage(target)
+    .setWatermark(message.client.user?.tag ?? "")
+    .getData();
   const png = await renderQuote(data, settings);
 
   await placeholder.edit({
@@ -103,6 +106,7 @@ export async function onMessageCreate(message: Message): Promise<void> {
     guildId: message.guildId,
     generatorId: message.author.id,
     targetId: target.author.id,
+    fake: false,
   });
 }
 

@@ -10,6 +10,7 @@ import { COLOR_THEME_LIST } from "../colorThemes.js";
 import {
   deleteButtonEnabled,
   fakeQuoteBlockReason,
+  fakeQuoteLabelHidden,
   resolveLocale,
   resolveQuoteSettings,
 } from "../config/settings.js";
@@ -157,9 +158,14 @@ export async function runFakequoteCommand(
     .setAvatar(avatar)
     .setUsername(author.username)
     .setDisplayName(displayName)
+    .setWatermark(interaction.client.user.tag)
     .getData();
 
-  const png = await renderQuote(data, settings);
+  const fake = !fakeQuoteLabelHidden({
+    invokerId: interaction.user.id,
+    guildId: interaction.guildId,
+  });
+  const png = await renderQuote(data, settings, fake);
 
   await interaction.reply({
     files: [new AttachmentBuilder(png, { name: "quote.png" })],
@@ -178,5 +184,6 @@ export async function runFakequoteCommand(
     guildId: interaction.guildId,
     generatorId: interaction.user.id,
     targetId: author.id,
+    fake,
   });
 }

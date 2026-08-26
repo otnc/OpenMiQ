@@ -106,7 +106,7 @@ export async function onInteractionCreate(
 
   await interaction.deferUpdate();
 
-  const png = await renderQuote(state.data, settings);
+  const png = await renderQuote(state.data, settings, state.fake);
   state.settings = settings;
 
   await interaction.editReply({
