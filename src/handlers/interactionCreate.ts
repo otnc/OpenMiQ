@@ -24,6 +24,7 @@ import {
 } from "../components.js";
 import { normalizeLocale, t } from "../i18n/index.js";
 import { DEFAULT_FONT, type QuoteSettings } from "../quoteOptions.js";
+import { QUOTE_MESSAGES } from "../quoteMessages.js";
 import { renderQuote } from "../render.js";
 import { getQuoteState } from "../state.js";
 
@@ -69,7 +70,7 @@ export async function onInteractionCreate(
   const state = getQuoteState(interaction.message.id);
   if (!state) {
     await interaction.reply({
-      content: t("quote.expired", normalizeLocale(interaction.locale)),
+      content: t(QUOTE_MESSAGES.expired, normalizeLocale(interaction.locale)),
       ephemeral: true,
     });
     return;
