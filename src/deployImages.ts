@@ -1,5 +1,6 @@
 import { readFileSync } from "node:fs";
 import path from "node:path";
+import { pathToFileURL } from "node:url";
 import {
   REST,
   Routes,
@@ -10,6 +11,7 @@ import { COLOR_THEMES } from "./colorThemes.js";
 import { renderSwatchPng } from "./emojiSwatch.js";
 import { FONT_ALIASES } from "./fonts.js";
 import { renderFontSwatchPng } from "./fontSwatch.js";
+import { loadDeployEnv } from "./loadDeployEnv.js";
 
 /**
  * Resolved from the working directory rather than this module's own path,
@@ -27,7 +29,8 @@ const LOADING_GIF_PATH = path.resolve(process.cwd(), "assets", "loading.gif");
  * `pnpm run deploy:images` (or `pnpm run deploy` for this and
  * `deploy:commands`).
  */
-async function main(): Promise<void> {
+export async function deployImages(): Promise<void> {
+  loadDeployEnv();
   const token = process.env.DISCORD_TOKEN;
   const clientId: string = process.env.DISCORD_CLIENT_ID ?? "";
   if (!token) throw new Error("DISCORD_TOKEN is not set.");
@@ -75,4 +78,9 @@ async function main(): Promise<void> {
   console.log(`Synced ${managedNames.size} emoji.`);
 }
 
-void main();
+if (
+  process.argv[1] &&
+  import.meta.url === pathToFileURL(process.argv[1]).href
+) {
+  void deployImages();
+}

@@ -1,3 +1,4 @@
+import { pathToFileURL } from "node:url";
 import { REST, Routes } from "discord.js";
 import { buildAdminCommand } from "./commands/admin.js";
 import { buildFakequoteCommand } from "./commands/fakequote.js";
@@ -5,9 +6,11 @@ import { buildHelpCommand } from "./commands/help.js";
 import { buildQuoteContextMenuCommand } from "./commands/quote.js";
 import { buildServerSettingsCommand } from "./commands/serverSettings.js";
 import { buildSettingsCommand } from "./commands/settings.js";
+import { loadDeployEnv } from "./loadDeployEnv.js";
 
 /** Registers the bot's commands. Run with `pnpm run deploy:commands` (or `pnpm run deploy` for this and `deploy:images`). */
-async function main(): Promise<void> {
+export async function deployCommands(): Promise<void> {
+  loadDeployEnv();
   const token = process.env.DISCORD_TOKEN;
   const clientId = process.env.DISCORD_CLIENT_ID;
   if (!token) throw new Error("DISCORD_TOKEN is not set.");
@@ -27,4 +30,9 @@ async function main(): Promise<void> {
   console.log(`Registered ${body.length} command(s).`);
 }
 
-void main();
+if (
+  process.argv[1] &&
+  import.meta.url === pathToFileURL(process.argv[1]).href
+) {
+  void deployCommands();
+}
