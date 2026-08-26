@@ -17,6 +17,13 @@ export interface ColorTheme {
   gradient: readonly [from: string, to: string];
 }
 
+/**
+ * `key` currently doubles as `theme=`'s full alias — there's no shorter form
+ * yet. If one is added later, mirror `fonts.ts`'s `aliasForFamily()` /
+ * components.ts's `fontOption()`: show it as "label (alias)" in the
+ * color-theme select menu, the same way the font one already does.
+ */
+
 export const COLOR_THEMES: readonly ColorTheme[] = [
   { key: "sunset", label: "Sunset", gradient: ["#FF7E5F", "#6A3093"] },
   {

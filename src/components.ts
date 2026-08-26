@@ -7,18 +7,13 @@ import {
   type MessageActionRowComponentBuilder,
 } from "discord.js";
 import { FONT_CATALOGUE } from "makeitaquote";
-import { colorThemeEmoji } from "./appEmojis.js";
+import { colorThemeEmoji, fontEmoji } from "./appEmojis.js";
 import { COLOR_THEMES, type ColorTheme } from "./colorThemes.js";
+import { aliasForFamily } from "./fonts.js";
 import { t, type Translations } from "./i18n/index.js";
 import type { QuoteSettings } from "./quoteOptions.js";
 
 const STRINGS = {
-  colorEnable: { en: "Color", ja: "カラー" },
-  colorDisable: { en: "Grayscale", ja: "モノクロ" },
-  bold: { en: "Bold", ja: "太字" },
-  flip: { en: "Flip", ja: "反転" },
-  toLight: { en: "Light", ja: "ライト" },
-  toDark: { en: "Dark", ja: "ダーク" },
   fontPlaceholder: { en: "Choose a font", ja: "フォントを選択" },
   fontDefault: { en: "Default", ja: "デフォルト" },
   colorThemePlaceholder: {
@@ -77,42 +72,25 @@ export function buildComponents(
     new ActionRowBuilder<MessageActionRowComponentBuilder>().addComponents(
       new ButtonBuilder()
         .setCustomId(COLOR_BUTTON_ID)
-        .setLabel(
-          settings.color
-            ? t(STRINGS.colorDisable, locale)
-            : t(STRINGS.colorEnable, locale),
-        )
         .setEmoji("🎨")
         .setStyle(activeStyle(settings.color)),
       new ButtonBuilder()
         .setCustomId(BOLD_BUTTON_ID)
-        .setLabel(t(STRINGS.bold, locale))
         .setEmoji("🅱️")
         .setStyle(activeStyle(settings.bold)),
       new ButtonBuilder()
         .setCustomId(FLIP_BUTTON_ID)
-        .setLabel(t(STRINGS.flip, locale))
-        .setEmoji("🔄")
+        .setEmoji("↔️")
         .setStyle(activeStyle(settings.flip))
         // Ignored by makeitaquote once the layout is portrait (stacked) — see
         // buildTheme() in quoteOptions.ts — so there's nothing to toggle.
         .setDisabled(portrait),
       new ButtonBuilder()
         .setCustomId(LIGHT_BUTTON_ID)
-        .setLabel(
-          settings.light
-            ? t(STRINGS.toDark, locale)
-            : t(STRINGS.toLight, locale),
-        )
         .setEmoji(settings.light ? "🌙" : "☀️")
         .setStyle(activeStyle(settings.light)),
       new ButtonBuilder()
         .setCustomId(LAYOUT_BUTTON_ID)
-        .setLabel(
-          portrait
-            ? t(LAYOUT_LABELS.toSide, locale)
-            : t(LAYOUT_LABELS.toPortrait, locale),
-        )
         .setEmoji(portrait ? "🖥️" : "📱")
         .setStyle(activeStyle(portrait)),
     );
@@ -166,10 +144,19 @@ function fontOption(
   family: string,
   settings: QuoteSettings,
 ): StringSelectMenuOptionBuilder {
-  return new StringSelectMenuOptionBuilder()
-    .setLabel(family)
+  const alias = aliasForFamily(family);
+  // "Family (alias)" — once color themes grow their own short aliases (see
+  // colorThemes.ts), give colorThemeOption() below the same "label (alias)"
+  // treatment for consistency.
+  const option = new StringSelectMenuOptionBuilder()
+    .setLabel(alias ? `${family} (${alias})` : family)
     .setValue(family)
     .setDefault(settings.font === family);
+  // Only set once `pnpm run deploy:images` has created the application
+  // emoji for this font — a plain text-only option otherwise.
+  const emoji = alias ? fontEmoji(alias) : undefined;
+  if (emoji) option.setEmoji(emoji);
+  return option;
 }
 
 function colorThemeOption(

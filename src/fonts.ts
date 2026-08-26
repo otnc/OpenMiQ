@@ -28,3 +28,12 @@ export const FONT_ALIAS_LIST = Object.keys(FONT_ALIASES).sort().join(", ");
 export function resolveFontAlias(token: string): string | null {
   return libraryResolveFontAlias(token) ?? null;
 }
+
+const ALIAS_BY_FAMILY = new Map(
+  Object.entries(FONT_ALIASES).map(([alias, family]) => [family, alias]),
+);
+
+/** The short alias for a catalogued family name — also its application emoji's name. */
+export function aliasForFamily(family: string): string | undefined {
+  return ALIAS_BY_FAMILY.get(family);
+}

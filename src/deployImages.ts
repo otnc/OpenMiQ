@@ -8,6 +8,8 @@ import {
 import { LOADING_EMOJI_NAME } from "./appEmojis.js";
 import { COLOR_THEMES } from "./colorThemes.js";
 import { renderSwatchPng } from "./emojiSwatch.js";
+import { FONT_ALIASES } from "./fonts.js";
+import { renderFontSwatchPng } from "./fontSwatch.js";
 
 /**
  * Resolved from the working directory rather than this module's own path,
@@ -17,56 +19,60 @@ import { renderSwatchPng } from "./emojiSwatch.js";
 const LOADING_GIF_PATH = path.resolve(process.cwd(), "assets", "loading.gif");
 
 /**
- * Creates the application emoji this bot needs and doesn't already have:
- * one per color theme (named after its key, e.g. `:sunset:`) previewing its
- * gradient for the color-theme select menu, plus the `:loading:` spinner
- * shown while a quote renders. Skips anything that already exists — safe to
- * re-run after adding a new theme. Run with `pnpm run deploy:images` (or
- * `pnpm run deploy` for this and `deploy:commands`).
+ * (Re)creates every application emoji this bot uses: one per color theme
+ * (named after its key, e.g. `:sunset:`), one per font alias (an "Aa"
+ * sample, e.g. `:pop:`), and the `:loading:` spinner. Existing ones are
+ * deleted first — simpler than diffing, and guarantees the emoji always
+ * match the current swatch-rendering code after a change. Run with
+ * `pnpm run deploy:images` (or `pnpm run deploy` for this and
+ * `deploy:commands`).
  */
 async function main(): Promise<void> {
   const token = process.env.DISCORD_TOKEN;
-  const clientId = process.env.DISCORD_CLIENT_ID;
+  const clientId: string = process.env.DISCORD_CLIENT_ID ?? "";
   if (!token) throw new Error("DISCORD_TOKEN is not set.");
   if (!clientId) throw new Error("DISCORD_CLIENT_ID is not set.");
 
   const rest = new REST().setToken(token);
+  const managedNames = new Set<string>([
+    ...COLOR_THEMES.map((theme) => theme.key),
+    ...Object.keys(FONT_ALIASES),
+    LOADING_EMOJI_NAME,
+  ]);
+
   const { items: existing } = (await rest.get(
     Routes.applicationEmojis(clientId),
   )) as RESTGetAPIApplicationEmojisResult;
-  const existingNames = new Set(existing.map((emoji) => emoji.name));
 
-  let created = 0;
+  for (const emoji of existing) {
+    if (!emoji.id || !emoji.name || !managedNames.has(emoji.name)) continue;
+    await rest.delete(Routes.applicationEmoji(clientId, emoji.id));
+    console.log(`Deleted existing emoji :${emoji.name}:`);
+  }
+
+  async function create(
+    name: string,
+    image: Buffer,
+    mime: "image/png" | "image/gif",
+  ): Promise<void> {
+    await rest.post(Routes.applicationEmojis(clientId), {
+      body: {
+        name,
+        image: `data:${mime};base64,${image.toString("base64")}`,
+      },
+    });
+    console.log(`Created emoji :${name}:`);
+  }
 
   for (const theme of COLOR_THEMES) {
-    if (existingNames.has(theme.key)) continue;
-
-    const png = renderSwatchPng(theme);
-    await rest.post(Routes.applicationEmojis(clientId), {
-      body: {
-        name: theme.key,
-        image: `data:image/png;base64,${png.toString("base64")}`,
-      },
-    });
-    created++;
-    console.log(`Created emoji :${theme.key}:`);
+    await create(theme.key, renderSwatchPng(theme), "image/png");
   }
-
-  if (!existingNames.has(LOADING_EMOJI_NAME)) {
-    const gif = readFileSync(LOADING_GIF_PATH);
-    await rest.post(Routes.applicationEmojis(clientId), {
-      body: {
-        name: LOADING_EMOJI_NAME,
-        image: `data:image/gif;base64,${gif.toString("base64")}`,
-      },
-    });
-    created++;
-    console.log(`Created emoji :${LOADING_EMOJI_NAME}:`);
+  for (const [alias, family] of Object.entries(FONT_ALIASES)) {
+    await create(alias, await renderFontSwatchPng(family), "image/png");
   }
+  await create(LOADING_EMOJI_NAME, readFileSync(LOADING_GIF_PATH), "image/gif");
 
-  console.log(
-    created ? `Created ${created} emoji(s).` : "All emoji already exist.",
-  );
+  console.log(`Synced ${managedNames.size} emoji.`);
 }
 
 void main();

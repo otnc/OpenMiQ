@@ -1,5 +1,9 @@
 import { describe, expect, it } from "vitest";
-import { FONT_ALIASES, resolveFontAlias } from "../src/fonts.js";
+import {
+  aliasForFamily,
+  FONT_ALIASES,
+  resolveFontAlias,
+} from "../src/fonts.js";
 
 describe("resolveFontAlias", () => {
   it("resolves every documented alias to a catalogued family", () => {
@@ -31,5 +35,17 @@ describe("resolveFontAlias", () => {
     expect(resolveFontAlias("jiyu")).toBeNull();
     expect(resolveFontAlias("not-a-font")).toBeNull();
     expect(resolveFontAlias("")).toBeNull();
+  });
+});
+
+describe("aliasForFamily", () => {
+  it("reverses every documented alias back to its own family", () => {
+    for (const [alias, family] of Object.entries(FONT_ALIASES)) {
+      expect(aliasForFamily(family)).toBe(alias);
+    }
+  });
+
+  it("returns undefined for a family with no alias", () => {
+    expect(aliasForFamily("Not A Real Family")).toBeUndefined();
   });
 });
