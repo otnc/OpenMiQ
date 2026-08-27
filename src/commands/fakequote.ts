@@ -4,7 +4,7 @@ import {
   SlashCommandBuilder,
   type SlashCommandOptionsOnlyBuilder,
 } from "discord.js";
-import { MiQ, stripDiscordMarkdown } from "makeitaquote";
+import { MiQ, type MessageLike } from "makeitaquote";
 import { buildComponents } from "../components.js";
 import { COLOR_THEME_LIST } from "../colorThemes.js";
 import {
@@ -83,6 +83,72 @@ const BLOCK_MESSAGE: Record<"bot" | "guild" | "user", Translations> = {
   user: STRINGS.blockedByUser,
 };
 
+const MENTION_TOKEN_RE = /<(@!?|@&|#)(\d+)>/g;
+
+/**
+ * `/fakequote`'s message is free-typed text, not a real Discord message, so
+ * it has no `mentions` collection for `setFromMessage()` to resolve
+ * `<@id>`/`<@&id>`/`<#id>` tokens against — build one by hand from whatever
+ * IDs the text actually references.
+ */
+async function resolveInlineMentions(
+  interaction: ChatInputCommandInteraction,
+  text: string,
+): Promise<NonNullable<MessageLike["mentions"]>> {
+  const userIds = new Set<string>();
+  const roleIds = new Set<string>();
+  const channelIds = new Set<string>();
+  for (const match of text.matchAll(MENTION_TOKEN_RE)) {
+    const [, prefix, id] = match;
+    if (!id) continue;
+    if (prefix === "@&") roleIds.add(id);
+    else if (prefix === "#") channelIds.add(id);
+    else userIds.add(id);
+  }
+
+  const guild = interaction.guild;
+  const users = new Map<string, { username?: string }>();
+  const members = guild
+    ? new Map<string, { displayName?: string; nickname?: string | null }>()
+    : null;
+  const roles = new Map<string, { name?: string }>();
+  const channels = new Map<string, { name?: string | null }>();
+
+  await Promise.all(
+    [...userIds].map(async (id) => {
+      const user = await interaction.client.users.fetch(id).catch(() => null);
+      if (user) users.set(id, { username: user.username });
+      const member = await guild?.members.fetch(id).catch(() => null);
+      if (member) {
+        members?.set(id, {
+          displayName: member.displayName,
+          nickname: member.nickname,
+        });
+      }
+    }),
+  );
+  if (guild) {
+    await Promise.all(
+      [...roleIds].map(async (id) => {
+        const role =
+          guild.roles.cache.get(id) ??
+          (await guild.roles.fetch(id).catch(() => null));
+        if (role) roles.set(id, { name: role.name });
+      }),
+    );
+    await Promise.all(
+      [...channelIds].map(async (id) => {
+        const channel =
+          guild.channels.cache.get(id) ??
+          (await guild.channels.fetch(id).catch(() => null));
+        if (channel) channels.set(id, { name: channel.name });
+      }),
+    );
+  }
+
+  return { members, users, channels, roles };
+}
+
 export async function runFakequoteCommand(
   interaction: ChatInputCommandInteraction,
 ): Promise<void> {
@@ -153,10 +219,12 @@ export async function runFakequoteCommand(
     inline,
   });
 
+  const mentions = await resolveInlineMentions(interaction, messageText);
   const data = new MiQ()
-    // Same treatment as setFromMessage(..., { stripDiscordMarkdown: true }):
-    // the quote image shows plain text, not raw markdown markers.
-    .setText(stripDiscordMarkdown(messageText))
+    .setFromMessage(
+      { content: messageText, author: { username: author.username }, mentions },
+      { stripDiscordMarkdown: true },
+    )
     .setAvatar(avatar)
     .setUsername(author.username)
     .setDisplayName(displayName)
