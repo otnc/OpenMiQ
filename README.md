@@ -1,8 +1,12 @@
+<div align="center">
+
+<img src=".github/icon.png" width="120" alt="Open MiQ icon">
+
 # Open MiQ Bot
 
-<p align="center"><img src=".github/icon.png" width="120" alt="Open MiQ icon"></p>
+</div>
 
-[![技術者倫理|遵守済み](https://gijutsusharin.li/badge.svg)](https://gijutsusharin.li)
+[![CI](https://img.shields.io/github/actions/workflow/status/otnc/OpenMiQ/ci.yml?branch=main&label=ci)](https://github.com/otnc/OpenMiQ/actions/workflows/ci.yml) [![License](https://img.shields.io/github/license/otnc/OpenMiQ)](./LICENSE) [![Node.js](https://img.shields.io/badge/node-%3E%3D24-339933?logo=node.js&logoColor=white)](https://nodejs.org) [![技術者倫理|遵守済み](https://gijutsusharin.li/badge.svg)](https://gijutsusharin.li)
 
 _[日本語](./README-ja.md)_
 
