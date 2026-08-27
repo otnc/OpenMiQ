@@ -56,6 +56,8 @@ export interface ParsedInvocation {
 
 const FONT_PREFIX_RE = /^font[=:](.*)$/i;
 const THEME_PREFIX_RE = /^theme[=:](.*)$/i;
+/** The official bot's own spellings for "no color theme" — see the comment where this is used. */
+const DEFAULT_THEME_TOKENS = new Set(["default", "def", "b", "w"]);
 
 /**
  * Parses the options written after the bot mention (or passed to
@@ -66,9 +68,11 @@ const THEME_PREFIX_RE = /^theme[=:](.*)$/i;
  * `flip`/`f` vs `unflip`/`u`, `new`/`n` (or `portrait`) vs `side`/`s` (or
  * `classic`) — `new` also clears `flip`, since it has no effect once the
  * layout is portrait. Plus `theme=alias` (a named background color preset —
- * `theme=default` clears a saved default back to none) and `font=alias`
- * (the alias may be quoted, and runs to the end of the string — put it
- * last); neither `theme=` nor `font=` has a one-letter shortcut.
+ * `theme=default`, `theme=def`, `theme=b` and `theme=w` all clear a saved
+ * default back to none, matching the official bot's own spellings — see
+ * `resolveColorTheme()`) and `font=alias` (the alias may be quoted, and runs
+ * to the end of the string — put it last); neither `theme=` nor `font=` has
+ * a one-letter shortcut.
  */
 export function parseOptions(text: string): ParsedInvocation {
   const settings: Partial<QuoteSettings> = {};
@@ -108,7 +112,10 @@ export function parseOptions(text: string): ParsedInvocation {
       const themeMatch = THEME_PREFIX_RE.exec(token);
       if (themeMatch) {
         const raw = themeMatch[1] ?? "";
-        if (raw.trim().toLowerCase() === "default") {
+        // "b"/"w"/"def" are the official bot's own aliases for clearing
+        // back to its un-colored theme — its black/white looks come from
+        // the light/dark toggle, not from theme=, so all four are synonyms.
+        if (DEFAULT_THEME_TOKENS.has(raw.trim().toLowerCase())) {
           settings.colorTheme = null;
         } else {
           const resolved = raw ? resolveColorTheme(raw) : null;

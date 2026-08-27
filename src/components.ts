@@ -9,6 +9,7 @@ import {
 import { FONT_CATALOGUE } from "makeitaquote";
 import { colorThemeEmoji, fontEmoji } from "./appEmojis.js";
 import {
+  aliasForColorTheme,
   COLOR_THEMES,
   colorThemeTextBase,
   type ColorTheme,
@@ -157,9 +158,6 @@ function fontOption(
   settings: QuoteSettings,
 ): StringSelectMenuOptionBuilder {
   const alias = aliasForFamily(family);
-  // "Family (alias)" — once color themes grow their own short aliases (see
-  // colorThemes.ts), give colorThemeOption() below the same "label (alias)"
-  // treatment for consistency.
   const option = new StringSelectMenuOptionBuilder()
     .setLabel(alias ? `${family} (${alias})` : family)
     .setValue(family)
@@ -175,8 +173,9 @@ function colorThemeOption(
   theme: ColorTheme,
   settings: QuoteSettings,
 ): StringSelectMenuOptionBuilder {
+  const alias = aliasForColorTheme(theme.key);
   const option = new StringSelectMenuOptionBuilder()
-    .setLabel(theme.label)
+    .setLabel(alias ? `${theme.label} (${alias})` : theme.label)
     .setValue(theme.key)
     .setDefault(settings.colorTheme === theme.key);
   // Only set once `pnpm run deploy:images` has created the application

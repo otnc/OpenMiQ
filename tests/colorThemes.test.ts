@@ -1,5 +1,6 @@
 import { describe, expect, it } from "vitest";
 import {
+  aliasForColorTheme,
   COLOR_THEMES,
   colorThemeGradient,
   colorThemeTextBase,
@@ -20,6 +21,34 @@ describe("resolveColorTheme", () => {
   it("returns null for an unknown key", () => {
     expect(resolveColorTheme("not-a-theme")).toBeNull();
     expect(resolveColorTheme("")).toBeNull();
+  });
+
+  it("resolves every theme's official short alias, case insensitively", () => {
+    for (const theme of COLOR_THEMES) {
+      if (!theme.alias) continue;
+      expect(resolveColorTheme(theme.alias)).toBe(theme.key);
+      expect(resolveColorTheme(theme.alias.toUpperCase())).toBe(theme.key);
+    }
+  });
+
+  it("resolves every theme key with its underscores dropped", () => {
+    for (const theme of COLOR_THEMES) {
+      expect(resolveColorTheme(theme.key.replace(/_/g, ""))).toBe(theme.key);
+    }
+  });
+});
+
+describe("aliasForColorTheme", () => {
+  it("returns the official short alias for a themed key that has one", () => {
+    expect(aliasForColorTheme("mint_apple")).toBe("ma");
+  });
+
+  it("returns undefined for a theme with no short alias", () => {
+    expect(aliasForColorTheme("hanami")).toBeUndefined();
+  });
+
+  it("returns undefined for an unknown key", () => {
+    expect(aliasForColorTheme("not-a-theme")).toBeUndefined();
   });
 });
 

@@ -151,6 +151,17 @@ describe("parseOptions", () => {
     expect(parseOptions("theme=DEFAULT").settings.colorTheme).toBeNull();
   });
 
+  it("parses theme=<official short alias>", () => {
+    const { settings } = parseOptions("theme=ma");
+    expect(settings.colorTheme).toBe("mint_apple");
+  });
+
+  it("theme=def, theme=b and theme=w are the official bot's own default aliases", () => {
+    expect(parseOptions("theme=def").settings.colorTheme).toBeNull();
+    expect(parseOptions("theme=b").settings.colorTheme).toBeNull();
+    expect(parseOptions("theme=w").settings.colorTheme).toBeNull();
+  });
+
   it("ignores unknown tokens", () => {
     const { settings } = parseOptions("hello world");
     expect(settings).toEqual({});

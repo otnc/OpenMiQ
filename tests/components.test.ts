@@ -2,6 +2,7 @@ import { describe, expect, it } from "vitest";
 import {
   buildComponents,
   COLOR_BUTTON_ID,
+  COLOR_THEME_SELECT_ID,
   FLIP_BUTTON_ID,
   FONT_SELECT_ID,
   LIGHT_BUTTON_ID,
@@ -33,6 +34,26 @@ describe("buildComponents", () => {
       (o) => o.value === "M PLUS Rounded 1c",
     );
     expect(mplus?.label).toBe("M PLUS Rounded 1c (mplus)");
+  });
+
+  it('labels a color theme with an official alias as "label (alias)"', () => {
+    const [, , colorThemeRow] = buildComponents(DEFAULT_SETTINGS, "en", false);
+    const themeSelect = colorThemeRow!.components[0]!.toJSON() as {
+      custom_id: string;
+      options: { label: string; value: string }[];
+    };
+    expect(themeSelect.custom_id).toBe(COLOR_THEME_SELECT_ID);
+    const mintApple = themeSelect.options.find((o) => o.value === "mint_apple");
+    expect(mintApple?.label).toBe("Mint Apple (ma)");
+  });
+
+  it("leaves a color theme with no official alias unlabeled", () => {
+    const [, , colorThemeRow] = buildComponents(DEFAULT_SETTINGS, "en", false);
+    const themeSelect = colorThemeRow!.components[0]!.toJSON() as {
+      options: { label: string; value: string }[];
+    };
+    const hanami = themeSelect.options.find((o) => o.value === "hanami");
+    expect(hanami?.label).toBe("Hanami");
   });
 
   it("gives the toggle buttons an emoji only, no text label", () => {
