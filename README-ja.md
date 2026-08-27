@@ -1,5 +1,7 @@
 # Open MiQ Bot
 
+<p align="center"><img src=".github/icon.png" width="120" alt="Open MiQ icon"></p>
+
 [![技術者倫理|遵守済み](https://gijutsusharin.li/badge.svg)](https://gijutsusharin.li)
 
 _[English](./README.md)_
