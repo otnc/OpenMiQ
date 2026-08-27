@@ -185,7 +185,9 @@ export function buildTheme(
 
   const theme: ThemeInput = {
     extends: palette,
-    layout: settings.layout,
+    // Coerced rather than passed through raw: a settings file saved before
+    // the "portrait" keyword was dropped may still have that value on disk.
+    layout: isNew ? "new" : "side",
     avatar: {
       grayscale: !settings.color,
       ...(isNew ? {} : { position: settings.flip ? "right" : "left" }),
