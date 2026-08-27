@@ -6,7 +6,7 @@
 
 </div>
 
-[![CI](https://img.shields.io/github/actions/workflow/status/otnc/OpenMiQ/ci.yml?branch=main&label=ci)](https://github.com/otnc/OpenMiQ/actions/workflows/ci.yml) [![License](https://img.shields.io/github/license/otnc/OpenMiQ)](./LICENSE) [![Node.js](https://img.shields.io/badge/node-%3E%3D24-339933?logo=node.js&logoColor=white)](https://nodejs.org) [![技術者倫理|遵守済み](https://gijutsusharin.li/badge.svg)](https://gijutsusharin.li)
+[![CI](https://img.shields.io/github/actions/workflow/status/otnc/OpenMiQ/ci.yml?branch=main&label=ci)](https://github.com/otnc/OpenMiQ/actions/workflows/ci.yml) [![License](https://img.shields.io/github/license/otnc/OpenMiQ)](./LICENSE) [![Node](https://img.shields.io/badge/node-%3E%3D24-339933?logo=node.js&logoColor=white)](https://nodejs.org) [![技術者倫理|遵守済み](https://gijutsusharin.li/badge.svg)](https://gijutsusharin.li)
 
 _[English](./README.md)_
 
