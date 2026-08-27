@@ -67,7 +67,9 @@ const DEFAULT_THEME_TOKENS = new Set(["default", "def", "b", "w"]);
  * vs `mono`/`m`, `bold`/`b` vs `regular`/`r`, `light`/`l` vs `dark`/`d`,
  * `flip`/`f` vs `unflip`/`u`, `new`/`n` (or `portrait`) vs `side`/`s` (or
  * `classic`) — `new` also clears `flip`, since it has no effect once the
- * layout is portrait. Plus `theme=alias` (a named background color preset —
+ * layout is portrait. Options can be separated by whitespace, commas, or
+ * both (`c n`, `c,n` and `c, n` all parse the same). Plus `theme=alias` (a
+ * named background color preset —
  * `theme=default`, `theme=def`, `theme=b` and `theme=w` all clear a saved
  * default back to none, matching the official bot's own spellings — see
  * `resolveColorTheme()`) and `font=alias` (the alias may be quoted, and runs
@@ -79,7 +81,10 @@ export function parseOptions(text: string): ParsedInvocation {
   let unknownFont: string | null = null;
   let unknownTheme: string | null = null;
 
-  const tokens = text.trim().split(/\s+/).filter(Boolean);
+  const tokens = text
+    .trim()
+    .split(/[,\s]+/)
+    .filter(Boolean);
   for (let i = 0; i < tokens.length; i++) {
     const token = tokens[i] as string;
     const lower = token.toLowerCase();

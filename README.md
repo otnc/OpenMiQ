@@ -28,6 +28,8 @@ Reply to a message and mention the bot (or right-click it and choose "Quote"): i
                                     effect — makeitaquote's portrait layout ignores avatar side
 @MiQ c b l f n                  … same as "color bold light flip new" — every option below
                                     also has a one-letter shortcut
+@MiQ c,n                        … commas work as separators too, with or without spaces —
+                                    same as "c n" or "c, n"
 ```
 
 Every toggle has an opposite (and a one-letter shortcut, except `font=`/`theme=`), so a saved default (see Slash commands below) can be overridden back for a single message even when it's already on:

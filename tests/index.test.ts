@@ -30,6 +30,24 @@ describe("parseOptions", () => {
     expect(parseOptions("new flip").settings.flip).toBe(true);
   });
 
+  it("accepts commas as option separators, with or without spaces", () => {
+    expect(parseOptions("c,n").settings).toEqual({
+      color: true,
+      layout: "portrait",
+      flip: false,
+    });
+    expect(parseOptions("c flip, light").settings).toEqual({
+      color: true,
+      flip: true,
+      light: true,
+    });
+    expect(parseOptions("c, ,n").settings).toEqual({
+      color: true,
+      layout: "portrait",
+      flip: false,
+    });
+  });
+
   it("parses font=<alias>", () => {
     const { settings } = parseOptions("font=pop");
     expect(settings.font).toBe("Hachi Maru Pop");
