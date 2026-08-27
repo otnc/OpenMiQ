@@ -15,16 +15,16 @@ export interface QuoteSettings {
   color: boolean;
   /** Light theme instead of dark. */
   light: boolean;
-  /** Avatar on the right instead of the left. Ignored when `layout` is `portrait`. */
+  /** Avatar on the right instead of the left. Ignored when `layout` is `new`. */
   flip: boolean;
   /** Bold quote text instead of the font's regular weight. */
   bold: boolean;
   /**
-   * `side` is the original left/right layout; `portrait` fills the canvas
-   * with the avatar and puts the quote over the bottom (makeitaquote's own
-   * `layout: "new"`).
+   * `side` is the original left/right layout; `new` fills the canvas with
+   * the avatar and puts the quote over the bottom — same names as
+   * makeitaquote's own `LayoutMode`.
    */
-  layout: "side" | "portrait";
+  layout: "side" | "new";
   /** Font family for the quote text, or `null` to let the base theme choose. */
   font: string | null;
   /** A named background color preset (see `colorThemes.ts`), or `null` for the base theme's own background. */
@@ -64,12 +64,11 @@ const DEFAULT_THEME_TOKENS = new Set(["default", "def", "b", "w"]);
  * `options` string), separated by whitespace and/or commas. Each toggle has
  * an opposite and a one-letter shortcut: `color`/`c` vs `mono`/`m`,
  * `bold`/`b` vs `regular`/`r`, `light`/`l` vs `dark`/`d`, `flip`/`f` vs
- * `unflip`/`u`, `new`/`n` (or `portrait`) vs `side`/`s` (or `classic`) —
- * `new` also clears `flip`, which has no effect once the layout is
- * portrait. Plus `theme=alias` (`theme=default`/`def`/`b`/`w` clear a saved
- * theme back to none — see `resolveColorTheme()`) and `font=alias` (quoted
- * or not, runs to the end of the string — put it last); neither has a
- * one-letter shortcut.
+ * `unflip`/`u`, `new`/`n` vs `side`/`s` — `new` also clears `flip`, which
+ * has no effect once the layout is `new`. Plus `theme=alias`
+ * (`theme=default`/`def`/`b`/`w` clear a saved theme back to none — see
+ * `resolveColorTheme()`) and `font=alias` (quoted or not, runs to the end
+ * of the string — put it last); neither has a one-letter shortcut.
  */
 export function parseOptions(text: string): ParsedInvocation {
   const settings: Partial<QuoteSettings> = {};
@@ -100,13 +99,13 @@ export function parseOptions(text: string): ParsedInvocation {
       settings.flip = true;
     } else if (lower === "unflip" || lower === "u") {
       settings.flip = false;
-    } else if (lower === "new" || lower === "portrait" || lower === "n") {
-      settings.layout = "portrait";
-      // flip has no effect once the layout is portrait (see buildTheme()
-      // below) — clear it too, so a saved flip default doesn't silently
-      // reappear the next time the layout switches back to side.
+    } else if (lower === "new" || lower === "n") {
+      settings.layout = "new";
+      // flip has no effect once the layout is new (see buildTheme() below)
+      // — clear it too, so a saved flip default doesn't silently reappear
+      // the next time the layout switches back to side.
       settings.flip = false;
-    } else if (lower === "classic" || lower === "side" || lower === "s") {
+    } else if (lower === "side" || lower === "s") {
       settings.layout = "side";
     } else {
       const themeMatch = THEME_PREFIX_RE.exec(token);
@@ -164,8 +163,8 @@ function unquote(value: string): string {
  *
  * `color` and `light` combine freely with either layout. `flip` only
  * applies to the `side` layout — makeitaquote ignores `avatar.position`
- * once the layout is `new` (portrait), so `new` and `flip` can't
- * meaningfully combine. A color theme fixes its own `light`/`dark` text
+ * once the layout is `new`, so `new` and `flip` can't meaningfully
+ * combine. A color theme fixes its own `light`/`dark` text
  * palette the same way (see colorThemes.ts's `textBase`), overriding
  * `settings.light` — the light button reflects and disables this in
  * components.ts.
@@ -178,7 +177,7 @@ export function buildTheme(
   settings: QuoteSettings,
   options?: { fake?: boolean },
 ): ThemeInput {
-  const portrait = settings.layout === "portrait";
+  const isNew = settings.layout === "new";
   const light = settings.colorTheme
     ? colorThemeTextBase(settings.colorTheme) === "light"
     : settings.light;
@@ -186,10 +185,10 @@ export function buildTheme(
 
   const theme: ThemeInput = {
     extends: palette,
-    layout: portrait ? "new" : "side",
+    layout: settings.layout,
     avatar: {
       grayscale: !settings.color,
-      ...(portrait ? {} : { position: settings.flip ? "right" : "left" }),
+      ...(isNew ? {} : { position: settings.flip ? "right" : "left" }),
     },
   };
   if (settings.font || settings.bold) {

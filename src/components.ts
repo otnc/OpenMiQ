@@ -30,16 +30,12 @@ const STRINGS = {
 } satisfies Record<string, Translations>;
 
 /**
- * The side/portrait layout labels, also reused by `/settings|/server-settings|/admin
- * set layout:`'s choice names in `scope.ts` — same wording either way. The
- * English side uses "New", matching `new` being the primary mention keyword
- * (`portrait` is only the secondary synonym); the Japanese side stays a
- * plain description of the layout, since there's no equivalent connotation
- * to preserve there.
+ * The side/new layout labels, also reused by `/settings|/server-settings|/admin
+ * set layout:`'s choice names in `scope.ts` — same wording either way.
  */
 export const LAYOUT_LABELS = {
   toSide: { en: "Side", ja: "横画像" },
-  toPortrait: { en: "New", ja: "縦画像" },
+  toNew: { en: "New", ja: "縦画像" },
 } satisfies Record<string, Translations>;
 
 export const COLOR_BUTTON_ID = "miq:color";
@@ -71,10 +67,10 @@ export function buildComponents(
   locale: string,
   deleteButtonEnabled: boolean,
 ): ActionRowBuilder<MessageActionRowComponentBuilder>[] {
-  const portrait = settings.layout === "portrait";
+  const isNew = settings.layout === "new";
   // A color theme fixes its own light/dark text palette (see buildTheme()
   // in quoteOptions.ts) — same idea as flip having nothing to toggle once
-  // the layout is portrait.
+  // the layout is new.
   const themeTextBase = settings.colorTheme
     ? colorThemeTextBase(settings.colorTheme)
     : undefined;
@@ -94,9 +90,9 @@ export function buildComponents(
         .setCustomId(FLIP_BUTTON_ID)
         .setEmoji("↔️")
         .setStyle(activeStyle(settings.flip))
-        // Ignored by makeitaquote once the layout is portrait (stacked) — see
-        // buildTheme() in quoteOptions.ts — so there's nothing to toggle.
-        .setDisabled(portrait),
+        // Ignored by makeitaquote once the layout is new — see buildTheme()
+        // in quoteOptions.ts — so there's nothing to toggle.
+        .setDisabled(isNew),
       new ButtonBuilder()
         .setCustomId(LIGHT_BUTTON_ID)
         .setEmoji(light ? "🌙" : "☀️")
@@ -104,8 +100,8 @@ export function buildComponents(
         .setDisabled(themeTextBase !== undefined),
       new ButtonBuilder()
         .setCustomId(LAYOUT_BUTTON_ID)
-        .setEmoji(portrait ? "🖥️" : "📱")
-        .setStyle(activeStyle(portrait)),
+        .setEmoji(isNew ? "🖥️" : "📱")
+        .setStyle(activeStyle(isNew)),
     );
 
   const fontSelect = new StringSelectMenuBuilder()

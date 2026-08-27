@@ -52,8 +52,8 @@ const STRINGS = {
     ja: "アバターを右側に配置 (横画像のみ)",
   },
   optionLayout: {
-    en: "side or portrait",
-    ja: "side (横画像) または portrait (縦画像)",
+    en: "side or new",
+    ja: "side (横画像) または new (縦画像)",
   },
   blockFakequoteUser: {
     en: "Block others from putting words in your mouth with /fakequote",
@@ -96,7 +96,7 @@ const STRINGS = {
   valueOff: { en: "off", ja: "オフ" },
   valueNotSet: { en: "not set", ja: "未設定" },
   valueSide: { en: "side", ja: "横画像" },
-  valuePortrait: { en: "portrait", ja: "縦画像" },
+  valueNew: { en: "new", ja: "縦画像" },
 
   viewTitle: { en: "{{scope}} defaults", ja: "{{scope}}デフォルト" },
   viewEmpty: {
@@ -268,9 +268,9 @@ function addSetOptions(
             name_localizations: { ja: LAYOUT_LABELS.toSide.ja },
           },
           {
-            name: "portrait",
-            value: "portrait",
-            name_localizations: { ja: LAYOUT_LABELS.toPortrait.ja },
+            name: "new",
+            value: "new",
+            name_localizations: { ja: LAYOUT_LABELS.toNew.ja },
           },
         ),
     )
@@ -366,10 +366,7 @@ function formatLayout(
   locale: string,
 ): string {
   if (value === undefined) return t(STRINGS.valueNotSet, locale);
-  return t(
-    value === "side" ? STRINGS.valueSide : STRINGS.valuePortrait,
-    locale,
-  );
+  return t(value === "side" ? STRINGS.valueSide : STRINGS.valueNew, locale);
 }
 
 /** Dispatches `view`/`set`/`reset` for a `/settings`, `/server-settings` or `/admin` invocation. */

@@ -15,14 +15,14 @@ describe("parseOptions", () => {
     });
   });
 
-  it("parses color, bold, light and new (portrait), which clears flip", () => {
+  it("parses color, bold, light and new, which clears flip", () => {
     const { settings } = parseOptions("color bold light flip new");
     expect(settings).toEqual({
       color: true,
       bold: true,
       light: true,
       flip: false,
-      layout: "portrait",
+      layout: "new",
     });
   });
 
@@ -33,7 +33,7 @@ describe("parseOptions", () => {
   it("accepts commas as option separators, with or without spaces", () => {
     expect(parseOptions("c,n").settings).toEqual({
       color: true,
-      layout: "portrait",
+      layout: "new",
       flip: false,
     });
     expect(parseOptions("c flip, light").settings).toEqual({
@@ -43,7 +43,7 @@ describe("parseOptions", () => {
     });
     expect(parseOptions("c, ,n").settings).toEqual({
       color: true,
-      layout: "portrait",
+      layout: "new",
       flip: false,
     });
   });
@@ -92,17 +92,14 @@ describe("parseOptions", () => {
     });
   });
 
-  it("classic is a synonym for side", () => {
-    expect(parseOptions("classic").settings.layout).toBe("side");
-  });
-
-  it("portrait is a synonym for new", () => {
-    expect(parseOptions("portrait").settings.layout).toBe("portrait");
-  });
-
   it("right and left are no longer recognized (flip/unflip are the only keywords)", () => {
     expect(parseOptions("right").settings).toEqual({});
     expect(parseOptions("left").settings).toEqual({});
+  });
+
+  it("portrait and classic are no longer recognized (new/side are the only keywords)", () => {
+    expect(parseOptions("portrait").settings).toEqual({});
+    expect(parseOptions("classic").settings).toEqual({});
   });
 
   it("accepts a one-letter shortcut for every toggle", () => {
@@ -112,7 +109,7 @@ describe("parseOptions", () => {
       bold: true,
       light: true,
       flip: true,
-      layout: "portrait",
+      layout: "new",
     });
   });
 
@@ -139,7 +136,7 @@ describe("parseOptions", () => {
     expect(parseOptions("color mono").settings.color).toBe(false);
     expect(parseOptions("mono color").settings.color).toBe(true);
     expect(parseOptions("new side").settings.layout).toBe("side");
-    expect(parseOptions("side new").settings.layout).toBe("portrait");
+    expect(parseOptions("side new").settings.layout).toBe("new");
   });
 
   it("parses theme=<alias>", () => {
@@ -209,13 +206,13 @@ describe("buildTheme", () => {
     expect(theme.avatar).toEqual({ grayscale: false, position: "right" });
   });
 
-  it("uses the new layout and omits avatar position when layout is portrait", () => {
+  it("uses the new layout and omits avatar position", () => {
     const theme = buildTheme({
       color: false,
       light: false,
       flip: true,
       bold: false,
-      layout: "portrait",
+      layout: "new",
       font: null,
       colorTheme: null,
     });
@@ -224,8 +221,8 @@ describe("buildTheme", () => {
     expect(theme.avatar).toEqual({ grayscale: true });
   });
 
-  it("resolves to portrait's own 630x790 canvas, not the 1200x630 default", () => {
-    const theme = buildTheme({ ...DEFAULT_SETTINGS, layout: "portrait" });
+  it("resolves to the new layout's own 630x790 canvas, not the 1200x630 default", () => {
+    const theme = buildTheme({ ...DEFAULT_SETTINGS, layout: "new" });
     const resolved = defineTheme(theme);
     expect(resolved.width).toBe(630);
     expect(resolved.height).toBe(790);
@@ -237,7 +234,7 @@ describe("buildTheme", () => {
       light: true,
       flip: false,
       bold: false,
-      layout: "portrait",
+      layout: "new",
       font: null,
       colorTheme: null,
     });
@@ -291,11 +288,11 @@ describe("buildTheme", () => {
     expect(theme.extends).toBe("light");
   });
 
-  it("a color theme's text palette still applies under the portrait layout", () => {
+  it("a color theme's text palette still applies under the new layout", () => {
     const theme = buildTheme({
       ...DEFAULT_SETTINGS,
       light: false,
-      layout: "portrait",
+      layout: "new",
       colorTheme: "hanami",
     });
     expect(theme.extends).toBe("light");

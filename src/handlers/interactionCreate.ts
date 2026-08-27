@@ -183,8 +183,8 @@ function applyButton(
       settings.light = !settings.light;
       break;
     case LAYOUT_BUTTON_ID:
-      settings.layout = settings.layout === "portrait" ? "side" : "portrait";
-      if (settings.layout === "portrait") settings.flip = false;
+      settings.layout = settings.layout === "new" ? "side" : "new";
+      if (settings.layout === "new") settings.flip = false;
       break;
   }
 }

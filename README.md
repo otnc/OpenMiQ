@@ -24,31 +24,31 @@ Reply to a message and mention the bot (or right-click it and choose "Quote"): i
 @MiQ bold                       … bold quote text
 @MiQ light                      … light theme
 @MiQ flip                       … avatar on the right (side layout only)
-@MiQ new                        … portrait layout — avatar full-bleed, quote over the bottom
+@MiQ new                        … new layout — avatar full-bleed, quote over the bottom
 @MiQ font=pop                   … pick a font by alias
 @MiQ theme=sunset               … pick a named background color
 @MiQ theme=default              … clear a saved color-theme default for this message
 @MiQ theme=sunset new font=pop  … options combine freely — put font= last, it reads to the end
-@MiQ new flip                   … flip overrides new's automatic reset, but portrait ignores it anyway
+@MiQ new flip                   … flip overrides new's automatic reset, but new ignores it anyway
 @MiQ c b l f n                  … same as "color bold light flip new"
 @MiQ c,n                        … commas work as separators too, same as "c n"
 ```
 
 Every toggle has an opposite (and a one-letter shortcut, except `font=`/`theme=`), so a saved default (see Slash commands below) can be overridden back for a single message even when it's already on:
 
-| Option                | Shortcut | Opposite              | Shortcut |
-| --------------------- | -------- | --------------------- | -------- |
-| `color`               | `c`      | `mono`                | `m`      |
-| `bold`                | `b`      | `regular`             | `r`      |
-| `light`               | `l`      | `dark`                | `d`      |
-| `flip`                | `f`      | `unflip`              | `u`      |
-| `new` (or `portrait`) | `n`      | `side` (or `classic`) | `s`      |
+| Option  | Shortcut | Opposite  | Shortcut |
+| ------- | -------- | --------- | -------- |
+| `color` | `c`      | `mono`    | `m`      |
+| `bold`  | `b`      | `regular` | `r`      |
+| `light` | `l`      | `dark`    | `d`      |
+| `flip`  | `f`      | `unflip`  | `u`      |
+| `new`   | `n`      | `side`    | `s`      |
 
 **Or right-click (long-press on mobile) any message → Apps → Quote** — same result, no typing, but it always uses your saved defaults (see below) since there's nowhere to type options.
 
 Mentioning the bot without replying to anything reacts with ❓ instead of sending (and then deleting) a usage message — press that reaction within a minute and it replies with `/help`'s text.
 
-Fonts are chosen by short alias — `makeitaquote`'s own `FONT_ALIASES`: `sans`, `mplus`, `dela`, `dot`, `pop`, `rampart`, `reggae`, `rocknroll`, `serif`, `yuji`, `yusei`, `inconsolata`, `exo2`, `bruno`, `poltawski`, `vina`, `script`, `castoro`. An exact makeitaquote family name (e.g. `font="Dela Gothic One"`) also works, and `mplus` (M PLUS Rounded 1c) is the bot's own default when nothing else picks one. `theme=` picks one of 21 named background colors (`sunset`, `forest`, `midnight_blurple`, …), matching the [official Make it a Quote bot's own theme list](https://wiki.neody.land/wiki/Make_it_a_Quote/Themes) — its full key, that key with underscores dropped (`midnightblurple`), and its short code where it has one (`mb`) all resolve the same way. Each theme comes with its own fixed text color for contrast, so `light`/`dark` has no effect once one is set (same idea as `flip` and portrait) — `theme=default` (or its own aliases `theme=def`, `theme=b`, `theme=w`) clears a saved default back to none. Run `/help` for the full, localized lists of both. The color-theme select menu previews each one as a small gradient emoji, once `pnpm run deploy:images` (or `deploy`) has created them as application emoji — it falls back to plain text options until then.
+Fonts are chosen by short alias — `makeitaquote`'s own `FONT_ALIASES`: `sans`, `mplus`, `dela`, `dot`, `pop`, `rampart`, `reggae`, `rocknroll`, `serif`, `yuji`, `yusei`, `inconsolata`, `exo2`, `bruno`, `poltawski`, `vina`, `script`, `castoro`. An exact makeitaquote family name (e.g. `font="Dela Gothic One"`) also works, and `mplus` (M PLUS Rounded 1c) is the bot's own default when nothing else picks one. `theme=` picks one of 21 named background colors (`sunset`, `forest`, `midnight_blurple`, …), matching the [official Make it a Quote bot's own theme list](https://wiki.neody.land/wiki/Make_it_a_Quote/Themes) — its full key, that key with underscores dropped (`midnightblurple`), and its short code where it has one (`mb`) all resolve the same way. Each theme comes with its own fixed text color for contrast, so `light`/`dark` has no effect once one is set (same idea as `flip` and the `new` layout) — `theme=default` (or its own aliases `theme=def`, `theme=b`, `theme=w`) clears a saved default back to none. Run `/help` for the full, localized lists of both. The color-theme select menu previews each one as a small gradient emoji, once `pnpm run deploy:images` (or `deploy`) has created them as application emoji — it falls back to plain text options until then.
 
 A mention reply shows a "Generating…" placeholder (with its own animated emoji, also from `deploy:images`) while the image renders, then gets edited in place with the result.
 

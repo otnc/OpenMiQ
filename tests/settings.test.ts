@@ -40,7 +40,7 @@ describe("settings resolution", () => {
 
   it("merges quote-option defaults as bot < guild < user < inline", async () => {
     await settingsMod.setBotDefaults({
-      quoteDefaults: { color: true, layout: "portrait" },
+      quoteDefaults: { color: true, layout: "new" },
     });
     await settingsMod.setGuildSettings("g1", {
       quoteDefaults: { color: false },

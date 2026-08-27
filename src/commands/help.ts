@@ -48,7 +48,7 @@ const STRINGS = {
     ja: "アバターを右 / 左に配置 (横画像のみ)",
   },
   optionNew: {
-    en: "Portrait / side-by-side layout",
+    en: "New (vertical) / side-by-side layout",
     ja: "縦画像 / 横画像レイアウト",
   },
   optionFont: {
