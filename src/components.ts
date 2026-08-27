@@ -175,7 +175,7 @@ function colorThemeOption(
 ): StringSelectMenuOptionBuilder {
   const alias = aliasForColorTheme(theme.key);
   const option = new StringSelectMenuOptionBuilder()
-    .setLabel(alias ? `${theme.label} (${alias})` : theme.label)
+    .setLabel(`${theme.label}(${alias ? `${theme.key}, ${alias}` : theme.key})`)
     .setValue(theme.key)
     .setDefault(settings.colorTheme === theme.key);
   // Only set once `pnpm run deploy:images` has created the application

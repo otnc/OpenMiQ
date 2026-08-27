@@ -36,7 +36,7 @@ describe("buildComponents", () => {
     expect(mplus?.label).toBe("M PLUS Rounded 1c (mplus)");
   });
 
-  it('labels a color theme with an official alias as "label (alias)"', () => {
+  it('labels a color theme with an official alias as "label(key, alias)"', () => {
     const [, , colorThemeRow] = buildComponents(DEFAULT_SETTINGS, "en", false);
     const themeSelect = colorThemeRow!.components[0]!.toJSON() as {
       custom_id: string;
@@ -44,16 +44,16 @@ describe("buildComponents", () => {
     };
     expect(themeSelect.custom_id).toBe(COLOR_THEME_SELECT_ID);
     const mintApple = themeSelect.options.find((o) => o.value === "mint_apple");
-    expect(mintApple?.label).toBe("Mint Apple (ma)");
+    expect(mintApple?.label).toBe("Mint Apple(mint_apple, ma)");
   });
 
-  it("leaves a color theme with no official alias unlabeled", () => {
+  it('labels a color theme with no official alias as "label(key)"', () => {
     const [, , colorThemeRow] = buildComponents(DEFAULT_SETTINGS, "en", false);
     const themeSelect = colorThemeRow!.components[0]!.toJSON() as {
       options: { label: string; value: string }[];
     };
     const hanami = themeSelect.options.find((o) => o.value === "hanami");
-    expect(hanami?.label).toBe("Hanami");
+    expect(hanami?.label).toBe("Hanami(hanami)");
   });
 
   it("gives the toggle buttons an emoji only, no text label", () => {
