@@ -190,6 +190,7 @@ describe("buildTheme", () => {
   it("defaults to the dark theme with a grayscale avatar on the left", () => {
     const theme = buildTheme(DEFAULT_SETTINGS);
     expect(theme.extends).toBe("dark");
+    expect(theme.layout).toBe("side");
     expect(theme.avatar).toEqual({ grayscale: true, position: "left" });
   });
 
@@ -204,10 +205,11 @@ describe("buildTheme", () => {
       colorTheme: null,
     });
     expect(theme.extends).toBe("light");
+    expect(theme.layout).toBe("side");
     expect(theme.avatar).toEqual({ grayscale: false, position: "right" });
   });
 
-  it("uses the portrait preset and omits avatar position when layout is portrait", () => {
+  it("uses the new layout and omits avatar position when layout is portrait", () => {
     const theme = buildTheme({
       color: false,
       light: false,
@@ -217,7 +219,8 @@ describe("buildTheme", () => {
       font: null,
       colorTheme: null,
     });
-    expect(theme.extends).toBe("portrait");
+    expect(theme.extends).toBe("dark");
+    expect(theme.layout).toBe("new");
     expect(theme.avatar).toEqual({ grayscale: true });
   });
 
@@ -228,7 +231,7 @@ describe("buildTheme", () => {
     expect(resolved.height).toBe(790);
   });
 
-  it("uses portrait-light when portrait and light combine", () => {
+  it("combines the light palette with the new layout", () => {
     const theme = buildTheme({
       color: false,
       light: true,
@@ -238,7 +241,8 @@ describe("buildTheme", () => {
       font: null,
       colorTheme: null,
     });
-    expect(theme.extends).toBe("portrait-light");
+    expect(theme.extends).toBe("light");
+    expect(theme.layout).toBe("new");
   });
 
   it("defaults to mplus, and sets the text font when a different one is chosen", () => {
@@ -294,7 +298,8 @@ describe("buildTheme", () => {
       layout: "portrait",
       colorTheme: "hanami",
     });
-    expect(theme.extends).toBe("portrait-light");
+    expect(theme.extends).toBe("light");
+    expect(theme.layout).toBe("new");
   });
 
   it("leaves the username prefix alone by default", () => {

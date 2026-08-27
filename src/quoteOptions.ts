@@ -1,4 +1,4 @@
-import type { ThemeInput, ThemeName } from "makeitaquote";
+import type { ThemeInput, ThemePalette } from "makeitaquote";
 import {
   colorThemeGradient,
   colorThemeTextBase,
@@ -21,8 +21,8 @@ export interface QuoteSettings {
   bold: boolean;
   /**
    * `side` is the original left/right layout; `portrait` fills the canvas
-   * with the avatar and puts the quote over the bottom (makeitaquote's
-   * `portrait`/`portrait-light` theme).
+   * with the avatar and puts the quote over the bottom (makeitaquote's own
+   * `layout: "new"`).
    */
   layout: "side" | "portrait";
   /** Font family for the quote text, or `null` to let the base theme choose. */
@@ -164,7 +164,7 @@ function unquote(value: string): string {
  *
  * `color` and `light` combine freely with either layout. `flip` only
  * applies to the `side` layout — makeitaquote ignores `avatar.position`
- * once the layout is `stacked` (portrait), so `new` and `flip` can't
+ * once the layout is `new` (portrait), so `new` and `flip` can't
  * meaningfully combine. A color theme fixes its own `light`/`dark` text
  * palette the same way (see colorThemes.ts's `textBase`), overriding
  * `settings.light` — the light button reflects and disables this in
@@ -182,16 +182,11 @@ export function buildTheme(
   const light = settings.colorTheme
     ? colorThemeTextBase(settings.colorTheme) === "light"
     : settings.light;
-  const extendsPreset: ThemeName = portrait
-    ? light
-      ? "portrait-light"
-      : "portrait"
-    : light
-      ? "light"
-      : "dark";
+  const palette: ThemePalette = light ? "light" : "dark";
 
   const theme: ThemeInput = {
-    extends: extendsPreset,
+    extends: palette,
+    layout: portrait ? "new" : "side",
     avatar: {
       grayscale: !settings.color,
       ...(portrait ? {} : { position: settings.flip ? "right" : "left" }),
