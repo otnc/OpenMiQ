@@ -1,14 +1,10 @@
+import { parseColor } from "makeitaquote";
 import { PNG } from "pngjs";
 import type { ColorTheme } from "./colorThemes.js";
 import { applyRoundedCorners } from "./roundedCorners.js";
 
 const SIZE = 64;
 const CORNER_RADIUS = SIZE * 0.2;
-
-function hexToRgb(hex: string): [r: number, g: number, b: number] {
-  const value = Number.parseInt(hex.replace("#", ""), 16);
-  return [(value >> 16) & 0xff, (value >> 8) & 0xff, value & 0xff];
-}
 
 function lerp(from: number, to: number, t: number): number {
   return Math.round(from + (to - from) * t);
@@ -24,17 +20,17 @@ function lerp(from: number, to: number, t: number): number {
  * favor of makeitaquote's own `backgroundGradient` (see colorThemes.ts).
  */
 export function renderSwatchPng(theme: ColorTheme): Buffer {
-  const [r0, g0, b0] = hexToRgb(theme.gradient[0]);
-  const [r1, g1, b1] = hexToRgb(theme.gradient[1]);
+  const from = parseColor(theme.gradient[0]);
+  const to = parseColor(theme.gradient[1]);
   const png = new PNG({ width: SIZE, height: SIZE });
 
   for (let y = 0; y < SIZE; y++) {
     for (let x = 0; x < SIZE; x++) {
       const t = (x + y) / (2 * (SIZE - 1));
       const i = (SIZE * y + x) << 2;
-      png.data[i] = lerp(r0, r1, t);
-      png.data[i + 1] = lerp(g0, g1, t);
-      png.data[i + 2] = lerp(b0, b1, t);
+      png.data[i] = lerp(from.r, to.r, t);
+      png.data[i + 1] = lerp(from.g, to.g, t);
+      png.data[i + 2] = lerp(from.b, to.b, t);
       png.data[i + 3] = 255;
     }
   }

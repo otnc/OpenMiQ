@@ -7,6 +7,7 @@ const THEME = {
   label: "Test",
   gradient: ["#000000", "#FFFFFF"] as const,
   textBase: "dark" as const,
+  alias: null,
 };
 
 describe("renderSwatchPng", () => {
