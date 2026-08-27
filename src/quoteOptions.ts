@@ -56,25 +56,20 @@ export interface ParsedInvocation {
 
 const FONT_PREFIX_RE = /^font[=:](.*)$/i;
 const THEME_PREFIX_RE = /^theme[=:](.*)$/i;
-/** The official bot's own spellings for "no color theme" — see the comment where this is used. */
+/** The official bot's own spellings for "no color theme". */
 const DEFAULT_THEME_TOKENS = new Set(["default", "def", "b", "w"]);
 
 /**
- * Parses the options written after the bot mention (or passed to
- * `/fakequote`'s `options` string). Each of these has an opposite, so a
- * saved default can be overridden back for one message even when it's
- * `true`/portrait/etc., and each also has a one-letter shortcut: `color`/`c`
- * vs `mono`/`m`, `bold`/`b` vs `regular`/`r`, `light`/`l` vs `dark`/`d`,
- * `flip`/`f` vs `unflip`/`u`, `new`/`n` (or `portrait`) vs `side`/`s` (or
- * `classic`) — `new` also clears `flip`, since it has no effect once the
- * layout is portrait. Options can be separated by whitespace, commas, or
- * both (`c n`, `c,n` and `c, n` all parse the same). Plus `theme=alias` (a
- * named background color preset —
- * `theme=default`, `theme=def`, `theme=b` and `theme=w` all clear a saved
- * default back to none, matching the official bot's own spellings — see
- * `resolveColorTheme()`) and `font=alias` (the alias may be quoted, and runs
- * to the end of the string — put it last); neither `theme=` nor `font=` has
- * a one-letter shortcut.
+ * Parses the options written after the bot mention (or `/fakequote`'s
+ * `options` string), separated by whitespace and/or commas. Each toggle has
+ * an opposite and a one-letter shortcut: `color`/`c` vs `mono`/`m`,
+ * `bold`/`b` vs `regular`/`r`, `light`/`l` vs `dark`/`d`, `flip`/`f` vs
+ * `unflip`/`u`, `new`/`n` (or `portrait`) vs `side`/`s` (or `classic`) —
+ * `new` also clears `flip`, which has no effect once the layout is
+ * portrait. Plus `theme=alias` (`theme=default`/`def`/`b`/`w` clear a saved
+ * theme back to none — see `resolveColorTheme()`) and `font=alias` (quoted
+ * or not, runs to the end of the string — put it last); neither has a
+ * one-letter shortcut.
  */
 export function parseOptions(text: string): ParsedInvocation {
   const settings: Partial<QuoteSettings> = {};

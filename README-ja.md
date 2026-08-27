@@ -19,18 +19,13 @@ _[English](./README.md)_
 @MiQ light                      … ライトテーマ
 @MiQ flip                       … アバターを右側に配置 (横画像レイアウトのみ)
 @MiQ new                        … 縦画像レイアウト — アバターを全面に、下部に引用文
-                                    (保存済みのflipデフォルトもオフに戻します)
 @MiQ font=pop                   … フォントをエイリアスで指定
 @MiQ theme=sunset               … 背景カラーを名前で指定
 @MiQ theme=default              … 保存済みのカラーテーマ指定をそのメッセージだけ解除
 @MiQ theme=sunset new font=pop  … 組み合わせも自由 — font= は末尾に置く(それ以降を読み切るため)
-@MiQ new flip                   … …new の後に flip を置くとそのリセットを上書きしますが、
-                                    見た目には影響しません — makeitaquoteの縦画像レイアウトは
-                                    アバターの左右指定を無視するため
-@MiQ c b l f n                  … "color bold light flip new" と同じ — 下記の各オプションには
-                                    1文字の短縮形もあります
-@MiQ c,n                        … カンマ区切りも可能(スペースありなしどちらでも) —
-                                    "c n" や "c, n" と同じ
+@MiQ new flip                   … flip は new の自動リセットを上書きしますが、縦画像では無視されます
+@MiQ c b l f n                  … "color bold light flip new" と同じ
+@MiQ c,n                        … カンマ区切りも可能 — "c n" と同じ
 ```
 
 それぞれのオプションには逆の指定と1文字の短縮形があり(`font=`/`theme=`を除く)、保存済みのデフォルト(下記スラッシュコマンド参照)がオンになっていても、そのメッセージだけ元に戻せます:

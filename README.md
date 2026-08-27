@@ -18,18 +18,14 @@ Reply to a message and mention the bot (or right-click it and choose "Quote"): i
 @MiQ bold                       … bold quote text
 @MiQ light                      … light theme
 @MiQ flip                       … avatar on the right (side layout only)
-@MiQ new                        … portrait layout — avatar full-bleed, quote over the bottom —
-                                    also resets a saved flip default back off
+@MiQ new                        … portrait layout — avatar full-bleed, quote over the bottom
 @MiQ font=pop                   … pick a font by alias
 @MiQ theme=sunset               … pick a named background color
 @MiQ theme=default              … clear a saved color-theme default for this message
 @MiQ theme=sunset new font=pop  … options combine freely — put font= last, it reads to the end
-@MiQ new flip                   … …flip after new overrides that reset, but still has no visual
-                                    effect — makeitaquote's portrait layout ignores avatar side
-@MiQ c b l f n                  … same as "color bold light flip new" — every option below
-                                    also has a one-letter shortcut
-@MiQ c,n                        … commas work as separators too, with or without spaces —
-                                    same as "c n" or "c, n"
+@MiQ new flip                   … flip overrides new's automatic reset, but portrait ignores it anyway
+@MiQ c b l f n                  … same as "color bold light flip new"
+@MiQ c,n                        … commas work as separators too, same as "c n"
 ```
 
 Every toggle has an opposite (and a one-letter shortcut, except `font=`/`theme=`), so a saved default (see Slash commands below) can be overridden back for a single message even when it's already on:
