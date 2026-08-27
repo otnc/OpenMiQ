@@ -36,7 +36,7 @@ describe("buildComponents", () => {
     expect(mplus?.label).toBe("M PLUS Rounded 1c (mplus)");
   });
 
-  it('labels a color theme with an official alias as "label(key, alias)"', () => {
+  it('labels a color theme with an official alias as "label(alias)"', () => {
     const [, , colorThemeRow] = buildComponents(DEFAULT_SETTINGS, "en", false);
     const themeSelect = colorThemeRow!.components[0]!.toJSON() as {
       custom_id: string;
@@ -44,7 +44,7 @@ describe("buildComponents", () => {
     };
     expect(themeSelect.custom_id).toBe(COLOR_THEME_SELECT_ID);
     const mintApple = themeSelect.options.find((o) => o.value === "mint_apple");
-    expect(mintApple?.label).toBe("Mint Apple(mint_apple, ma)");
+    expect(mintApple?.label).toBe("Mint Apple(ma)");
   });
 
   it('labels a color theme with no official alias as "label(key)"', () => {
