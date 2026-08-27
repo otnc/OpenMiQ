@@ -22,7 +22,7 @@
   "homepage": "https://github.com/otnc/OpenMiQ#readme",
   "scripts": {
     "test": "vitest run",
-    "setup": "miq install all",
+    "setup": "miq install all fonts",
     "build": "tsdown",
     "dev": "tsx watch --env-file-if-exists=.env --env-file-if-exists=.env.local src/index.ts",
     "start": "node dist/index.js",
