@@ -9,6 +9,7 @@ export default defineConfig({
   ],
   format: "esm",
   dts: false,
+  minify: true,
   platform: "node",
   target: "node24",
   clean: true,
