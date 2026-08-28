@@ -22,7 +22,7 @@
   "homepage": "https://github.com/otnc/OpenMiQ#readme",
   "scripts": {
     "test": "vitest run",
-    "setup": "miq install all fonts",
+    "setup": "miq install all",
     "build": "tsdown",
     "dev": "tsx watch --env-file-if-exists=.env --env-file-if-exists=.env.local src/index.ts",
     "start": "node dist/index.js",
@@ -39,7 +39,7 @@
   },
   "dependencies": {
     "discord.js": "^14.27.0",
-    "makeitaquote": "^11.0.0",
+    "makeitaquote": "^11.1.0",
     "mustache": "^4.2.0",
     "pngjs": "^7.0.0",
     "pureimage": "^0.4.20",
