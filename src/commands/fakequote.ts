@@ -6,7 +6,7 @@ import {
 } from "discord.js";
 import { MiQ, type MessageLike } from "makeitaquote";
 import { buildComponents } from "../components.js";
-import { COLOR_THEME_LIST } from "../colorThemes.js";
+import { ALL_COLOR_THEME_LIST } from "../colorThemes.js";
 import {
   deleteButtonEnabled,
   fakeQuoteBlockReason,
@@ -193,7 +193,7 @@ export async function runFakequoteCommand(
     await interaction.reply({
       content: t(QUOTE_MESSAGES.unknownTheme, locale, {
         token: unknownTheme,
-        themes: COLOR_THEME_LIST,
+        themes: ALL_COLOR_THEME_LIST,
       }),
       ephemeral: true,
     });

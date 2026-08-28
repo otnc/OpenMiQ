@@ -2,7 +2,7 @@ import { AttachmentBuilder, type Message } from "discord.js";
 import { MiQ } from "makeitaquote";
 import { loadingEmojiMarkup } from "../appEmojis.js";
 import { buildComponents } from "../components.js";
-import { COLOR_THEME_LIST } from "../colorThemes.js";
+import { ALL_COLOR_THEME_LIST } from "../colorThemes.js";
 import { buildHelpMessagePayload } from "../commands/help.js";
 import {
   deleteButtonEnabled,
@@ -58,7 +58,7 @@ export async function onMessageCreate(message: Message): Promise<void> {
     await message.reply({
       content: t(QUOTE_MESSAGES.unknownTheme, locale, {
         token: unknownTheme,
-        themes: COLOR_THEME_LIST,
+        themes: ALL_COLOR_THEME_LIST,
       }),
       allowedMentions: { repliedUser: true },
     });

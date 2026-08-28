@@ -4,7 +4,7 @@ import {
   type SlashCommandSubcommandBuilder,
   type SlashCommandSubcommandsOnlyBuilder,
 } from "discord.js";
-import { COLOR_THEME_LIST, resolveColorTheme } from "../colorThemes.js";
+import { ALL_COLOR_THEME_LIST, resolveColorTheme } from "../colorThemes.js";
 import { LAYOUT_LABELS } from "../components.js";
 import {
   getBotDefaults,
@@ -523,7 +523,7 @@ async function handleSet(
       await interaction.reply({
         content: t(STRINGS.errorInvalidTheme, locale, {
           token: theme,
-          themes: COLOR_THEME_LIST,
+          themes: ALL_COLOR_THEME_LIST,
         }),
         ephemeral: true,
       });

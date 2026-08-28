@@ -7,7 +7,7 @@ import {
   EmbedBuilder,
   SlashCommandBuilder,
 } from "discord.js";
-import { COLOR_THEME_LIST } from "../colorThemes.js";
+import { COLOR_THEME_LIST, CUSTOM_COLOR_THEME_LIST } from "../colorThemes.js";
 import { FONT_ALIAS_LIST } from "../fonts.js";
 import { t, type Translations } from "../i18n/index.js";
 import { callerLocale } from "./scope.js";
@@ -66,6 +66,10 @@ const STRINGS = {
   colorThemesTitle: {
     en: "🎨 Color themes — `theme=<alias>`",
     ja: "🎨 カラーテーマ — `theme=<エイリアス>`",
+  },
+  customColorThemesTitle: {
+    en: "🎨 Custom color themes — `theme=<alias>`",
+    ja: "🎨 オリジナルカラーテーマ — `theme=<エイリアス>`",
   },
   defaultsTitle: { en: "💾 Saving defaults", ja: "💾 デフォルトの保存" },
   defaults: {
@@ -202,6 +206,10 @@ function buildHelpPages(locale: string): EmbedBuilder[] {
         {
           name: t(STRINGS.colorThemesTitle, locale),
           value: COLOR_THEME_LIST,
+        },
+        {
+          name: t(STRINGS.customColorThemesTitle, locale),
+          value: CUSTOM_COLOR_THEME_LIST,
         },
         {
           name: t(STRINGS.defaultsTitle, locale),
