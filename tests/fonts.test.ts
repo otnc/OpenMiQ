@@ -3,6 +3,7 @@ import {
   aliasForFamily,
   FONT_ALIASES,
   resolveFontAlias,
+  SELECTABLE_FONTS,
 } from "../src/fonts.js";
 
 describe("resolveFontAlias", () => {
@@ -47,5 +48,17 @@ describe("aliasForFamily", () => {
 
   it("returns undefined for a family with no alias", () => {
     expect(aliasForFamily("Not A Real Family")).toBeUndefined();
+  });
+});
+
+describe("SELECTABLE_FONTS", () => {
+  it("has exactly one entry per alias", () => {
+    expect(SELECTABLE_FONTS).toHaveLength(Object.keys(FONT_ALIASES).length);
+  });
+
+  it("excludes makeitaquote's script-fallback-only fonts", () => {
+    expect(SELECTABLE_FONTS).not.toContain("Nanum Gothic");
+    expect(SELECTABLE_FONTS).not.toContain("Noto Sans SC");
+    expect(SELECTABLE_FONTS).not.toContain("IBM Plex Sans Arabic");
   });
 });

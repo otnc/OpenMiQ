@@ -36,6 +36,17 @@ describe("buildComponents", () => {
     expect(mplus?.label).toBe("M PLUS Rounded 1c (mplus)");
   });
 
+  it("excludes makeitaquote's script-fallback-only fonts from the font select", () => {
+    const [, selectRow] = buildComponents(DEFAULT_SETTINGS, "en", false);
+    const fontSelect = selectRow!.components[0]!.toJSON() as {
+      options: { value: string }[];
+    };
+    const values = fontSelect.options.map((o) => o.value);
+    expect(values).not.toContain("Nanum Gothic");
+    expect(values).not.toContain("Noto Sans SC");
+    expect(values).not.toContain("IBM Plex Sans Arabic");
+  });
+
   it('labels a color theme with an official alias as "label(alias)"', () => {
     const [, , colorThemeRow] = buildComponents(DEFAULT_SETTINGS, "en", false);
     const themeSelect = colorThemeRow!.components[0]!.toJSON() as {

@@ -29,6 +29,13 @@ export function resolveFontAlias(token: string): string | null {
   return libraryResolveFontAlias(token) ?? null;
 }
 
+/**
+ * The families a user can actually pick — `makeitaquote`'s `FONT_CATALOGUE`
+ * also carries script-fallback-only fonts (e.g. Nanum Gothic) that have no
+ * alias and were never meant to appear as a `font=`/select-menu choice.
+ */
+export const SELECTABLE_FONTS: readonly string[] = Object.values(FONT_ALIASES);
+
 const ALIAS_BY_FAMILY = new Map(
   Object.entries(FONT_ALIASES).map(([alias, family]) => [family, alias]),
 );

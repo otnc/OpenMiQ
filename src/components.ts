@@ -6,7 +6,6 @@ import {
   StringSelectMenuOptionBuilder,
   type MessageActionRowComponentBuilder,
 } from "discord.js";
-import { FONT_CATALOGUE } from "makeitaquote";
 import { colorThemeEmoji, fontEmoji } from "./appEmojis.js";
 import {
   aliasForColorTheme,
@@ -14,7 +13,7 @@ import {
   colorThemeTextBase,
   type ColorTheme,
 } from "./colorThemes.js";
-import { aliasForFamily } from "./fonts.js";
+import { aliasForFamily, SELECTABLE_FONTS } from "./fonts.js";
 import { t, type Translations } from "./i18n/index.js";
 import type { QuoteSettings } from "./quoteOptions.js";
 
@@ -111,7 +110,7 @@ export function buildComponents(
       new StringSelectMenuOptionBuilder()
         .setLabel(t(STRINGS.fontDefault, locale))
         .setValue(DEFAULT_FONT_VALUE),
-      ...FONT_CATALOGUE.map((family) => fontOption(family, settings)),
+      ...SELECTABLE_FONTS.map((family) => fontOption(family, settings)),
     );
 
   const colorThemeSelect = new StringSelectMenuBuilder()
