@@ -18,6 +18,7 @@ import {
   BOLD_BUTTON_ID,
   COLOR_BUTTON_ID,
   COLOR_THEME_SELECT_ID,
+  CUSTOM_COLOR_THEME_SELECT_ID,
   DEFAULT_COLOR_THEME_VALUE,
   DEFAULT_FONT_VALUE,
   DELETE_BUTTON_ID,
@@ -114,7 +115,10 @@ export async function onInteractionCreate(
     applyButton(settings, interaction);
   } else if (interaction.customId === FONT_SELECT_ID) {
     applyFontSelect(settings, interaction);
-  } else {
+  } else if (
+    interaction.customId === COLOR_THEME_SELECT_ID ||
+    interaction.customId === CUSTOM_COLOR_THEME_SELECT_ID
+  ) {
     applyColorThemeSelect(settings, interaction);
   }
 
@@ -197,11 +201,17 @@ function applyFontSelect(
   settings.font = !value || value === DEFAULT_FONT_VALUE ? DEFAULT_FONT : value;
 }
 
+/**
+ * Handles either color-theme select menu — official or custom — since both
+ * just write the one `colorTheme` field. Picking from one implicitly clears
+ * the other back to its own "Default" option: buildComponents() decides
+ * which menu shows a theme as selected by checking which catalogue the
+ * resolved key belongs to, not by tracking which menu was last touched.
+ */
 function applyColorThemeSelect(
   settings: QuoteSettings,
   interaction: StringSelectMenuInteraction,
 ): void {
-  if (interaction.customId !== COLOR_THEME_SELECT_ID) return;
   const value = interaction.values[0];
   settings.colorTheme =
     !value || value === DEFAULT_COLOR_THEME_VALUE ? null : value;

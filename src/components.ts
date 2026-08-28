@@ -11,6 +11,8 @@ import {
   aliasForColorTheme,
   COLOR_THEMES,
   colorThemeTextBase,
+  CUSTOM_COLOR_THEMES,
+  isCustomColorTheme,
   type ColorTheme,
 } from "./colorThemes.js";
 import { aliasForFamily, SELECTABLE_FONTS } from "./fonts.js";
@@ -23,6 +25,10 @@ const STRINGS = {
   colorThemePlaceholder: {
     en: "Choose a color theme",
     ja: "カラーテーマを選択",
+  },
+  customColorThemePlaceholder: {
+    en: "Choose a custom color theme",
+    ja: "オリジナルカラーテーマを選択",
   },
   colorThemeDefault: { en: "Default", ja: "デフォルト" },
   delete: { en: "Remove", ja: "削除" },
@@ -45,6 +51,7 @@ export const LAYOUT_BUTTON_ID = "miq:layout";
 export const DELETE_BUTTON_ID = "miq:delete";
 export const FONT_SELECT_ID = "miq:font";
 export const COLOR_THEME_SELECT_ID = "miq:colorTheme";
+export const CUSTOM_COLOR_THEME_SELECT_ID = "miq:customColorTheme";
 
 /** Sentinel select value meaning "back to the default font". */
 export const DEFAULT_FONT_VALUE = "miq:default-font";
@@ -113,6 +120,15 @@ export function buildComponents(
       ...SELECTABLE_FONTS.map((family) => fontOption(family, settings)),
     );
 
+  // Only one of the two catalogues can be active at once — they share the
+  // single `colorTheme` field, so picking from either select menu clears
+  // the other back to its own "Default" option on the next render.
+  const isCustomActive = settings.colorTheme
+    ? isCustomColorTheme(settings.colorTheme)
+    : false;
+  const officialActiveKey = isCustomActive ? null : settings.colorTheme;
+  const customActiveKey = isCustomActive ? settings.colorTheme : null;
+
   const colorThemeSelect = new StringSelectMenuBuilder()
     .setCustomId(COLOR_THEME_SELECT_ID)
     .setPlaceholder(t(STRINGS.colorThemePlaceholder, locale))
@@ -120,8 +136,23 @@ export function buildComponents(
       new StringSelectMenuOptionBuilder()
         .setLabel(t(STRINGS.colorThemeDefault, locale))
         .setValue(DEFAULT_COLOR_THEME_VALUE)
-        .setDefault(settings.colorTheme === null),
-      ...COLOR_THEMES.map((theme) => colorThemeOption(theme, settings)),
+        .setDefault(officialActiveKey === null),
+      ...COLOR_THEMES.map((theme) =>
+        colorThemeOption(theme, officialActiveKey),
+      ),
+    );
+
+  const customColorThemeSelect = new StringSelectMenuBuilder()
+    .setCustomId(CUSTOM_COLOR_THEME_SELECT_ID)
+    .setPlaceholder(t(STRINGS.customColorThemePlaceholder, locale))
+    .addOptions(
+      new StringSelectMenuOptionBuilder()
+        .setLabel(t(STRINGS.colorThemeDefault, locale))
+        .setValue(DEFAULT_COLOR_THEME_VALUE)
+        .setDefault(customActiveKey === null),
+      ...CUSTOM_COLOR_THEMES.map((theme) =>
+        colorThemeOption(theme, customActiveKey),
+      ),
     );
 
   const selectRow =
@@ -132,8 +163,12 @@ export function buildComponents(
     new ActionRowBuilder<MessageActionRowComponentBuilder>().addComponents(
       colorThemeSelect,
     );
+  const customColorThemeRow =
+    new ActionRowBuilder<MessageActionRowComponentBuilder>().addComponents(
+      customColorThemeSelect,
+    );
 
-  const rows = [buttons, selectRow, colorThemeRow];
+  const rows = [buttons, selectRow, colorThemeRow, customColorThemeRow];
   if (deleteButtonEnabled) {
     rows.push(
       new ActionRowBuilder<MessageActionRowComponentBuilder>().addComponents(
@@ -166,13 +201,13 @@ function fontOption(
 
 function colorThemeOption(
   theme: ColorTheme,
-  settings: QuoteSettings,
+  activeKey: string | null,
 ): StringSelectMenuOptionBuilder {
   const alias = aliasForColorTheme(theme.key);
   const option = new StringSelectMenuOptionBuilder()
     .setLabel(`${theme.label}(${alias ?? theme.key})`)
     .setValue(theme.key)
-    .setDefault(settings.colorTheme === theme.key);
+    .setDefault(activeKey === theme.key);
   // Only set once `pnpm run deploy:images` has created the application
   // emoji for this theme — a plain text-only option otherwise.
   const emoji = colorThemeEmoji(theme.key);

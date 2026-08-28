@@ -3,11 +3,22 @@ import {
   buildComponents,
   COLOR_BUTTON_ID,
   COLOR_THEME_SELECT_ID,
+  CUSTOM_COLOR_THEME_SELECT_ID,
+  DEFAULT_COLOR_THEME_VALUE,
   FLIP_BUTTON_ID,
   FONT_SELECT_ID,
   LIGHT_BUTTON_ID,
 } from "../src/components.js";
 import { DEFAULT_SETTINGS } from "../src/quoteOptions.js";
+
+function selectOptions(
+  row: ReturnType<typeof buildComponents>[number] | undefined,
+) {
+  return row!.components[0]!.toJSON() as {
+    custom_id: string;
+    options: { label: string; value: string; default?: boolean }[];
+  };
+}
 
 function findButton(
   buttons: ReturnType<typeof buildComponents>[0],
@@ -65,6 +76,62 @@ describe("buildComponents", () => {
     };
     const hanami = themeSelect.options.find((o) => o.value === "hanami");
     expect(hanami?.label).toBe("Hanami(hanami)");
+  });
+
+  it("puts the 18 custom themes in their own select menu", () => {
+    const [, , , customColorThemeRow] = buildComponents(
+      DEFAULT_SETTINGS,
+      "en",
+      false,
+    );
+    const customSelect = selectOptions(customColorThemeRow);
+    expect(customSelect.custom_id).toBe(CUSTOM_COLOR_THEME_SELECT_ID);
+    // 18 themes + the "Default" sentinel.
+    expect(customSelect.options).toHaveLength(19);
+    const tokyo = customSelect.options.find((o) => o.value === "tokyo_night");
+    expect(tokyo?.label).toBe("Tokyo Night(tokyo)");
+  });
+
+  it("picking an official theme shows Default on the custom menu, and vice versa", () => {
+    const [, , officialRow, customRow] = buildComponents(
+      { ...DEFAULT_SETTINGS, colorTheme: "sunset" },
+      "en",
+      false,
+    );
+    const official = selectOptions(officialRow);
+    const custom = selectOptions(customRow);
+    expect(official.options.find((o) => o.value === "sunset")?.default).toBe(
+      true,
+    );
+    expect(
+      custom.options.find((o) => o.value === DEFAULT_COLOR_THEME_VALUE)
+        ?.default,
+    ).toBe(true);
+    expect(
+      custom.options.some(
+        (o) => o.default && o.value !== DEFAULT_COLOR_THEME_VALUE,
+      ),
+    ).toBe(false);
+
+    const [, , officialRow2, customRow2] = buildComponents(
+      { ...DEFAULT_SETTINGS, colorTheme: "tokyo_night" },
+      "en",
+      false,
+    );
+    const official2 = selectOptions(officialRow2);
+    const custom2 = selectOptions(customRow2);
+    expect(
+      custom2.options.find((o) => o.value === "tokyo_night")?.default,
+    ).toBe(true);
+    expect(
+      official2.options.find((o) => o.value === DEFAULT_COLOR_THEME_VALUE)
+        ?.default,
+    ).toBe(true);
+    expect(
+      official2.options.some(
+        (o) => o.default && o.value !== DEFAULT_COLOR_THEME_VALUE,
+      ),
+    ).toBe(false);
   });
 
   it("gives the toggle buttons an emoji only, no text label", () => {
