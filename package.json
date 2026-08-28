@@ -32,14 +32,15 @@
     "lint": "eslint .",
     "typecheck": "tsc --noEmit",
     "format": "prettier --write .",
-    "format:check": "prettier --check ."
+    "format:check": "prettier --check .",
+    "checkupdates": "ncu"
   },
   "engines": {
     "node": ">=24"
   },
   "dependencies": {
     "discord.js": "^14.27.0",
-    "makeitaquote": "^11.3.1",
+    "makeitaquote": "^11.3.2",
     "mustache": "^4.2.0",
     "pngjs": "^7.0.0",
     "pureimage": "^0.4.20",
@@ -52,14 +53,15 @@
     "@types/node": "^24.13.3",
     "@types/pngjs": "^6.0.5",
     "@types/write-file-atomic": "^4.0.3",
-    "eslint": "^10.9.0",
+    "eslint": "^10.9.1",
     "eslint-config-prettier": "^10.1.8",
     "globals": "^17.11.0",
+    "npm-check-updates": "^23.1.0",
     "prettier": "^3.9.6",
     "tsdown": "^0.22.14",
     "tsx": "^4.23.12",
     "typescript": "^6.0.3",
-    "typescript-eslint": "^8.67.0",
+    "typescript-eslint": "^8.68.0",
     "vitest": "^4.1.11"
   }
 }

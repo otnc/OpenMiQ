@@ -12,8 +12,8 @@ importers:
         specifier: ^14.27.0
         version: 14.27.0
       makeitaquote:
-        specifier: ^11.3.1
-        version: 11.3.1
+        specifier: ^11.3.2
+        version: 11.3.2
       mustache:
         specifier: ^4.2.0
         version: 4.2.0
@@ -46,7 +46,7 @@ importers:
         specifier: ^4.0.3
         version: 4.0.3
       eslint:
-        specifier: ^10.9.0
+        specifier: ^10.9.1
         version: 10.9.1
       eslint-config-prettier:
         specifier: ^10.1.8
@@ -54,6 +54,9 @@ importers:
       globals:
         specifier: ^17.11.0
         version: 17.11.0
+      npm-check-updates:
+        specifier: ^23.1.0
+        version: 23.1.0
       prettier:
         specifier: ^3.9.6
         version: 3.9.6
@@ -67,7 +70,7 @@ importers:
         specifier: ^6.0.3
         version: 6.0.3
       typescript-eslint:
-        specifier: ^8.67.0
+        specifier: ^8.68.0
         version: 8.68.0(eslint@10.9.1)(typescript@6.0.3)
       vitest:
         specifier: ^4.1.11
@@ -1325,8 +1328,8 @@ packages:
   magic-string@0.30.21:
     resolution: {integrity: sha512-vd2F4YUyEXKGcLHoq+TEyCjxueSeHnFxyyjNp80yg0XV4vUhnDer/lvvlqM/arB5bXQN5K2/3oinyCRyx8T2CQ==}
 
-  makeitaquote@11.3.1:
-    resolution: {integrity: sha512-mtvg161Xw2/L7G0b5ax8LRs9ZYMYetaf2pcLtIrRUiGMU3guAJKRYUzvbztaYaiLMdu4U39gdKPz/lhyfXlkhg==}
+  makeitaquote@11.3.2:
+    resolution: {integrity: sha512-yHPD1jNm5jtmc/vSbuIpkKA72v4XflCDK/DWN6PMZ9T6Tgoeg2MfCud+iOBCvYOm6QTQKwtFft1avufnDvI+Vw==}
     engines: {node: '>=22'}
     hasBin: true
 
@@ -1370,6 +1373,11 @@ packages:
     peerDependenciesMeta:
       encoding:
         optional: true
+
+  npm-check-updates@23.1.0:
+    resolution: {integrity: sha512-u6Odx/JDpDXNqXp5pPsVN0RhuWkNrBe4Sz26J7yWJcEadopKhQgcB+bFq2PK35iJY6vc6h1PbnXmnwfiOFQl/w==}
+    engines: {node: ^22.22.2 || ^24.15.0 || >=26.0.0, npm: '>=10.0.0'}
+    hasBin: true
 
   nth-check@3.0.1:
     resolution: {integrity: sha512-GX0gsdbGVCgnRgbeGaubfjpBXyYRWOOCVeYh08bSQvDZqxz5ndXs1OTfAt/h36G1xvI94YIspsI0sVFqAV9+RQ==}
@@ -2889,7 +2897,7 @@ snapshots:
     dependencies:
       '@jridgewell/sourcemap-codec': 1.5.5
 
-  makeitaquote@11.3.1:
+  makeitaquote@11.3.2:
     dependencies:
       '@napi-rs/canvas': 1.0.8
       '@twemoji/parser': 17.0.2
@@ -2942,6 +2950,8 @@ snapshots:
   node-fetch@2.7.0:
     dependencies:
       whatwg-url: 5.0.0
+
+  npm-check-updates@23.1.0: {}
 
   nth-check@3.0.1:
     dependencies:
