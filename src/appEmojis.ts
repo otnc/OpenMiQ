@@ -1,5 +1,5 @@
 import type { Client } from "discord.js";
-import { COLOR_THEMES } from "./colorThemes.js";
+import { COLOR_THEMES, CUSTOM_COLOR_THEMES } from "./colorThemes.js";
 import { FONT_ALIASES } from "./fonts.js";
 
 export interface AppEmoji {
@@ -8,7 +8,9 @@ export interface AppEmoji {
   animated: boolean;
 }
 
-const THEME_KEYS = new Set(COLOR_THEMES.map((theme) => theme.key));
+const THEME_KEYS = new Set(
+  [...COLOR_THEMES, ...CUSTOM_COLOR_THEMES].map((theme) => theme.key),
+);
 const FONT_ALIAS_KEYS = new Set(Object.keys(FONT_ALIASES));
 
 /** The name `deploy:images` gives the loading spinner's application emoji. */

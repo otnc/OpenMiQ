@@ -7,7 +7,7 @@ import {
   type RESTGetAPIApplicationEmojisResult,
 } from "discord.js";
 import { LOADING_EMOJI_NAME } from "./appEmojis.js";
-import { COLOR_THEMES } from "./colorThemes.js";
+import { COLOR_THEMES, CUSTOM_COLOR_THEMES } from "./colorThemes.js";
 import { renderSwatchPng } from "./emojiSwatch.js";
 import { FONT_ALIASES } from "./fonts.js";
 import { renderFontSwatchPng } from "./fontSwatch.js";
@@ -39,6 +39,7 @@ export async function deployImages(): Promise<void> {
   const rest = new REST().setToken(token);
   const managedNames = new Set<string>([
     ...COLOR_THEMES.map((theme) => theme.key),
+    ...CUSTOM_COLOR_THEMES.map((theme) => theme.key),
     ...Object.keys(FONT_ALIASES),
     LOADING_EMOJI_NAME,
   ]);
@@ -68,6 +69,9 @@ export async function deployImages(): Promise<void> {
   }
 
   for (const theme of COLOR_THEMES) {
+    await create(theme.key, renderSwatchPng(theme), "image/png");
+  }
+  for (const theme of CUSTOM_COLOR_THEMES) {
     await create(theme.key, renderSwatchPng(theme), "image/png");
   }
   for (const [alias, family] of Object.entries(FONT_ALIASES)) {
