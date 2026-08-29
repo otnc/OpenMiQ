@@ -12,8 +12,8 @@ importers:
         specifier: ^14.27.0
         version: 14.27.0
       makeitaquote:
-        specifier: ^11.3.2
-        version: 11.3.2
+        specifier: ^11.4.0
+        version: 11.4.0
       mustache:
         specifier: ^4.2.0
         version: 4.2.0
@@ -839,8 +839,8 @@ packages:
     resolution: {integrity: sha512-ScQ4IuvIEF1TMlP7Zt+vjJ//9zlPb2SDcxWxM3bk8s6t6GGdJ7KO1dCcTidOPJKePW30LE/2cT7wCyPho9/Wxg==}
     engines: {node: 20 || >=22}
 
-  budoux@0.9.0:
-    resolution: {integrity: sha512-gdRJmZ2/NIiyIM3clPIaV7Ny8wfOSBiJBRC0BYnHpZif+HuGL/CiiL31pCudgOt8cmQDYoTNIemecKjzoy+IIQ==}
+  budoux@0.9.1:
+    resolution: {integrity: sha512-LFjvPGRgeEYIDY6cmB8273RmTigGbfIXssBrhT89Aq3dfXfDQls02QFwpnlWmxbvXBfh42WGsWmXKtJ8LAX7UA==}
     hasBin: true
 
   buffer-equal-constant-time@1.0.1:
@@ -1328,13 +1328,13 @@ packages:
   magic-string@0.30.21:
     resolution: {integrity: sha512-vd2F4YUyEXKGcLHoq+TEyCjxueSeHnFxyyjNp80yg0XV4vUhnDer/lvvlqM/arB5bXQN5K2/3oinyCRyx8T2CQ==}
 
-  makeitaquote@11.3.2:
-    resolution: {integrity: sha512-yHPD1jNm5jtmc/vSbuIpkKA72v4XflCDK/DWN6PMZ9T6Tgoeg2MfCud+iOBCvYOm6QTQKwtFft1avufnDvI+Vw==}
+  makeitaquote@11.4.0:
+    resolution: {integrity: sha512-l3b1AhvKnnDTKvS+elVcHg3SJy6r0VuAdqaNsomzch+t3O5WlTtXwjjQw7R6XbRyx29inLF4/n4WmL2w+7+4rA==}
     engines: {node: '>=22'}
     hasBin: true
 
-  markdown-it@15.0.0:
-    resolution: {integrity: sha512-Lf8ajvVNdRpzSNB4VegxNy7gjs8gU35l4b4+ET49LrQC5PKYwLZ72u60LeJ9gv3qiaesuYjJWCyVeQmv/QWKQw==}
+  markdown-it@15.0.1:
+    resolution: {integrity: sha512-9/7gE95FNPkfUWrjJIoHZza2iLmuJlPD0UNMxPi7bxUrbCR525YZY0r+zyfes0dZI5ZZ/uNIXUJca0pJvtw41g==}
     hasBin: true
 
   mdurl@2.1.0:
@@ -2395,7 +2395,7 @@ snapshots:
     dependencies:
       balanced-match: 4.0.4
 
-  budoux@0.9.0:
+  budoux@0.9.1:
     dependencies:
       commander: 15.0.0
       google-artifactregistry-auth: 3.5.0
@@ -2897,16 +2897,16 @@ snapshots:
     dependencies:
       '@jridgewell/sourcemap-codec': 1.5.5
 
-  makeitaquote@11.3.2:
+  makeitaquote@11.4.0:
     dependencies:
       '@napi-rs/canvas': 1.0.8
       '@twemoji/parser': 17.0.2
-      budoux: 0.9.0
+      budoux: 0.9.1
       cleye: 2.6.0
       culori: 4.0.2
       discomd: 1.1.1
       fastest-levenshtein: 1.0.16
-      markdown-it: 15.0.0
+      markdown-it: 15.0.1
       mfm-js: 0.26.0
       ofetch: 1.5.1
       plimit-lit: 3.4.0
@@ -2918,7 +2918,7 @@ snapshots:
       - encoding
       - supports-color
 
-  markdown-it@15.0.0:
+  markdown-it@15.0.1:
     dependencies:
       argparse: 3.0.0
       entities: 8.0.0

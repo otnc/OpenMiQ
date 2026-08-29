@@ -40,7 +40,7 @@
   },
   "dependencies": {
     "discord.js": "^14.27.0",
-    "makeitaquote": "^11.3.2",
+    "makeitaquote": "^11.4.0",
     "mustache": "^4.2.0",
     "pngjs": "^7.0.0",
     "pureimage": "^0.4.20",
