@@ -11,7 +11,9 @@ import {
 } from "../config/settings.js";
 import { FONT_ALIAS_LIST } from "../fonts.js";
 import { t, type Translations } from "../i18n/index.js";
+import { fetchReferencedMessage } from "../messageRefs.js";
 import { parseOptions } from "../quoteOptions.js";
+import { findChainTop } from "../quoteChain.js";
 import { QUOTE_MESSAGES } from "../quoteMessages.js";
 import { renderQuote } from "../render.js";
 import { saveQuoteState } from "../state.js";
@@ -83,11 +85,18 @@ export async function onMessageCreate(message: Message): Promise<void> {
     allowedMentions: { repliedUser: false },
   });
 
+  const watermark = message.client.user?.tag ?? "";
   const data = new MiQ()
     .setFromMessage(target, { stripDiscordMarkdown: true })
-    .setWatermark(message.client.user?.tag ?? "")
+    .setWatermark(watermark)
     .getData();
-  const png = await renderQuote(data, settings);
+  const chainTop = await findChainTop(
+    message.client,
+    target,
+    settings,
+    watermark,
+  );
+  const png = await renderQuote(data, settings, { chainTop });
 
   await placeholder.edit({
     content: null,
@@ -101,6 +110,7 @@ export async function onMessageCreate(message: Message): Promise<void> {
 
   saveQuoteState(placeholder.id, {
     data,
+    chainTop,
     settings,
     locale,
     guildId: message.guildId,
@@ -147,20 +157,6 @@ async function offerHelpOnReaction(
 }
 
 /** The message a reply points at, or `null` when there is none. */
-async function fetchReferenced(message: Message): Promise<Message | null> {
-  const reference = message.reference;
-  if (!reference?.messageId) return null;
-
-  try {
-    if (reference.channelId && reference.channelId !== message.channelId) {
-      const channel = await message.client.channels.fetch(reference.channelId);
-      if (channel?.isTextBased()) {
-        return await channel.messages.fetch(reference.messageId);
-      }
-      return null;
-    }
-    return await message.channel.messages.fetch(reference.messageId);
-  } catch {
-    return null;
-  }
+function fetchReferenced(message: Message): Promise<Message | null> {
+  return fetchReferencedMessage(message.client, message);
 }

@@ -29,6 +29,14 @@ export interface QuoteSettings {
   font: string | null;
   /** A named background color preset (see `colorThemes.ts`), or `null` for the base theme's own background. */
   colorTheme: string | null;
+  /**
+   * When the message being quoted is itself a reply, stack it with the
+   * message it's replying to into one `MiQChain` image instead of a single
+   * quote. Has no effect when there's no reply to chain onto, or once
+   * `layout` is `new` — makeitaquote's full-bleed layout has no left/right
+   * avatar box for `MiQChain` to pair (see render.ts).
+   */
+  chain: boolean;
 }
 
 /** The bot's own default font — resolved from the `mplus` alias, not hardcoded. */
@@ -42,6 +50,7 @@ export const DEFAULT_SETTINGS: QuoteSettings = {
   layout: "side",
   font: DEFAULT_FONT,
   colorTheme: null,
+  chain: false,
 };
 
 /** What a mention (or `/fakequote`'s `options` string) asked for. */
@@ -65,10 +74,13 @@ const DEFAULT_THEME_TOKENS = new Set(["default", "def", "b", "w"]);
  * an opposite and a one-letter shortcut: `color`/`c` vs `mono`/`m`,
  * `bold`/`b` vs `regular`/`r`, `light`/`l` vs `dark`/`d`, `flip`/`f` vs
  * `unflip`/`u`, `new`/`n` vs `side`/`s` — `new` also clears `flip`, which
- * has no effect once the layout is `new`. Plus `theme=alias`
+ * has no effect once the layout is `new`. Plus `chain` vs `unchain` (no
+ * one-letter shortcut — stacks the quoted message with the message it's
+ * replying to, see `QuoteSettings.chain`), `theme=alias`
  * (`theme=default`/`def`/`b`/`w` clear a saved theme back to none — see
  * `resolveColorTheme()`) and `font=alias` (quoted or not, runs to the end
- * of the string — put it last); neither has a one-letter shortcut.
+ * of the string — put it last); neither of the latter two has a one-letter
+ * shortcut either.
  */
 export function parseOptions(text: string): ParsedInvocation {
   const settings: Partial<QuoteSettings> = {};
@@ -107,6 +119,10 @@ export function parseOptions(text: string): ParsedInvocation {
       settings.flip = false;
     } else if (lower === "side" || lower === "s") {
       settings.layout = "side";
+    } else if (lower === "chain") {
+      settings.chain = true;
+    } else if (lower === "unchain") {
+      settings.chain = false;
     } else {
       const themeMatch = THEME_PREFIX_RE.exec(token);
       if (themeMatch) {

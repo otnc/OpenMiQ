@@ -55,6 +55,10 @@ const STRINGS = {
     en: "side or new",
     ja: "side (横画像) または new (縦画像)",
   },
+  optionChain: {
+    en: "Stack with the message it's replying to, when there is one (side layout only)",
+    ja: "返信元があれば連結して表示する (横画像のみ)",
+  },
   blockFakequoteUser: {
     en: "Block others from putting words in your mouth with /fakequote",
     ja: "/fakequote であなたの名前を使われるのをブロックする",
@@ -86,6 +90,7 @@ const STRINGS = {
   fieldLight: { en: "Light theme", ja: "ライトテーマ" },
   fieldFlip: { en: "Flip", ja: "反転" },
   fieldLayout: { en: "Layout", ja: "レイアウト" },
+  fieldChain: { en: "Chain", ja: "連結" },
   fieldFont: { en: "Font", ja: "フォント" },
   fieldTheme: { en: "Color theme", ja: "カラーテーマ" },
   fieldFakequoteBlocked: { en: "Fakequote blocked", ja: "Fakequoteのブロック" },
@@ -276,6 +281,12 @@ function addSetOptions(
     )
     .addBooleanOption((opt) =>
       opt
+        .setName("chain")
+        .setDescription(STRINGS.optionChain.en)
+        .setDescriptionLocalizations({ ja: STRINGS.optionChain.ja }),
+    )
+    .addBooleanOption((opt) =>
+      opt
         .setName("block-fakequote")
         .setDescription(BLOCK_FAKEQUOTE_OPTION[scopeKey].en)
         .setDescriptionLocalizations({
@@ -415,6 +426,7 @@ async function handleView(
     `${t(STRINGS.fieldLight, locale)}: ${formatBool(qd.light, locale)}`,
     `${t(STRINGS.fieldFlip, locale)}: ${formatBool(qd.flip, locale)}`,
     `${t(STRINGS.fieldLayout, locale)}: ${formatLayout(qd.layout, locale)}`,
+    `${t(STRINGS.fieldChain, locale)}: ${formatBool(qd.chain, locale)}`,
     `${t(STRINGS.fieldFont, locale)}: ${qd.font ?? t(STRINGS.valueNotSet, locale)}`,
     `${t(STRINGS.fieldTheme, locale)}: ${qd.colorTheme ?? t(STRINGS.valueNotSet, locale)}`,
     `${t(STRINGS.fieldFakequoteBlocked, locale)}: ${formatBool(data.fakeQuoteDisabled, locale)}`,
@@ -465,6 +477,7 @@ async function handleSet(
   const flip = interaction.options.getBoolean("flip");
   const layout = interaction.options.getString("layout") as
     QuoteSettings["layout"] | null;
+  const chain = interaction.options.getBoolean("chain");
   const blockFakequote = interaction.options.getBoolean("block-fakequote");
   const fakeLabel = interaction.options.getBoolean("fake-label");
   const deleteButton = interaction.options.getBoolean("delete-button");
@@ -478,6 +491,7 @@ async function handleSet(
     light === null &&
     flip === null &&
     layout === null &&
+    chain === null &&
     blockFakequote === null &&
     fakeLabel === null &&
     deleteButton === null
@@ -538,6 +552,7 @@ async function handleSet(
   if (light !== null) quoteDefaults.light = light;
   if (flip !== null) quoteDefaults.flip = flip;
   if (layout !== null) quoteDefaults.layout = layout;
+  if (chain !== null) quoteDefaults.chain = chain;
   if (resolvedFont !== undefined) quoteDefaults.font = resolvedFont;
   if (resolvedTheme !== undefined) quoteDefaults.colorTheme = resolvedTheme;
 

@@ -35,6 +35,7 @@ describe("settings resolution", () => {
       layout: "side",
       font: "M PLUS Rounded 1c",
       colorTheme: null,
+      chain: false,
     });
   });
 

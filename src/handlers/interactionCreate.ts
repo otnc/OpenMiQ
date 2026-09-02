@@ -124,7 +124,10 @@ export async function onInteractionCreate(
 
   await interaction.deferUpdate();
 
-  const png = await renderQuote(state.data, settings, state.fake);
+  const png = await renderQuote(state.data, settings, {
+    fake: state.fake,
+    chainTop: state.chainTop,
+  });
   state.settings = settings;
 
   await interaction.editReply({

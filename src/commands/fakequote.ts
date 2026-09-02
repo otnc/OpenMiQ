@@ -235,7 +235,7 @@ export async function runFakequoteCommand(
     invokerId: interaction.user.id,
     guildId: interaction.guildId,
   });
-  const png = await renderQuote(data, settings, fake);
+  const png = await renderQuote(data, settings, { fake });
 
   await interaction.reply({
     files: [new AttachmentBuilder(png, { name: "quote.png" })],
@@ -249,6 +249,7 @@ export async function runFakequoteCommand(
 
   saveQuoteState(sent.id, {
     data,
+    chainTop: null,
     settings,
     locale,
     guildId: interaction.guildId,

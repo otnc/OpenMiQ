@@ -12,6 +12,7 @@ import {
   resolveQuoteSettings,
 } from "../config/settings.js";
 import { t } from "../i18n/index.js";
+import { findChainTop } from "../quoteChain.js";
 import { QUOTE_MESSAGES } from "../quoteMessages.js";
 import { renderQuote } from "../render.js";
 import { saveQuoteState } from "../state.js";
@@ -55,11 +56,18 @@ export async function runQuoteContextMenuCommand(
     inline: {},
   });
 
+  const watermark = interaction.client.user.tag;
   const data = new MiQ()
     .setFromMessage(target, { stripDiscordMarkdown: true })
-    .setWatermark(interaction.client.user.tag)
+    .setWatermark(watermark)
     .getData();
-  const png = await renderQuote(data, settings);
+  const chainTop = await findChainTop(
+    interaction.client,
+    target,
+    settings,
+    watermark,
+  );
+  const png = await renderQuote(data, settings, { chainTop });
 
   const sent = await interaction.editReply({
     files: [new AttachmentBuilder(png, { name: "quote.png" })],
@@ -72,6 +80,7 @@ export async function runQuoteContextMenuCommand(
 
   saveQuoteState(sent.id, {
     data,
+    chainTop,
     settings,
     locale,
     guildId: interaction.guildId,

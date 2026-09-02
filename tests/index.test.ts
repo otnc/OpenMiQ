@@ -132,6 +132,20 @@ describe("parseOptions", () => {
     expect(parseOptions("t").settings).toEqual({});
   });
 
+  it("parses chain and unchain", () => {
+    expect(parseOptions("chain").settings).toEqual({ chain: true });
+    expect(parseOptions("unchain").settings).toEqual({ chain: false });
+  });
+
+  it("chain has no one-letter shortcut", () => {
+    expect(parseOptions("c").settings).toEqual({ color: true });
+  });
+
+  it("a later chain token overrides an earlier one", () => {
+    expect(parseOptions("chain unchain").settings.chain).toBe(false);
+    expect(parseOptions("unchain chain").settings.chain).toBe(true);
+  });
+
   it("a later token overrides an earlier opposite one", () => {
     expect(parseOptions("color mono").settings.color).toBe(false);
     expect(parseOptions("mono color").settings.color).toBe(true);
@@ -200,6 +214,7 @@ describe("buildTheme", () => {
       layout: "side",
       font: null,
       colorTheme: null,
+      chain: false,
     });
     expect(theme.extends).toBe("light");
     expect(theme.layout).toBe("side");
@@ -215,6 +230,7 @@ describe("buildTheme", () => {
       layout: "new",
       font: null,
       colorTheme: null,
+      chain: false,
     });
     expect(theme.extends).toBe("dark");
     expect(theme.layout).toBe("new");
@@ -237,6 +253,7 @@ describe("buildTheme", () => {
       layout: "new",
       font: null,
       colorTheme: null,
+      chain: false,
     });
     expect(theme.extends).toBe("light");
     expect(theme.layout).toBe("new");

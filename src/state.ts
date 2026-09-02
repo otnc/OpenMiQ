@@ -5,6 +5,13 @@ import type { QuoteSettings } from "./quoteOptions.js";
 /** Everything needed to re-render a posted quote when its buttons are used. */
 export interface QuoteState {
   data: QuoteData;
+  /**
+   * The message `data` replies to, when this was rendered as a chain — see
+   * `render.ts`'s `RenderQuoteOptions.chainTop`. Kept alongside `data` so a
+   * button re-render (color/bold/flip/…) can rebuild the same chain instead
+   * of collapsing it back to a single quote.
+   */
+  chainTop: QuoteData | null;
   settings: QuoteSettings;
   /** The locale resolved when the quote was first posted; reused on every re-render. */
   locale: string;

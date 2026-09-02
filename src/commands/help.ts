@@ -51,6 +51,10 @@ const STRINGS = {
     en: "New (vertical) / side-by-side layout",
     ja: "縦画像 / 横画像レイアウト",
   },
+  optionChain: {
+    en: "Stack with the message it's replying to, when there is one (side layout only)",
+    ja: "返信元があれば連結して表示する (横画像のみ)",
+  },
   optionFont: {
     en: "Pick a font — see page 3",
     ja: "フォントを指定 — 3ページ目を参照",
@@ -182,6 +186,11 @@ function buildHelpPages(locale: string): EmbedBuilder[] {
         {
           name: "`new` (`n`) / `side` (`s`)",
           value: t(STRINGS.optionNew, locale),
+          inline: true,
+        },
+        {
+          name: "`chain` / `unchain`",
+          value: t(STRINGS.optionChain, locale),
           inline: true,
         },
         {

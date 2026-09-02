@@ -9,6 +9,7 @@ import type { QuoteState } from "../src/state.js";
 function stateFor(id: string): QuoteState {
   return {
     data: { text: id } as QuoteState["data"],
+    chainTop: null,
     settings: {} as QuoteState["settings"],
     locale: "en",
     guildId: "g1",

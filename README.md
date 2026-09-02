@@ -25,6 +25,7 @@ Reply to a message and mention the bot (or right-click it and choose "Quote"): i
 @MiQ light                      … light theme
 @MiQ flip                       … avatar on the right (side layout only)
 @MiQ new                        … new layout — avatar full-bleed, quote over the bottom
+@MiQ chain                      … stack with the message it's replying to, if there is one (side layout only)
 @MiQ font=pop                   … pick a font by alias
 @MiQ theme=sunset               … pick a named background color
 @MiQ theme=default              … clear a saved color-theme default for this message
@@ -34,7 +35,7 @@ Reply to a message and mention the bot (or right-click it and choose "Quote"): i
 @MiQ c,n                        … commas work as separators too, same as "c n"
 ```
 
-Every toggle has an opposite (and a one-letter shortcut, except `font=`/`theme=`), so a saved default (see Slash commands below) can be overridden back for a single message even when it's already on:
+Every toggle has an opposite (and a one-letter shortcut, except `font=`/`theme=`/`chain`), so a saved default (see Slash commands below) can be overridden back for a single message even when it's already on:
 
 | Option  | Shortcut | Opposite  | Shortcut |
 | ------- | -------- | --------- | -------- |
@@ -43,6 +44,9 @@ Every toggle has an opposite (and a one-letter shortcut, except `font=`/`theme=`
 | `light` | `l`      | `dark`    | `d`      |
 | `flip`  | `f`      | `unflip`  | `u`      |
 | `new`   | `n`      | `side`    | `s`      |
+| `chain` | —        | `unchain` | —        |
+
+`chain` stacks the quoted message with the message _it's_ replying to into one image (top and bottom, via makeitaquote's `MiQChain`) — if the quoted message isn't itself a reply, `chain` has no effect and a single quote is rendered as usual. Like `flip`, it's ignored once the layout is `new`, since that full-bleed layout has no left/right avatar box for two quotes to share; unlike the other toggles, it isn't available from the buttons under an already-posted quote, so switch it with a saved default (`/settings|/server-settings|/admin set chain:`) or type it after the mention.
 
 **Or right-click (long-press on mobile) any message → Apps → Quote** — same result, no typing, but it always uses your saved defaults (see below) since there's nowhere to type options.
 
