@@ -12,8 +12,8 @@ importers:
         specifier: ^14.27.0
         version: 14.27.0
       makeitaquote:
-        specifier: ^11.4.0
-        version: 11.4.0
+        specifier: ^12.0.1
+        version: 12.0.1
       mustache:
         specifier: ^4.2.0
         version: 4.2.0
@@ -323,6 +323,10 @@ packages:
 
   '@jridgewell/sourcemap-codec@1.5.5':
     resolution: {integrity: sha512-cYQ9310grqxueWbl+WuIUIaiUaDcj7WOq5fVhEljNVgRfOUhY9fy2zTvfoqWsnebh8Sl70VScFbICvJnLKB0Og==}
+
+  '@makeitaquote/utils@1.2.0':
+    resolution: {integrity: sha512-ksuXlzkcwSA/4SqSlobMSk0s5TReHVG6HZqcEVWrp3tCAZcE8v0QKElq0g+ED/iCIcDjeI5S8S4lGpUXXz95Gg==}
+    engines: {node: '>=18'}
 
   '@misskey-dev/emoji-data@17.0.0':
     resolution: {integrity: sha512-grMnsmTm7VSah5heS1fIfOfoQmIpzo6ZU5AV5yRxCy7ivtWhFU3fpMfXZyKsH9G9/HZiLRsClKtyjHKMlxjt7g==}
@@ -916,9 +920,9 @@ packages:
     resolution: {integrity: sha512-Btj2BOOO83o3WyH59e8MgXsxEQVcarkUOpEYrubB0urwnN10yQ364rsiByU11nZlqWYZm05i/of7io4mzihBtQ==}
     engines: {node: '>=8'}
 
-  discomd@1.1.1:
-    resolution: {integrity: sha512-DT7DdQnfKmBzB2GqxOLihKKl6LUi966uWFj0tIEA48BCnAP3c9XsE3ZNv5+aUCe80QXU84NZ9XjXwRCngBkXfA==}
-    engines: {node: '>=22'}
+  discomd@1.2.0:
+    resolution: {integrity: sha512-YUkOeQtQsH8eonjmiQw0naK22bM0Q0XXP0Y7kcFUMxWRxxs4epkwKlNfrJPedFpIcRB+at9nPFoezDjh81sumg==}
+    engines: {node: '>=14.18'}
 
   discord-api-types@0.38.53:
     resolution: {integrity: sha512-HL1zz/UuZ+bbJjA/X8Kbxx9gk8v9rJAbTeWRNYKmIdjwJ7EovjlHgoJTxcLpATfNJ+AonOtMdy3Y5MVIJAAd/A==}
@@ -1187,6 +1191,10 @@ packages:
     resolution: {integrity: sha512-xelSayHH36ZgE7ZWhli7pW34hNbNl8Ojv5KVmkJD4hBdD3th8Tfk9vYasLM+mXWOZhFkgZfxhLSnrwRr4elSSg==}
     engines: {node: '>=0.10.0'}
 
+  is-package-latest@3.2.0:
+    resolution: {integrity: sha512-DM2bAdMobUzFXH2CsBmXBX3/Axny0q9FIbkR3uvdZwuemGrEk7ocjw79UQfxrfKbkoOGAZZEpVIoPdXHCFQcJA==}
+    engines: {node: '>=22.18.0'}
+
   is-stream@2.0.1:
     resolution: {integrity: sha512-hFoiJiTl63nn+kstHGBtewWSKnQLpyb155KHheA1l39uvtO9nWIop1p3udqPcUd/xbF1VLMO4n7OI6p7RbngDg==}
     engines: {node: '>=8'}
@@ -1328,8 +1336,8 @@ packages:
   magic-string@0.30.21:
     resolution: {integrity: sha512-vd2F4YUyEXKGcLHoq+TEyCjxueSeHnFxyyjNp80yg0XV4vUhnDer/lvvlqM/arB5bXQN5K2/3oinyCRyx8T2CQ==}
 
-  makeitaquote@11.4.0:
-    resolution: {integrity: sha512-l3b1AhvKnnDTKvS+elVcHg3SJy6r0VuAdqaNsomzch+t3O5WlTtXwjjQw7R6XbRyx29inLF4/n4WmL2w+7+4rA==}
+  makeitaquote@12.0.1:
+    resolution: {integrity: sha512-YVEqGun/I5NQm7K5T+hlUYv/BrJPxN3+0R2/98VjTFGHgrwJyP2xp8ZSjUPk/wPcFx94O1mXkC002m1/FQYGFw==}
     engines: {node: '>=22'}
     hasBin: true
 
@@ -2000,6 +2008,13 @@ snapshots:
 
   '@jridgewell/sourcemap-codec@1.5.5': {}
 
+  '@makeitaquote/utils@1.2.0':
+    dependencies:
+      discomd: 1.2.0
+      markdown-it: 15.0.1
+      mfm-js: 0.26.0
+      ofetch: 1.5.1
+
   '@misskey-dev/emoji-data@17.0.0': {}
 
   '@napi-rs/canvas-android-arm64@1.0.8':
@@ -2464,7 +2479,7 @@ snapshots:
 
   detect-libc@2.1.2: {}
 
-  discomd@1.1.1:
+  discomd@1.2.0:
     dependencies:
       escape-html: 1.0.3
 
@@ -2782,6 +2797,11 @@ snapshots:
     dependencies:
       is-extglob: 2.1.1
 
+  is-package-latest@3.2.0:
+    dependencies:
+      ofetch: 1.5.1
+      semver: 7.8.5
+
   is-stream@2.0.1: {}
 
   isexe@2.0.0: {}
@@ -2897,22 +2917,21 @@ snapshots:
     dependencies:
       '@jridgewell/sourcemap-codec': 1.5.5
 
-  makeitaquote@11.4.0:
+  makeitaquote@12.0.1:
     dependencies:
+      '@makeitaquote/utils': 1.2.0
       '@napi-rs/canvas': 1.0.8
       '@twemoji/parser': 17.0.2
       budoux: 0.9.1
       cleye: 2.6.0
       culori: 4.0.2
-      discomd: 1.1.1
+      discomd: 1.2.0
       fastest-levenshtein: 1.0.16
+      is-package-latest: 3.2.0
       markdown-it: 15.0.1
       mfm-js: 0.26.0
-      ofetch: 1.5.1
       plimit-lit: 3.4.0
       tiny-lru: 13.0.0
-      ufo: 1.6.4
-      write-file-atomic: 8.0.0
     transitivePeerDependencies:
       - canvas
       - encoding
