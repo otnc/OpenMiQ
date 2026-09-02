@@ -52,8 +52,8 @@ const STRINGS = {
     ja: "縦画像 / 横画像レイアウト",
   },
   optionChain: {
-    en: "Stack with the message it's replying to, when there is one (side layout only)",
-    ja: "返信元があれば連結して表示する (横画像のみ)",
+    en: "Stack with the message it's replying to, when there is one — takes priority over `new`, forcing side layout",
+    ja: "返信元があれば連結して表示する (`new` より優先され、強制的に横画像になる)",
   },
   optionFont: {
     en: "Pick a font — see page 3",

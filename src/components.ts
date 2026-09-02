@@ -73,7 +73,10 @@ export function buildComponents(
   locale: string,
   deleteButtonEnabled: boolean,
 ): ActionRowBuilder<MessageActionRowComponentBuilder>[] {
-  const isNew = settings.layout === "new";
+  // Mirrors buildTheme()'s own effective-layout logic: chain forces the
+  // layout back to side, so the flip/layout buttons below reflect what
+  // will actually render rather than the raw stored `layout` value.
+  const isNew = settings.layout === "new" && !settings.chain;
   // A color theme fixes its own light/dark text palette (see buildTheme()
   // in quoteOptions.ts) — same idea as flip having nothing to toggle once
   // the layout is new.
@@ -107,7 +110,10 @@ export function buildComponents(
       new ButtonBuilder()
         .setCustomId(LAYOUT_BUTTON_ID)
         .setEmoji(isNew ? "🖥️" : "📱")
-        .setStyle(activeStyle(isNew)),
+        .setStyle(activeStyle(isNew))
+        // Chain takes priority over new — see buildTheme() in
+        // quoteOptions.ts — so there's nothing to switch to while it's on.
+        .setDisabled(settings.chain),
     );
 
   const fontSelect = new StringSelectMenuBuilder()

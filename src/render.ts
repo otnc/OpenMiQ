@@ -9,8 +9,9 @@ export interface RenderQuoteOptions {
    * The message `data` is replying to, when `settings.chain` asked for one
    * and one was found — see `findChainTop()`. Renders as a `MiQChain`
    * (`chainTop` on top, `data` on the bottom) instead of a single quote.
-   * Ignored once `settings.layout` is `new`, same as `MiQChain` itself
-   * requires — see quoteOptions.ts's `chain` field.
+   * `buildTheme()` already forces the effective layout back to `side`
+   * whenever `settings.chain` is on, so `theme` below is never `new` here —
+   * no extra layout check needed.
    */
   chainTop?: QuoteData | null;
 }
@@ -28,14 +29,13 @@ export async function renderQuote(
   const theme = buildTheme(settings, { fake: options?.fake });
   const chainTop = options?.chainTop;
 
-  const png =
-    chainTop && settings.layout !== "new"
-      ? await new MiQChain(
-          new MiQ().setFromObject(chainTop).setTheme(theme),
-          new MiQ().setFromObject(data).setTheme(theme),
-          { flip: settings.flip },
-        ).toBuffer("png")
-      : await new MiQ().setFromObject(data).setTheme(theme).toBuffer("png");
+  const png = chainTop
+    ? await new MiQChain(
+        new MiQ().setFromObject(chainTop).setTheme(theme),
+        new MiQ().setFromObject(data).setTheme(theme),
+        { flip: settings.flip },
+      ).toBuffer("png")
+    : await new MiQ().setFromObject(data).setTheme(theme).toBuffer("png");
 
   await saveImageLocally(png);
   return png;

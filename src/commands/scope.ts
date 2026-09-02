@@ -56,8 +56,8 @@ const STRINGS = {
     ja: "side (横画像) または new (縦画像)",
   },
   optionChain: {
-    en: "Stack with the message it's replying to, when there is one (side layout only)",
-    ja: "返信元があれば連結して表示する (横画像のみ)",
+    en: "Stack with the message it's replying to, if any — takes priority over layout:new",
+    ja: "返信元があれば連結して表示する (layout:newより優先)",
   },
   blockFakequoteUser: {
     en: "Block others from putting words in your mouth with /fakequote",

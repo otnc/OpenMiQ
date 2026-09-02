@@ -7,6 +7,7 @@ import {
   DEFAULT_COLOR_THEME_VALUE,
   FLIP_BUTTON_ID,
   FONT_SELECT_ID,
+  LAYOUT_BUTTON_ID,
   LIGHT_BUTTON_ID,
 } from "../src/components.js";
 import { DEFAULT_SETTINGS } from "../src/quoteOptions.js";
@@ -182,5 +183,27 @@ describe("buildComponents", () => {
     const light = findButton(buttons!, LIGHT_BUTTON_ID);
     expect(light.disabled).toBeFalsy();
     expect(light.emoji?.name).toBe("☀️");
+  });
+
+  it("disables the layout button while chain is on, even with layout:new stored", () => {
+    const [buttons] = buildComponents(
+      { ...DEFAULT_SETTINGS, layout: "new", chain: true },
+      "en",
+      false,
+    );
+    const layout = findButton(buttons!, LAYOUT_BUTTON_ID);
+    expect(layout.disabled).toBe(true);
+    // Reflects the effective (side) layout chain forces, not the raw "new".
+    expect(layout.emoji?.name).toBe("📱");
+  });
+
+  it("leaves flip enabled while chain is on, since chain forces layout back to side", () => {
+    const [buttons] = buildComponents(
+      { ...DEFAULT_SETTINGS, layout: "new", chain: true },
+      "en",
+      false,
+    );
+    const flip = findButton(buttons!, FLIP_BUTTON_ID);
+    expect(flip.disabled).toBeFalsy();
   });
 });

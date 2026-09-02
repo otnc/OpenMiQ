@@ -46,7 +46,7 @@ Every toggle has an opposite (and a one-letter shortcut, except `font=`/`theme=`
 | `new`   | `n`      | `side`    | `s`      |
 | `chain` | —        | `unchain` | —        |
 
-`chain` stacks the quoted message with the message _it's_ replying to into one image (top and bottom, via makeitaquote's `MiQChain`) — if the quoted message isn't itself a reply, `chain` has no effect and a single quote is rendered as usual. Like `flip`, it's ignored once the layout is `new`, since that full-bleed layout has no left/right avatar box for two quotes to share; unlike the other toggles, it isn't available from the buttons under an already-posted quote, so switch it with a saved default (`/settings|/server-settings|/admin set chain:`) or type it after the mention.
+`chain` stacks the quoted message with the message _it's_ replying to into one image (top and bottom, via makeitaquote's `MiQChain`) — if the quoted message isn't itself a reply, `chain` has no effect and a single quote is rendered as usual. `chain` and `new` can't combine — that full-bleed layout has no left/right avatar box for two quotes to share — and `chain` wins: it's forced back to the `side` layout for as long as `chain` is on (the layout button under an already-posted quote is disabled while it is, for the same reason), rather than the layout picking which one wins. Unlike the other toggles, `chain` itself isn't available from the buttons under an already-posted quote, so switch it with a saved default (`/settings|/server-settings|/admin set chain:`) or type it after the mention.
 
 **Or right-click (long-press on mobile) any message → Apps → Quote** — same result, no typing, but it always uses your saved defaults (see below) since there's nowhere to type options.
 

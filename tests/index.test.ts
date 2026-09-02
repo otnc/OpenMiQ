@@ -137,6 +137,14 @@ describe("parseOptions", () => {
     expect(parseOptions("unchain").settings).toEqual({ chain: false });
   });
 
+  it("chain and new combine freely at parse time — buildTheme() resolves the conflict, not parseOptions", () => {
+    expect(parseOptions("chain new").settings).toEqual({
+      chain: true,
+      layout: "new",
+      flip: false,
+    });
+  });
+
   it("chain has no one-letter shortcut", () => {
     expect(parseOptions("c").settings).toEqual({ color: true });
   });
@@ -235,6 +243,21 @@ describe("buildTheme", () => {
     expect(theme.extends).toBe("dark");
     expect(theme.layout).toBe("new");
     expect(theme.avatar).toEqual({ grayscale: true });
+  });
+
+  it("chain forces the layout back to side even when layout is new", () => {
+    const theme = buildTheme({
+      color: false,
+      light: false,
+      flip: true,
+      bold: false,
+      layout: "new",
+      font: null,
+      colorTheme: null,
+      chain: true,
+    });
+    expect(theme.layout).toBe("side");
+    expect(theme.avatar).toEqual({ grayscale: true, position: "right" });
   });
 
   it("resolves to the new layout's own 630x790 canvas, not the 1200x630 default", () => {

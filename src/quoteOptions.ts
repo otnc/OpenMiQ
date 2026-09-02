@@ -22,7 +22,8 @@ export interface QuoteSettings {
   /**
    * `side` is the original left/right layout; `new` fills the canvas with
    * the avatar and puts the quote over the bottom — same names as
-   * makeitaquote's own `LayoutMode`.
+   * makeitaquote's own `LayoutMode`. Ignored (forced to `side`) while
+   * `chain` is on — see `chain` below and `buildTheme()`.
    */
   layout: "side" | "new";
   /** Font family for the quote text, or `null` to let the base theme choose. */
@@ -32,9 +33,13 @@ export interface QuoteSettings {
   /**
    * When the message being quoted is itself a reply, stack it with the
    * message it's replying to into one `MiQChain` image instead of a single
-   * quote. Has no effect when there's no reply to chain onto, or once
-   * `layout` is `new` — makeitaquote's full-bleed layout has no left/right
-   * avatar box for `MiQChain` to pair (see render.ts).
+   * quote. Has no effect when there's no reply to chain onto. Takes
+   * priority over `layout: "new"` rather than the other way round —
+   * makeitaquote's full-bleed layout has no left/right avatar box for
+   * `MiQChain` to pair, so `buildTheme()` forces the effective layout back
+   * to `side` while this is on, leaving the stored `layout` value itself
+   * untouched (same idea as `flip` being ignored-not-reset once `new` is
+   * on).
    */
   chain: boolean;
 }
@@ -180,10 +185,14 @@ function unquote(value: string): string {
  * `color` and `light` combine freely with either layout. `flip` only
  * applies to the `side` layout — makeitaquote ignores `avatar.position`
  * once the layout is `new`, so `new` and `flip` can't meaningfully
- * combine. A color theme fixes its own `light`/`dark` text
- * palette the same way (see colorThemes.ts's `textBase`), overriding
- * `settings.light` — the light button reflects and disables this in
- * components.ts.
+ * combine. `chain` and `layout: "new"` can't combine either — `MiQChain`
+ * has no full-bleed support — but here `chain` wins: the effective layout
+ * falls back to `side` rather than chaining being dropped, so it stays
+ * disabled for as long as `chain` is on rather than needing to be
+ * reselected every time it turns off (see components.ts's layout button).
+ * A color theme fixes its own `light`/`dark` text palette the same way
+ * (see colorThemes.ts's `textBase`), overriding `settings.light` — the
+ * light button reflects and disables this in components.ts.
  *
  * `fake` marks a `/fakequote` render: "(fake) @username" instead of the
  * usual "@username", so a fabricated quote can't be mistaken for a real
@@ -193,7 +202,7 @@ export function buildTheme(
   settings: QuoteSettings,
   options?: { fake?: boolean },
 ): ThemeInput {
-  const isNew = settings.layout === "new";
+  const isNew = settings.layout === "new" && !settings.chain;
   const light = settings.colorTheme
     ? colorThemeTextBase(settings.colorTheme) === "light"
     : settings.light;
