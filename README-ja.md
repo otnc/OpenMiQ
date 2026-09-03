@@ -108,6 +108,19 @@ pnpm run build
 pnpm start
 ```
 
+## pm2での常時起動
+
+Botを常時起動させ、クラッシュ時に自動再起動させたい場合は、`pnpm start` の代わりに同梱の `ecosystem.config.cjs` を [pm2](https://pm2.io/) で使ってください:
+
+```bash
+pnpm run pm2:start
+pnpm run pm2:logs
+pnpm run pm2:restart
+pnpm run pm2:stop
+```
+
+`ecosystem.config.cjs` 自体が `.env` を読み込むので(下記の `PM2_APP_NAME` のためと、Nodeの `--env-file-if-exists` によるBot本体の環境変数の両方に使われます)、事前に環境変数をexportしておく必要はありません。同じマシンで複数インスタンスを動かす場合など、デフォルトの `openmiq` 以外の名前にしたい場合は `PM2_APP_NAME` を設定してください。
+
 ## 設定
 
 以下はすべて `.env` に設定します (`.env.example` を参照):
@@ -120,6 +133,9 @@ pnpm start
 | `DEFAULT_LOCALE` | 他に設定がない場合に使われる言語 (デフォルト `en`) |
 | `DATA_DIR` | ユーザー/サーバー/Botの設定をJSONで保存する場所 (デフォルト `./data`) |
 | `SAVE_IMAGES_DIR` | 設定すると、生成した画像のコピーもこのディレクトリに保存する (デフォルトでは無効) |
+| `ICON_PATH` | `deploy:images` がDiscordアプリケーションに同期するアイコン画像のパス (デフォルトは未設定 — アイコンは同期されません) |
+| `LOGO_PATH` | Botのタグの代わりに引用画像の透かしとして描画するロゴ画像のパス (デフォルトは未設定) |
+| `PM2_APP_NAME` | pm2がBotを登録するプロセス名。[pm2での常時起動](#pm2での常時起動) 参照 (デフォルト `openmiq`) |
 
 画面に表示される文字列はすべて `src/i18n/index.ts` の `Translations` オブジェクトとして、それを使うコードのすぐそば (`src/components.ts`、`src/commands/*.ts`、`src/quoteMessages.ts` など) に書かれています。個別のロケールファイルには分かれていません。英語・日本語以外の言語を追加するには、`src/i18n/index.ts` の `SUPPORTED_LOCALES` にその言語コードを追加したうえで、`Translations` オブジェクトが定義されている箇所すべてに新しい言語の項目を埋めていきます。
 
