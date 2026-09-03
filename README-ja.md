@@ -1,10 +1,10 @@
 <div align="center">
 
-<img src=".github/assets/icon.png" width="120" alt="Open MiQ icon">
+<img src=".github/assets/icon.png" width="120" alt="OpenMiQ icon">
 
 <br />
 
-<img src=".github/assets/logo.png" width="320" alt="Open MiQ logo">
+<img src=".github/assets/logo.png" width="320" alt="OpenMiQ logo">
 
 </div>
 
