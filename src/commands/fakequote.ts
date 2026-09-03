@@ -229,14 +229,14 @@ export async function runFakequoteCommand(
     .setAvatar(avatar)
     .setUsername(author.username)
     .setDisplayName(displayName)
+    .setWatermark(watermarkLogo() ?? interaction.client.user.tag)
     .getData();
 
-  const watermark = watermarkLogo() ?? interaction.client.user.tag;
   const fake = !fakeQuoteLabelHidden({
     invokerId: interaction.user.id,
     guildId: interaction.guildId,
   });
-  const png = await renderQuote(data, watermark, settings, { fake });
+  const png = await renderQuote(data, settings, { fake });
 
   await interaction.reply({
     files: [new AttachmentBuilder(png, { name: "quote.png" })],

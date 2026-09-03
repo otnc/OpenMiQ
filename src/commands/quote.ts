@@ -60,9 +60,15 @@ export async function runQuoteContextMenuCommand(
   const watermark = watermarkLogo() ?? interaction.client.user.tag;
   const data = new MiQ()
     .setFromMessage(target, { stripDiscordMarkdown: true })
+    .setWatermark(watermark)
     .getData();
-  const chainTop = await findChainTop(interaction.client, target, settings);
-  const png = await renderQuote(data, watermark, settings, { chainTop });
+  const chainTop = await findChainTop(
+    interaction.client,
+    target,
+    settings,
+    watermark,
+  );
+  const png = await renderQuote(data, settings, { chainTop });
 
   const sent = await interaction.editReply({
     files: [new AttachmentBuilder(png, { name: "quote.png" })],

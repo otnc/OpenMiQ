@@ -1,5 +1,6 @@
 import type { Client, Message } from "discord.js";
 import { MiQ, type QuoteData } from "makeitaquote";
+import type { Watermark } from "./branding.js";
 import { fetchReferencedMessage } from "./messageRefs.js";
 import type { QuoteSettings } from "./quoteOptions.js";
 
@@ -12,16 +13,12 @@ import type { QuoteSettings } from "./quoteOptions.js";
  * source has no text, or it couldn't be fetched (deleted, no access, …) —
  * callers fall back to a single quote in every one of those cases, same as
  * if `chain` had never been asked for.
- *
- * No watermark set here — `render.ts` applies it to both halves of the
- * chain itself, since makeitaquote's `setFromObject()` (which every
- * `QuoteData` gets fed through before rendering) doesn't round-trip an
- * image watermark set before `getData()`.
  */
 export async function findChainTop(
   client: Client,
   target: Message,
   settings: QuoteSettings,
+  watermark: Watermark,
 ): Promise<QuoteData | null> {
   if (!settings.chain) return null;
 
@@ -30,5 +27,6 @@ export async function findChainTop(
 
   return new MiQ()
     .setFromMessage(replySource, { stripDiscordMarkdown: true })
+    .setWatermark(watermark)
     .getData();
 }
