@@ -16,5 +16,13 @@ export default tseslint.config(
       },
     },
   },
+  {
+    // CommonJS by necessity (pm2 loads config files with `require()`, which
+    // can't parse ESM), so `require()` itself has to stay legal here.
+    files: ["ecosystem.config.cjs"],
+    rules: {
+      "@typescript-eslint/no-require-imports": "off",
+    },
+  },
   prettier,
 );
