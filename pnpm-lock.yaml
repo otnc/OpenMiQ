@@ -12,8 +12,8 @@ importers:
         specifier: ^14.27.0
         version: 14.27.0
       makeitaquote:
-        specifier: ^12.0.1
-        version: 12.0.1
+        specifier: ^12.1.0
+        version: 12.1.0
       mustache:
         specifier: ^4.2.0
         version: 4.2.0
@@ -1312,8 +1312,8 @@ packages:
   magic-string@0.30.21:
     resolution: {integrity: sha512-vd2F4YUyEXKGcLHoq+TEyCjxueSeHnFxyyjNp80yg0XV4vUhnDer/lvvlqM/arB5bXQN5K2/3oinyCRyx8T2CQ==}
 
-  makeitaquote@12.0.1:
-    resolution: {integrity: sha512-YVEqGun/I5NQm7K5T+hlUYv/BrJPxN3+0R2/98VjTFGHgrwJyP2xp8ZSjUPk/wPcFx94O1mXkC002m1/FQYGFw==}
+  makeitaquote@12.1.0:
+    resolution: {integrity: sha512-GajrgsAbtGolWHvTpVPWo2248Rjc5JQO8UfQG49ZO31e765ziEGtux/OOICgpeszx7OIT5GlbWJjuDN0hB7Yrw==}
     engines: {node: '>=22'}
     hasBin: true
 
@@ -2893,7 +2893,7 @@ snapshots:
     dependencies:
       '@jridgewell/sourcemap-codec': 1.5.5
 
-  makeitaquote@12.0.1:
+  makeitaquote@12.1.0:
     dependencies:
       '@makeitaquote/utils': 1.2.0
       '@napi-rs/canvas': 1.0.8
