@@ -89,15 +89,9 @@ export async function onMessageCreate(message: Message): Promise<void> {
   const watermark = watermarkLogo() ?? message.client.user?.tag ?? "";
   const data = new MiQ()
     .setFromMessage(target, { stripDiscordMarkdown: true })
-    .setWatermark(watermark)
     .getData();
-  const chainTop = await findChainTop(
-    message.client,
-    target,
-    settings,
-    watermark,
-  );
-  const png = await renderQuote(data, settings, { chainTop });
+  const chainTop = await findChainTop(message.client, target, settings);
+  const png = await renderQuote(data, watermark, settings, { chainTop });
 
   await placeholder.edit({
     content: null,

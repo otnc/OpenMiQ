@@ -4,6 +4,7 @@ import {
   type Interaction,
   type StringSelectMenuInteraction,
 } from "discord.js";
+import { watermarkLogo } from "../branding.js";
 import { runAdminCommand } from "../commands/admin.js";
 import { runFakequoteCommand } from "../commands/fakequote.js";
 import {
@@ -124,7 +125,8 @@ export async function onInteractionCreate(
 
   await interaction.deferUpdate();
 
-  const png = await renderQuote(state.data, settings, {
+  const watermark = watermarkLogo() ?? interaction.client.user.tag;
+  const png = await renderQuote(state.data, watermark, settings, {
     fake: state.fake,
     chainTop: state.chainTop,
   });
