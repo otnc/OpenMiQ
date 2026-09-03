@@ -17,17 +17,15 @@ export interface RenderQuoteOptions {
 }
 
 /**
- * makeitaquote's `watermark.size` (a fraction of canvas height) defaults to
- * ~0.024, tuned for a short, faint text tag — a logo drawn at that height
- * reads as barely-there noise rather than intentional branding, so an
- * image watermark gets its own, bigger `watermark.imageSize` instead.
- */
-const LOGO_WATERMARK_SIZE = 0.06;
-
-/**
  * Renders a quote image from data already read off a message
  * (as returned by `new MiQ().setFromMessage(message).setWatermark(...).getData()`),
  * and — if `SAVE_IMAGES_DIR` is set — saves a copy locally.
+ *
+ * Left at makeitaquote's own default `watermark.size` rather than bumping
+ * it up for an image watermark (via the dedicated `watermark.imageSize`) —
+ * a bigger logo collides with the quote text over the `new` layout's
+ * full-bleed avatar, which has much less clear space at that corner than
+ * the `side` layout's plain background does.
  */
 export async function renderQuote(
   data: QuoteData,
@@ -36,9 +34,6 @@ export async function renderQuote(
 ): Promise<Buffer> {
   const theme = buildTheme(settings, { fake: options?.fake });
   const chainTop = options?.chainTop;
-  if (data.watermarkImage || chainTop?.watermarkImage) {
-    theme.watermark = { ...theme.watermark, imageSize: LOGO_WATERMARK_SIZE };
-  }
 
   const png = chainTop
     ? await new MiQChain(
