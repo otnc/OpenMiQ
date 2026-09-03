@@ -45,18 +45,18 @@ describe("buildHelpMessagePayload", () => {
     const customIds = buttonCustomIds(last);
     // The clamped page number is encoded in the rebuilt buttons, so a stale
     // out-of-range page can't leak into the custom IDs.
-    expect(customIds).toContain(`${HELP_BUTTON_PREFIX}next:2:en:123`);
+    expect(customIds).toContain(`${HELP_BUTTON_PREFIX}next:3:en:123`);
   });
 
   it("shows the page number in the embed footer", () => {
     const payload = buildHelpMessagePayload("ja", 1, "123");
     const [embed] = payload.embeds;
-    expect(embed?.toJSON().footer?.text).toBe("ページ 2 / 3");
+    expect(embed?.toJSON().footer?.text).toBe("ページ 2 / 4");
   });
 
   it("keeps every page's field values within Discord's limits", () => {
     for (const locale of ["en", "ja"]) {
-      for (let page = 0; page < 3; page++) {
+      for (let page = 0; page < 4; page++) {
         const payload = buildHelpMessagePayload(locale, page, "123");
         const [embed] = payload.embeds;
         expect(embed).toBeDefined();

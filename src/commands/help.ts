@@ -85,6 +85,20 @@ const STRINGS = {
     en: "`/fakequote author: message:` makes up a quote in someone else's name. Don't want it used on you? Block it with `/settings set`.",
     ja: "`/fakequote author: message:` は指定したユーザーの名前で引用文をでっち上げます。使われたくない人は `/settings set` でブロックできます。",
   },
+  creditsTitle: { en: "🙏 Credits", ja: "🙏 クレジット" },
+  creditsProject: {
+    en: "By **otoneko.**\nhttps://github.com/otnc/OpenMiQ",
+    ja: "作者: **otoneko.**\nhttps://github.com/otnc/OpenMiQ",
+  },
+  creditsLibrary: {
+    en: "The library this bot renders images with.\nhttps://github.com/otnc/makeitaquote\nhttps://www.npmjs.com/package/makeitaquote",
+    ja: "このBotが画像描画に使用しているライブラリです。\nhttps://github.com/otnc/makeitaquote\nhttps://www.npmjs.com/package/makeitaquote",
+  },
+  creditsInspirationTitle: { en: "Inspired by", ja: "インスピレーション元" },
+  creditsInspiration: {
+    en: "Make it a Quote (Twitter) — https://twitter.com/MakeItAQuote\nMake it a Quote (Discord/Misskey/Bluesky) — https://miq.moe/",
+    ja: "Make it a Quote (Twitter) — https://twitter.com/MakeItAQuote\nMake it a Quote (Discord/Misskey/Bluesky) — https://miq.moe/",
+  },
   prev: { en: "Prev", ja: "前へ" },
   next: { en: "Next", ja: "次へ" },
   close: { en: "Close", ja: "閉じる" },
@@ -135,10 +149,10 @@ export function parseHelpButtonId(customId: string): HelpButtonId | null {
 }
 
 /**
- * The help's pages: basics + commands, mention options, then fonts, color
- * themes, and the settings/fakequote notes. Kept to three so every page
- * stays readable at a glance — the old single plain-text dump crammed all
- * of this into one wall of text.
+ * The help's pages: basics + commands, mention options, fonts/color themes
+ * plus the settings/fakequote notes, and finally credits. Kept one topic
+ * per page so each stays readable at a glance — the old single plain-text
+ * dump crammed all of this into one wall of text.
  */
 function buildHelpPages(locale: string): EmbedBuilder[] {
   const pages = [
@@ -227,6 +241,23 @@ function buildHelpPages(locale: string): EmbedBuilder[] {
         {
           name: t(STRINGS.fakequoteTitle, locale),
           value: t(STRINGS.fakequote, locale),
+        },
+      ),
+    new EmbedBuilder()
+      .setColor(EMBED_COLOR)
+      .setTitle(t(STRINGS.title, locale))
+      .addFields(
+        {
+          name: t(STRINGS.creditsTitle, locale),
+          value: t(STRINGS.creditsProject, locale),
+        },
+        {
+          name: "makeitaquote",
+          value: t(STRINGS.creditsLibrary, locale),
+        },
+        {
+          name: t(STRINGS.creditsInspirationTitle, locale),
+          value: t(STRINGS.creditsInspiration, locale),
         },
       ),
   ];
