@@ -30,7 +30,7 @@ Nothing in the AGPL-3.0 or these additional terms grants you any right to use th
 
 ## 4. Brand Assets (`.github/assets/`)
 
-The image files under [`.github/assets/`](./.github/assets/) (including the project icon and logo) identify the "Open MiQ" project and its author and are excluded from the AGPL-3.0 license grant. You may use them, unmodified, to refer to this project or a permitted unmodified copy of it (e.g., in a README, an "about" page, or a bot's avatar for an unmodified deployment). You may not repurpose, copy, or adapt these files, in original or modified form, as branding — an icon, logo, avatar, or similar mark — for any other product or service, including a modified version of this software distributed under a different name per Section 2 above. This restriction applies equally to images produced by running [`scripts/generate-branding.ts`](./scripts/generate-branding.ts) unmodified — regenerating the same icon or logo from that script, rather than copying the files directly, does not make them available for other branding.
+The image files under [`.github/assets/`](./.github/assets/) (including the project icon and logo) identify the "Open MiQ" project and its author and are excluded from the AGPL-3.0 license grant. You may use them, unmodified, to refer to this project or a permitted unmodified copy of it (e.g., in a README, an "about" page, or a bot's avatar for an unmodified deployment). You may not repurpose, copy, or adapt these files, in original or modified form, as branding — an icon, logo, avatar, or similar mark — for any other product or service, including a modified version of this software distributed under a different name per Section 2 above.
 
 ## 5. Removal
 
