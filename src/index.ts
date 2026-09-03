@@ -1,4 +1,3 @@
-import { pathToFileURL } from "node:url";
 import {
   Client,
   Events,
@@ -55,9 +54,10 @@ export async function main(): Promise<void> {
   await client.login(token);
 }
 
-if (
-  process.argv[1] &&
-  import.meta.url === pathToFileURL(process.argv[1]).href
-) {
-  void main();
-}
+// Unlike deployCommands.ts/deployImages.ts (imported by deploy.ts, so they
+// guard against running twice), nothing imports this module — it's only
+// ever run directly as the process entrypoint — so it just runs. An
+// import.meta.url/argv[1] entrypoint check doesn't hold up under process
+// managers like pm2 that fork the script through their own wrapper rather
+// than exec'ing `node index.js` directly, which left main() never called.
+void main();
