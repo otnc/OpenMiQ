@@ -59,7 +59,7 @@ export async function runQuoteContextMenuCommand(
 
   const watermark = watermarkLogo() ?? interaction.client.user.tag;
   const data = new MiQ()
-    .setFromMessage(target, { stripDiscordMarkdown: true })
+    .setFromMessage(target, { markdown: "raw" })
     .setWatermark(watermark)
     .getData();
   const chainTop = await findChainTop(

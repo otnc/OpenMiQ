@@ -223,6 +223,7 @@ describe("buildTheme", () => {
       font: null,
       colorTheme: null,
       chain: false,
+      markdown: false,
     });
     expect(theme.extends).toBe("light");
     expect(theme.layout).toBe("side");
@@ -239,6 +240,7 @@ describe("buildTheme", () => {
       font: null,
       colorTheme: null,
       chain: false,
+      markdown: false,
     });
     expect(theme.extends).toBe("dark");
     expect(theme.layout).toBe("new");
@@ -255,6 +257,7 @@ describe("buildTheme", () => {
       font: null,
       colorTheme: null,
       chain: true,
+      markdown: false,
     });
     expect(theme.layout).toBe("side");
     expect(theme.avatar).toEqual({ grayscale: true, position: "right" });
@@ -277,9 +280,20 @@ describe("buildTheme", () => {
       font: null,
       colorTheme: null,
       chain: false,
+      markdown: false,
     });
     expect(theme.extends).toBe("light");
     expect(theme.layout).toBe("new");
+  });
+
+  it("markdown forces bold off, even when bold is also on", () => {
+    const theme = buildTheme({
+      ...DEFAULT_SETTINGS,
+      font: null,
+      bold: true,
+      markdown: true,
+    });
+    expect(theme.text).toBeUndefined();
   });
 
   it("defaults to mplus, and sets the text font when a different one is chosen", () => {

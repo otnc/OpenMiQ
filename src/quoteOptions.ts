@@ -42,6 +42,16 @@ export interface QuoteSettings {
    * on).
    */
   chain: boolean;
+  /**
+   * Renders actual Discord markdown formatting (bold/italic/underline/
+   * strikethrough) in the quote text instead of showing it as plain,
+   * unformatted characters. Forces `bold` off for as long as it's on — a
+   * font weight applied to every character would erase the distinction
+   * real markdown bold vs. regular text is supposed to show — see
+   * `buildTheme()` below and components.ts's bold button, same idea as
+   * `chain` forcing the effective layout back to `side`.
+   */
+  markdown: boolean;
 }
 
 /** The bot's own default font — resolved from the `mplus` alias, not hardcoded. */
@@ -56,6 +66,7 @@ export const DEFAULT_SETTINGS: QuoteSettings = {
   font: DEFAULT_FONT,
   colorTheme: null,
   chain: false,
+  markdown: false,
 };
 
 /** What a mention (or `/fakequote`'s `options` string) asked for. */
@@ -207,6 +218,8 @@ export function buildTheme(
     ? colorThemeTextBase(settings.colorTheme) === "light"
     : settings.light;
   const palette: ThemePalette = light ? "light" : "dark";
+  // markdown wins over bold — see QuoteSettings.markdown's own doc comment.
+  const bold = settings.bold && !settings.markdown;
 
   const theme: ThemeInput = {
     extends: palette,
@@ -218,10 +231,10 @@ export function buildTheme(
       ...(isNew ? {} : { position: settings.flip ? "right" : "left" }),
     },
   };
-  if (settings.font || settings.bold) {
+  if (settings.font || bold) {
     theme.text = {
       ...(settings.font ? { font: settings.font } : {}),
-      ...(settings.bold ? { weight: "bold" } : {}),
+      ...(bold ? { weight: "bold" } : {}),
     };
   }
   if (settings.colorTheme) {

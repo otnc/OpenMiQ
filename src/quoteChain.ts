@@ -26,7 +26,7 @@ export async function findChainTop(
   if (!replySource || !replySource.content.trim()) return null;
 
   return new MiQ()
-    .setFromMessage(replySource, { stripDiscordMarkdown: true })
+    .setFromMessage(replySource, { markdown: "raw" })
     .setWatermark(watermark)
     .getData();
 }

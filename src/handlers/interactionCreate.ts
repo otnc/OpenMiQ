@@ -26,6 +26,7 @@ import {
   FONT_SELECT_ID,
   LAYOUT_BUTTON_ID,
   LIGHT_BUTTON_ID,
+  MARKDOWN_BUTTON_ID,
   buildComponents,
 } from "../components.js";
 import { deleteButtonEnabled } from "../config/settings.js";
@@ -192,6 +193,9 @@ function applyButton(
     case LAYOUT_BUTTON_ID:
       settings.layout = settings.layout === "new" ? "side" : "new";
       if (settings.layout === "new") settings.flip = false;
+      break;
+    case MARKDOWN_BUTTON_ID:
+      settings.markdown = !settings.markdown;
       break;
   }
 }

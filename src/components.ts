@@ -32,6 +32,7 @@ const STRINGS = {
   },
   colorThemeDefault: { en: "Default", ja: "デフォルト" },
   delete: { en: "Remove", ja: "削除" },
+  markdown: { en: "Markdown", ja: "Markdown" },
 } satisfies Record<string, Translations>;
 
 /**
@@ -48,6 +49,7 @@ export const BOLD_BUTTON_ID = "miq:bold";
 export const FLIP_BUTTON_ID = "miq:flip";
 export const LIGHT_BUTTON_ID = "miq:light";
 export const LAYOUT_BUTTON_ID = "miq:layout";
+export const MARKDOWN_BUTTON_ID = "miq:markdown";
 export const DELETE_BUTTON_ID = "miq:delete";
 export const FONT_SELECT_ID = "miq:font";
 export const COLOR_THEME_SELECT_ID = "miq:colorTheme";
@@ -94,7 +96,10 @@ export function buildComponents(
       new ButtonBuilder()
         .setCustomId(BOLD_BUTTON_ID)
         .setEmoji("🅱️")
-        .setStyle(activeStyle(settings.bold)),
+        .setStyle(activeStyle(settings.bold))
+        // Markdown wins over bold — see QuoteSettings.markdown and
+        // buildTheme() in quoteOptions.ts — so there's nothing to toggle.
+        .setDisabled(settings.markdown),
       new ButtonBuilder()
         .setCustomId(FLIP_BUTTON_ID)
         .setEmoji("↔️")
@@ -174,19 +179,28 @@ export function buildComponents(
       customColorThemeSelect,
     );
 
-  const rows = [buttons, selectRow, colorThemeRow, customColorThemeRow];
+  // Markdown lives in its own row rather than the (already full, 5/5
+  // buttons) toggle row above — sharing a row with delete keeps it right
+  // before the Remove button regardless of whether that one is enabled.
+  const lastRow =
+    new ActionRowBuilder<MessageActionRowComponentBuilder>().addComponents(
+      new ButtonBuilder()
+        .setCustomId(MARKDOWN_BUTTON_ID)
+        .setLabel(t(STRINGS.markdown, locale))
+        .setEmoji("*️⃣")
+        .setStyle(activeStyle(settings.markdown)),
+    );
   if (deleteButtonEnabled) {
-    rows.push(
-      new ActionRowBuilder<MessageActionRowComponentBuilder>().addComponents(
-        new ButtonBuilder()
-          .setCustomId(DELETE_BUTTON_ID)
-          .setLabel(t(STRINGS.delete, locale))
-          .setEmoji("🗑️")
-          .setStyle(ButtonStyle.Danger),
-      ),
+    lastRow.addComponents(
+      new ButtonBuilder()
+        .setCustomId(DELETE_BUTTON_ID)
+        .setLabel(t(STRINGS.delete, locale))
+        .setEmoji("🗑️")
+        .setStyle(ButtonStyle.Danger),
     );
   }
-  return rows;
+
+  return [buttons, selectRow, colorThemeRow, customColorThemeRow, lastRow];
 }
 
 function fontOption(

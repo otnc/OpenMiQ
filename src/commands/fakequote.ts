@@ -224,7 +224,7 @@ export async function runFakequoteCommand(
   const data = new MiQ()
     .setFromMessage(
       { content: messageText, author: { username: author.username }, mentions },
-      { stripDiscordMarkdown: true },
+      { markdown: "raw" },
     )
     .setAvatar(avatar)
     .setUsername(author.username)
