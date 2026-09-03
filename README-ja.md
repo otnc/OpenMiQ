@@ -2,6 +2,8 @@
 
 <img src=".github/assets/icon.png" width="120" alt="Open MiQ icon">
 
+<br />
+
 <img src=".github/assets/logo.png" width="320" alt="Open MiQ logo">
 
 </div>
