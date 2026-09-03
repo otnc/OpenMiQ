@@ -1,8 +1,8 @@
 <div align="center">
 
-<img src=".github/icon.png" width="120" alt="Open MiQ icon">
+<img src=".github/assets/icon.png" width="120" alt="Open MiQ icon">
 
-# Open MiQ Bot
+<img src=".github/assets/logo.png" width="320" alt="Open MiQ logo">
 
 </div>
 
@@ -146,3 +146,4 @@ This project is licensed under the [GNU Affero General Public License v3.0 or la
 
 - **SPDX:** `AGPL-3.0-or-later` (with additional terms under AGPL-3.0 Section 7)
 - If you distribute or run a modified version of this bot, you must make the modified source code available under AGPL-3.0, and display attribution (original repository URL: https://github.com/otnc/OpenMiQ) as required by the [additional terms](./ADDITIONAL_TERMS.md).
+- The images under [`.github/assets/`](./.github/assets/) (the project icon and logo) are not covered by the AGPL-3.0 grant — see the [additional terms](./ADDITIONAL_TERMS.md#4-brand-assets-githubassets) for what's and isn't allowed.

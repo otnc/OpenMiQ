@@ -28,6 +28,10 @@ You must not represent a modified version of the software as the original. If yo
 
 Nothing in the AGPL-3.0 or these additional terms grants you any right to use the trade name, trademark, service mark, or logo of the original author or of the "Open MiQ" project, except as required for reasonable and customary use in describing the origin of the software in the attribution required above.
 
-## 4. Removal
+## 4. Brand Assets (`.github/assets/`)
+
+The image files under [`.github/assets/`](./.github/assets/) (including the project icon and logo) identify the "Open MiQ" project and its author and are excluded from the AGPL-3.0 license grant. You may use them, unmodified, to refer to this project or a permitted unmodified copy of it (e.g., in a README, an "about" page, or a bot's avatar for an unmodified deployment). You may not repurpose, copy, or adapt these files, in original or modified form, as branding — an icon, logo, avatar, or similar mark — for any other product or service, including a modified version of this software distributed under a different name per Section 2 above. This restriction applies equally to images produced by running [`scripts/generate-branding.ts`](./scripts/generate-branding.ts) unmodified — regenerating the same icon or logo from that script, rather than copying the files directly, does not make them available for other branding.
+
+## 5. Removal
 
 Under AGPL-3.0 Section 7, you may remove these additional terms from any copy of the software you convey **only to the extent permitted by the AGPL-3.0** (i.e., when you add your own material to a covered work and hold copyright over that material). Removing these terms does not remove them for material contributed by the original copyright holder.

@@ -1,8 +1,8 @@
 <div align="center">
 
-<img src=".github/icon.png" width="120" alt="Open MiQ icon">
+<img src=".github/assets/icon.png" width="120" alt="Open MiQ icon">
 
-# Open MiQ Bot
+<img src=".github/assets/logo.png" width="320" alt="Open MiQ logo">
 
 </div>
 
@@ -146,3 +146,4 @@ otoneko. https://github.com/otnc
 
 - **SPDX:** `AGPL-3.0-or-later` (AGPL-3.0 第7条に基づく追加条項付き)
 - 本Botの改変版を配布または運用する場合は、改変後のソースコードをAGPL-3.0の下で公開し、[追加条項](./ADDITIONAL_TERMS.md) に従って帰属表示 (元のリポジトリURL: https://github.com/otnc/OpenMiQ) を行う必要があります。
+- [`.github/assets/`](./.github/assets/) 内の画像 (プロジェクトのアイコン・ロゴ) はAGPL-3.0の許諾範囲に含まれません。可否については [追加条項](./ADDITIONAL_TERMS.md#4-brand-assets-githubassets) を参照してください。
