@@ -1,5 +1,6 @@
 import type { Client, Message } from "discord.js";
 import { MiQ, type QuoteData } from "makeitaquote";
+import type { Watermark } from "./branding.js";
 import { fetchReferencedMessage } from "./messageRefs.js";
 import type { QuoteSettings } from "./quoteOptions.js";
 
@@ -17,7 +18,7 @@ export async function findChainTop(
   client: Client,
   target: Message,
   settings: QuoteSettings,
-  watermark: string,
+  watermark: Watermark,
 ): Promise<QuoteData | null> {
   if (!settings.chain) return null;
 

@@ -5,6 +5,7 @@ import {
   type MessageContextMenuCommandInteraction,
 } from "discord.js";
 import { MiQ } from "makeitaquote";
+import { watermarkLogo } from "../branding.js";
 import { buildComponents } from "../components.js";
 import {
   deleteButtonEnabled,
@@ -56,7 +57,7 @@ export async function runQuoteContextMenuCommand(
     inline: {},
   });
 
-  const watermark = interaction.client.user.tag;
+  const watermark = watermarkLogo() ?? interaction.client.user.tag;
   const data = new MiQ()
     .setFromMessage(target, { stripDiscordMarkdown: true })
     .setWatermark(watermark)

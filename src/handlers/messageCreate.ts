@@ -1,6 +1,7 @@
 import { AttachmentBuilder, type Message } from "discord.js";
 import { MiQ } from "makeitaquote";
 import { loadingEmojiMarkup } from "../appEmojis.js";
+import { watermarkLogo } from "../branding.js";
 import { buildComponents } from "../components.js";
 import { ALL_COLOR_THEME_LIST } from "../colorThemes.js";
 import { buildHelpMessagePayload } from "../commands/help.js";
@@ -85,7 +86,7 @@ export async function onMessageCreate(message: Message): Promise<void> {
     allowedMentions: { repliedUser: false },
   });
 
-  const watermark = message.client.user?.tag ?? "";
+  const watermark = watermarkLogo() ?? message.client.user?.tag ?? "";
   const data = new MiQ()
     .setFromMessage(target, { stripDiscordMarkdown: true })
     .setWatermark(watermark)

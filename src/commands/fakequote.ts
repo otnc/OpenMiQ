@@ -5,6 +5,7 @@ import {
   type SlashCommandOptionsOnlyBuilder,
 } from "discord.js";
 import { MiQ, type MessageLike } from "makeitaquote";
+import { watermarkLogo } from "../branding.js";
 import { buildComponents } from "../components.js";
 import { ALL_COLOR_THEME_LIST } from "../colorThemes.js";
 import {
@@ -228,7 +229,7 @@ export async function runFakequoteCommand(
     .setAvatar(avatar)
     .setUsername(author.username)
     .setDisplayName(displayName)
-    .setWatermark(interaction.client.user.tag)
+    .setWatermark(watermarkLogo() ?? interaction.client.user.tag)
     .getData();
 
   const fake = !fakeQuoteLabelHidden({

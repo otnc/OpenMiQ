@@ -24,3 +24,13 @@ export const DEFAULT_LOCALE = process.env.DEFAULT_LOCALE?.trim() || "en";
 export const SAVE_IMAGES_DIR = process.env.SAVE_IMAGES_DIR?.trim()
   ? path.resolve(process.env.SAVE_IMAGES_DIR.trim())
   : null;
+
+/** The bot's icon image, synced to the Discord application by `deploy:images`. Unset (`null`) by default — no icon is synced. */
+export const ICON_PATH = process.env.ICON_PATH?.trim()
+  ? path.resolve(process.env.ICON_PATH.trim())
+  : null;
+
+/** The bot's logo image, drawn as the quote watermark in place of the bot's tag. Unset (`null`) by default — the watermark stays the bot's tag. */
+export const LOGO_PATH = process.env.LOGO_PATH?.trim()
+  ? path.resolve(process.env.LOGO_PATH.trim())
+  : null;
