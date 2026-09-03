@@ -158,6 +158,11 @@ otoneko. https://github.com/otnc
 - Make it a Quote (Twitter) https://twitter.com/MakeItAQuote
 - Make it a Quote (Discord / Misskey / Bluesky) https://miq.moe/
 
+### フォント
+
+- [`.github/assets/`](./.github/assets/) 内のアイコン・ロゴには、flopdesign 様のフリーフォント **あかずきんポップ** を使用しています: https://flopdesign.booth.pm/items/1748058
+- 引用符アクセント部分には **M PLUS Rounded 1c**(SIL Open Font License 1.1)を使用しています — makeitaquote自身がデフォルトフォントとしてダウンロードするのと同じ書体です: https://fonts.google.com/specimen/M+PLUS+Rounded+1c
+
 ## ライセンス
 
 このプロジェクトは [GNU Affero General Public License v3.0 以降](./LICENSE) に、[追加条項](./ADDITIONAL_TERMS.md) を加えたライセンスの下で提供されています。
