@@ -22,7 +22,7 @@ export interface RenderQuoteOptions {
  * tuned for a short, faint text tag. A wordmark logo reads as intentional
  * branding rather than a stamp, so it gets drawn noticeably larger.
  */
-const LOGO_WATERMARK_SIZE = 0.06;
+const LOGO_WATERMARK_SIZE = 0.03;
 
 /**
  * Renders a quote image from data already read off a message
