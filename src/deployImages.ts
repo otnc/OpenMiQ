@@ -1,6 +1,5 @@
 import { readFileSync } from "node:fs";
 import path from "node:path";
-import { pathToFileURL } from "node:url";
 import {
   REST,
   Routes,
@@ -121,11 +120,4 @@ export async function deployImages(): Promise<void> {
   await create(LOADING_EMOJI_NAME, readFileSync(LOADING_GIF_PATH), "image/gif");
 
   console.log(`Synced ${managedNames.size} emoji.`);
-}
-
-if (
-  process.argv[1] &&
-  import.meta.url === pathToFileURL(process.argv[1]).href
-) {
-  void deployImages();
 }

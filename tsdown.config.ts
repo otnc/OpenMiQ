@@ -3,8 +3,8 @@ import { defineConfig } from "tsdown";
 export default defineConfig({
   entry: [
     "src/index.ts",
-    "src/deployCommands.ts",
-    "src/deployImages.ts",
+    "src/deployCommandsCli.ts",
+    "src/deployImagesCli.ts",
     "src/deploy.ts",
   ],
   format: "esm",

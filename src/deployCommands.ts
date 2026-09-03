@@ -1,4 +1,3 @@
-import { pathToFileURL } from "node:url";
 import { REST, Routes } from "discord.js";
 import { buildAdminCommand } from "./commands/admin.js";
 import { buildFakequoteCommand } from "./commands/fakequote.js";
@@ -28,11 +27,4 @@ export async function deployCommands(): Promise<void> {
 
   await rest.put(Routes.applicationCommands(clientId), { body });
   console.log(`Registered ${body.length} command(s).`);
-}
-
-if (
-  process.argv[1] &&
-  import.meta.url === pathToFileURL(process.argv[1]).href
-) {
-  void deployCommands();
 }
