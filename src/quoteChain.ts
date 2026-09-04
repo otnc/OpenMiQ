@@ -28,7 +28,5 @@ export async function findChainTop(
   const replySource = await fetchReferencedMessage(client, target);
   if (!replySource || !replySource.content.trim()) return null;
 
-  return new MiQ()
-    .setFromMessage(replySource, { markdown: "raw" })
-    .getData();
+  return new MiQ().setFromMessage(replySource, { markdown: "raw" }).getData();
 }
