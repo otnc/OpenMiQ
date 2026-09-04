@@ -91,12 +91,7 @@ export async function onMessageCreate(message: Message): Promise<void> {
     .setFromMessage(target, { markdown: "raw" })
     .setWatermark(watermark)
     .getData();
-  const chainTop = await findChainTop(
-    message.client,
-    target,
-    settings,
-    watermark,
-  );
+  const chainTop = await findChainTop(message.client, target, settings);
   const png = await renderQuote(data, settings, { chainTop });
 
   await placeholder.edit({

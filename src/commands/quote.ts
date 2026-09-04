@@ -62,12 +62,7 @@ export async function runQuoteContextMenuCommand(
     .setFromMessage(target, { markdown: "raw" })
     .setWatermark(watermark)
     .getData();
-  const chainTop = await findChainTop(
-    interaction.client,
-    target,
-    settings,
-    watermark,
-  );
+  const chainTop = await findChainTop(interaction.client, target, settings);
   const png = await renderQuote(data, settings, { chainTop });
 
   const sent = await interaction.editReply({
