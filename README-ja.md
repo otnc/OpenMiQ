@@ -72,6 +72,7 @@ _[English](./README.md)_
 - `/server-settings view|set|reset` — このサーバーのデフォルト (サーバー管理権限が必要)。`delete-button:false` でこのサーバー全体の削除ボタンを非表示にでき (デフォルトはオン)、`fake-label:false` でサーバー全体の表示を外せます。
 - `/admin view|set|reset` — Bot自体のフォールバック用デフォルト (`ADMIN_IDS` に列挙されたDiscordユーザーIDのみ実行可能)。同じ `delete-button:false` と `fake-label:false` オプションがBot全体に適用されます。
 - `/help` — あなたの言語でのヘルプ表示。
+- `/credits` — このBotの作者と使用ライブラリの表示。
 - `/fakequote author: message: options:` — 指定したユーザーの名前とアイコンで、でっち上げの引用画像を作成します。`options` はメンション時と同じ構文(`color`, `new`, `font=pop` など)が使えます。でっち上げの引用が本物と誤解されないよう、ユーザーネームの表示欄は通常の "@user" ではなく "(fake) @user" になります — 実行者本人は上記の設定コマンドで `fake-label:false` にすれば自分の `/fakequote` に限りこれを外せますし、サーバーやBot管理者が強制的に外すこともできます。また、なりすまし自体への悪用防止として、対象ユーザー本人は `/settings set block-fakequote:true` で自分が使われるのをブロックでき、サーバーは `/server-settings set block-fakequote:true` でサーバー全体で無効化でき、Bot管理者は `/admin set block-fakequote:true` でBot全体で無効化できます。
 
 デフォルトは「メンションの後ろのオプション > あなたの設定 > このサーバーの設定 > Botのデフォルト > 組み込みのフォールバック」の順で解決されます(右クリックの「引用画像を作成」はオプション入力の段階がないため、あなたの設定から直接解決されます)。返信で使われる言語も同じ順序で決まります。

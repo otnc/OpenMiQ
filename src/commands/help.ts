@@ -8,6 +8,7 @@ import {
   SlashCommandBuilder,
 } from "discord.js";
 import { COLOR_THEME_LIST, CUSTOM_COLOR_THEME_LIST } from "../colorThemes.js";
+import { creditsFields } from "./credits.js";
 import { FONT_ALIAS_LIST } from "../fonts.js";
 import { t, type Translations } from "../i18n/index.js";
 import { callerLocale } from "./scope.js";
@@ -26,8 +27,8 @@ const STRINGS = {
   },
   commandsTitle: { en: "🤖 Commands", ja: "🤖 コマンド" },
   commands: {
-    en: "`/settings` — your own defaults\n`/server-settings` — this server's defaults (Manage Server)\n`/fakequote` — make up a quote in someone's name\n`/admin` — bot-wide defaults (bot admins only)\n`/help` — this help",
-    ja: "`/settings` — あなたのデフォルト設定\n`/server-settings` — サーバーのデフォルト設定 (要サーバー管理権限)\n`/fakequote` — 誰かの名前で架空の引用を作る\n`/admin` — Bot全体のデフォルト設定 (Bot管理者のみ)\n`/help` — このヘルプ",
+    en: "`/settings` — your own defaults\n`/server-settings` — this server's defaults (Manage Server)\n`/fakequote` — make up a quote in someone's name\n`/admin` — bot-wide defaults (bot admins only)\n`/help` — this help\n`/credits` — who made this bot and what it's built on",
+    ja: "`/settings` — あなたのデフォルト設定\n`/server-settings` — サーバーのデフォルト設定 (要サーバー管理権限)\n`/fakequote` — 誰かの名前で架空の引用を作る\n`/admin` — Bot全体のデフォルト設定 (Bot管理者のみ)\n`/help` — このヘルプ\n`/credits` — このBotの作者と使用ライブラリ",
   },
   optionsTitle: { en: "⚙️ Mention options", ja: "⚙️ メンションのオプション" },
   optionsIntro: {
@@ -84,20 +85,6 @@ const STRINGS = {
   fakequote: {
     en: "`/fakequote author: message:` makes up a quote in someone else's name. Don't want it used on you? Block it with `/settings set`.",
     ja: "`/fakequote author: message:` は指定したユーザーの名前で引用文をでっち上げます。使われたくない人は `/settings set` でブロックできます。",
-  },
-  creditsTitle: { en: "🙏 Credits", ja: "🙏 クレジット" },
-  creditsProject: {
-    en: "By **otoneko.**\nhttps://github.com/otnc/OpenMiQ",
-    ja: "作者: **otoneko.**\nhttps://github.com/otnc/OpenMiQ",
-  },
-  creditsLibrary: {
-    en: "The library this bot renders images with.\nhttps://github.com/otnc/makeitaquote\nhttps://www.npmjs.com/package/makeitaquote",
-    ja: "このBotが画像描画に使用しているライブラリです。\nhttps://github.com/otnc/makeitaquote\nhttps://www.npmjs.com/package/makeitaquote",
-  },
-  creditsInspirationTitle: { en: "Inspired by", ja: "インスピレーション元" },
-  creditsInspiration: {
-    en: "Make it a Quote (Twitter) — https://twitter.com/MakeItAQuote\nMake it a Quote (Discord/Misskey/Bluesky) — https://miq.moe/",
-    ja: "Make it a Quote (Twitter) — https://twitter.com/MakeItAQuote\nMake it a Quote (Discord/Misskey/Bluesky) — https://miq.moe/",
   },
   prev: { en: "Prev", ja: "前へ" },
   next: { en: "Next", ja: "次へ" },
@@ -246,20 +233,7 @@ function buildHelpPages(locale: string): EmbedBuilder[] {
     new EmbedBuilder()
       .setColor(EMBED_COLOR)
       .setTitle(t(STRINGS.title, locale))
-      .addFields(
-        {
-          name: t(STRINGS.creditsTitle, locale),
-          value: t(STRINGS.creditsProject, locale),
-        },
-        {
-          name: "makeitaquote",
-          value: t(STRINGS.creditsLibrary, locale),
-        },
-        {
-          name: t(STRINGS.creditsInspirationTitle, locale),
-          value: t(STRINGS.creditsInspiration, locale),
-        },
-      ),
+      .addFields(...creditsFields(locale)),
   ];
 
   return pages.map((page, index) =>

@@ -1,5 +1,6 @@
 import { REST, Routes } from "discord.js";
 import { buildAdminCommand } from "./commands/admin.js";
+import { buildCreditsCommand } from "./commands/credits.js";
 import { buildFakequoteCommand } from "./commands/fakequote.js";
 import { buildHelpCommand } from "./commands/help.js";
 import { buildQuoteContextMenuCommand } from "./commands/quote.js";
@@ -21,6 +22,7 @@ export async function deployCommands(): Promise<void> {
     buildServerSettingsCommand().toJSON(),
     buildAdminCommand().toJSON(),
     buildHelpCommand().toJSON(),
+    buildCreditsCommand().toJSON(),
     buildFakequoteCommand().toJSON(),
     buildQuoteContextMenuCommand().toJSON(),
   ];

@@ -5,6 +5,7 @@ import {
   type StringSelectMenuInteraction,
 } from "discord.js";
 import { runAdminCommand } from "../commands/admin.js";
+import { runCreditsCommand } from "../commands/credits.js";
 import { runFakequoteCommand } from "../commands/fakequote.js";
 import {
   handleHelpButton,
@@ -64,6 +65,9 @@ export async function onInteractionCreate(
         break;
       case "help":
         await runHelpCommand(interaction);
+        break;
+      case "credits":
+        await runCreditsCommand(interaction);
         break;
       case "fakequote":
         await runFakequoteCommand(interaction);
